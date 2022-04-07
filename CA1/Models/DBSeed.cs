@@ -13,7 +13,7 @@
         {
             dbContext.Add(new Product
             {
-                prodId = 1,
+
                 Name = ".NET charts",
                 Desc = "blah blah blah",
                 Img = "./img/chart.png",
@@ -22,7 +22,7 @@
 
             dbContext.Add(new Product
             {
-                prodId = 2,
+
                 Name = ".NET Tops",
                 Desc = "blah blah blah",
                 Img = "./img/top.png",
@@ -31,7 +31,7 @@
 
             dbContext.Add(new Product
             {
-                prodId = 3,
+
                 Name = ".NET beds",
                 Desc = "blah blah blah",
                 Img = "./img/bed.png",
@@ -40,7 +40,7 @@
 
             dbContext.Add(new Product
             {
-                prodId = 4,
+
                 Name = ".NET chart2",
                 Desc = "blah blah blah",
                 Img = "./img/chart.png",
@@ -49,7 +49,7 @@
 
             dbContext.Add(new Product
             {
-                prodId = 5,
+
                 Name = ".NET tops2",
                 Desc = "blah blah blah",
                 Img = "./img/top.png",
