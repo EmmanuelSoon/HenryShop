@@ -43,12 +43,33 @@ namespace CA1.Controllers
 
 
         public IActionResult AddtoCart(Product product)
-        {   
-            string statement;
-            if (true)
-            {   string name = product.Name;
-                statement = name + " added to Cart!";
+        {
+
+            Guid UserID = Guid.Parse(Request.Cookies["Session_id"]);
+            ShopCart cart = dbContext.ShopCarts.FirstOrDefault(x => x.UserId == UserID);
+            ShopCartItem cartitem = dbContext.ShopCartItems.FirstOrDefault(x => x.ShopCartId == cart.Id && x.Product == product);
+            
+            if(cartitem != null)
+            {
+                cartitem.Quantity++;
             }
+            else
+            {
+                cartitem = new ShopCartItem
+                {
+                    Quantity = 1,
+                    Product = product,
+                    ShopCartId = cart.Id
+                };
+                dbContext.ShopCartItems.Add(cartitem);
+            }
+
+            dbContext.SaveChanges();
+
+
+            string name = product.Name;
+            string statement = name + " added to Cart!";
+            
             TempData["statement"] = statement;
 
             return RedirectToAction("Index","Search");
