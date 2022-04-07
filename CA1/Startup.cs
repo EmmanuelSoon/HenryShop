@@ -19,7 +19,6 @@ namespace CA1
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
-            //Added comment in start Up  - Git push
         }
 
         public IConfiguration Configuration { get; }
