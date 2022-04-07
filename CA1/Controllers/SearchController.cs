@@ -44,6 +44,7 @@ namespace CA1.Controllers
 
         public IActionResult AddtoCart(Product product)
         {   
+
             string statement;
             if (true)
             {   string name = product.Name;
