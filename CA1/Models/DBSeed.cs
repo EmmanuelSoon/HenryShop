@@ -9,6 +9,8 @@
             this.dbContext = dbContext;
         }
 
+
+
         public void Seed()
         {
             dbContext.Add(new Product
