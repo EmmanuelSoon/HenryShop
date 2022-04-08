@@ -56,9 +56,14 @@
                 Price = 12346
             });
 
+            dbContext.Add(new ShopCart
+            {
+                UserId = 1
+            });
 
             dbContext.SaveChanges();
         }
+
 
     }
 }

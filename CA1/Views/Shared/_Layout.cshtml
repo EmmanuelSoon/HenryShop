@@ -29,12 +29,12 @@
                     <form class="form-inline my-2 my-lg-0" asp-controller="Search" asp-action="Index" style="padding-right: 35px;">
                         @*rename name "searchStr" to fit search logic*@
                         <input name="searchstr" type="text" class="form-control" placeholder="Search for a product...">
-                        <button class="btn btn-outline-primary my-2 my-sm-0" type="submit">
+                        <button class="btn btn-outline-primary my-2 my-sm-0" type="submit" >
                             <span class="fa-solid fa-magnifying-glass"></span>
                             </button>
                     </form>
-                    <a style="padding-right:25px;" class="fa fa-cart-shopping"></a>
-
+                        <a class="btn btnbtn-outline-secondary" asp-controller= "CheckOut" asp-action = "Index"><span class="fa-solid fa-shopping-cart"></span></a>
+                    
                 </div>
             </div>
         </nav>

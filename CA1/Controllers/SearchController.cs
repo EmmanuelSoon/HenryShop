@@ -46,19 +46,20 @@ namespace CA1.Controllers
         {
 
             Guid UserID = Guid.Parse(Request.Cookies["Session_id"]);
+
             ShopCart cart = dbContext.ShopCarts.FirstOrDefault(x => x.UserId == UserID);
-            ShopCartItem cartitem = dbContext.ShopCartItems.FirstOrDefault(x => x.ShopCartId == cart.Id && x.Product == product);
+            ShopCartItem cartitem = dbContext.ShopCartItems.FirstOrDefault(x => x.ShopCartId == cart.Id && x.Product.Id == product.Id);
             
             if(cartitem != null)
             {
                 cartitem.Quantity++;
+                dbContext.Update(cartitem);
             }
             else
             {
-                cartitem = new ShopCartItem
+                cartitem = new ShopCartItem(product)
                 {
                     Quantity = 1,
-                    Product = product,
                     ShopCartId = cart.Id
                 };
                 dbContext.ShopCartItems.Add(cartitem);
