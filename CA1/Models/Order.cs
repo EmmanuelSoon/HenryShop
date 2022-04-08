@@ -16,7 +16,6 @@ namespace CA1.Models
         }
         public Guid Id { get; set; }
         public int Quantity { get; set; }
-        [Required]
         public string CreatedDate { get; set; }
 
 

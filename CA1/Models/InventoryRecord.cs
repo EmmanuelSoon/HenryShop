@@ -14,7 +14,6 @@ namespace CA1.Models
         }
         public Guid Id { get; set; }
         public Guid ActivationId { get; set; }
-        public bool IsUsed { get; set; }
         public virtual Guid ProductId { get; set; }
 
     }

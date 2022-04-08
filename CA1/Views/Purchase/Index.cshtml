@@ -1,0 +1,48 @@
+﻿@{
+    ViewData["Title"] = "MyPurchase";
+    List<Order> Orders = (List<Order>)ViewData["Orders"];
+}
+<body>
+    <h1 style="text-align: left">My Purchase</h1>
+    @if(Orders.Count == 0)
+    {
+        @:You don't have any purchase yet!
+    }
+    else
+    {
+        <table width="100%">
+            <tr>
+                <th>Product Details</th>
+                <th>Order Details</th>
+            </tr>
+            @foreach(Order order in Orders)
+            {
+                <tr>
+                    <td>
+                        <div><img src="@order.Product.Img"/></div>
+                        <div>@order.Product.Desc</div>
+                        <div>
+                            <a href="@order.Product.DownLoadLink" class="btn">Download</a>
+                            </div>
+                    </td>
+                    <td>
+                        <div>Purchased On: @order.CreatedDate</div>
+                        <div>Quantity: @order.Quantity</div>
+                        <div>
+                            <lable formaction="activationcode">ActivationCode: </lable>
+                            <select name="activationcode" id="activationcode">
+                                    @foreach(OrderDetail detail in order.OrderDetails)
+                                    {
+                                        <option>
+                                            @detail.ActivationId
+                                        </option>
+                                    }
+                            </select>
+                        </div>
+                    </td>
+                </tr> 
+            }
+        </table>
+    }
+
+</body>

@@ -1,4 +1,7 @@
-﻿namespace CA1.Models
+﻿using System.Security.Cryptography;
+using System.Text;
+
+namespace CA1.Models
 {
     public class DBSeed
     {
@@ -56,10 +59,17 @@
                 Price = 12346
             });
 
-            dbContext.Add(new ShopCart
+            // get a hash algorithm object
+            //HashAlgorithm sha = SHA256.Create();
+            //byte[] hash = sha.ComputeHash(Encoding.UTF8.GetBytes("password1"));
+
+            dbContext.Add(new User
             {
-                UserId = 1
+
+                UserName = "user1",
+                PassHash = "password",
             });
+
 
             dbContext.SaveChanges();
         }
