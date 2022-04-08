@@ -10,6 +10,9 @@ namespace CA1.Models
         public Product()
         {
             Id = new Guid();
+            InventoryRecords = new List<InventoryRecord>();
+            Orders = new List<Order>();
+            ShopCartItems = new List<ShopCartItem>();
         }
         public Guid Id { get; set; }
         [Required]
