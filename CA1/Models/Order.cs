@@ -11,6 +11,7 @@ namespace CA1.Models
         {
             Id = new Guid();
             CreatedDate = DateTime.Today.ToString("d");
+            OrderDetails = new List<OrderDetail>();
         }
         public Guid Id { get; set; }
         public int Quantity { get; set; }
