@@ -20,24 +20,33 @@ namespace CA1.Controllers
         {
             this.dbContext = dbContext;
         }
-
-        // GET: /<controller>/
-        public IActionResult Index(IFormCollection form)
+        public IActionResult Index()
         {
-            string username = form["username"];
-            string password = form["password"];
-            string message = "";
+            if (Request.Cookies["SessionId"] != null)
+            {
+                Guid sessionId = Guid.Parse(Request.Cookies["SessionId"]);
+                User usersession = dbContext.Users.FirstOrDefault(x =>
+                    x.sessionId == sessionId
+                );
 
+                if (usersession == null)
+                {
+                    // someone has used an invalid Session ID (to fool us?); 
+                    // route to Logout controller
+                    return RedirectToAction("Login", "LogIn");
+                }
 
-            //if (password != "")
-            //{
-            //    HashAlgorithm sha = SHA256.Create();
-            //    byte[] hash = sha.ComputeHash(
-            //        Encoding.UTF8.GetBytes(password));
+                // valid Session ID; route to Home page
+                return RedirectToAction("Index", "Search");
+            }
+            return View("LogIn");
+        }
 
-                
-                
-            //}
+        public IActionResult Login(IFormCollection form)
+        {
+            string username = form["Username"];
+            string password = form["Password"];
+            string message = string.Empty;
 
             User user = dbContext.Users.FirstOrDefault(x =>
                      x.UserName == username &&
@@ -48,13 +57,20 @@ namespace CA1.Controllers
 
             if (user == null && (!string.IsNullOrEmpty(username) || !string.IsNullOrEmpty(password)))
             {
-                message = "Username/Password doesnot exist";
+                message = "Incorrect Username/Password";
             }
 
             if (user != null && username == user.UserName && password == user.PassHash)
             {
-                HttpContext.Session.SetString("username", user.UserName);
-                return RedirectToAction("Index", "Home");
+                user.sessionId = Guid.NewGuid();
+                dbContext.SaveChanges();
+
+
+                // ask browser to save and send back these cookies next time
+                Response.Cookies.Append("SessionId", user.sessionId.ToString());
+                Response.Cookies.Append("Username", user.UserName);
+
+                return RedirectToAction("Index", "Search");
             }
             else
             {
@@ -63,43 +79,28 @@ namespace CA1.Controllers
             }
         }
 
-        //public IActionResult LogIn(IFormCollection form)
-        //{
-        //    string username = form["username"];
-        //    string password = form["password"];
+        public IActionResult Logout()
+        {
+            if (Request.Cookies["SessionId"] != null)
+            {
+                Guid sessionId = Guid.Parse(Request.Cookies["sessionId"]);
 
-        //    HashAlgorithm sha = SHA256.Create();
-        //    byte[] hash = sha.ComputeHash(
-        //        Encoding.UTF8.GetBytes(password));
+                User usersession = dbContext.Users.FirstOrDefault(x => x.sessionId == sessionId);
+                if (usersession != null)
+                {
+                    usersession.sessionId = null;
+                    // commit to save changes
+                    dbContext.SaveChanges();
+                }
+            }
 
-        //    string message = "";
-        //    User user = dbContext.Users.FirstOrDefault(x =>
-        //        x.UserName == username &&
-        //        x.PassHash == hash
-        //    );
+            // ask client to remove these cookies so that
+            // they won't be sent over next time
+            Response.Cookies.Delete("SessionId");
+            Response.Cookies.Delete("Username");
 
-        //    if (user == null && (!string.IsNullOrEmpty(username) || !string.IsNullOrEmpty(password)))
-        //    {
-        //        message = "Username/Password doesnot exist";
-        //    }
-
-        //    if (user != null && username == user.UserName && hash == user.PassHash)
-        //    {
-        //        HttpContext.Session.SetString("username", user.UserName);
-        //        return RedirectToAction("Index", "Home");
-        //    }
-        //    else
-        //    {
-        //        ViewData["ErrorMessage"] = message;
-        //        return View();
-        //    }
-        //}
-
-        //public IActionResult LogOut()
-        //{
-        //    HttpContext.Session.Remove("username");
-        //    return RedirectToAction("Index");
-        //}
+            return RedirectToAction("Index", "LogIn");
+        }
     }
 }
 
