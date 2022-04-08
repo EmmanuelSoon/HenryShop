@@ -24,7 +24,7 @@ namespace CA1.Controllers
         {
             if (Request.Cookies["SessionId"] != null)
             {
-                Guid sessionId = Guid.Parse(Request.Cookies["sessionId"]);
+                Guid sessionId = Guid.Parse(Request.Cookies["SessionId"]);
                 User usersession = dbContext.Users.FirstOrDefault(x =>
                     x.sessionId == sessionId
                 );
@@ -44,9 +44,9 @@ namespace CA1.Controllers
 
         public IActionResult Login(IFormCollection form)
         {
-            string username = form["username"];
-            string password = form["password"];
-            string message = "";
+            string username = form["Username"];
+            string password = form["Password"];
+            string message = string.Empty;
 
             User user = dbContext.Users.FirstOrDefault(x =>
                      x.UserName == username &&
@@ -57,7 +57,7 @@ namespace CA1.Controllers
 
             if (user == null && (!string.IsNullOrEmpty(username) || !string.IsNullOrEmpty(password)))
             {
-                message = "Username/Password doesnot exist";
+                message = "Incorrect Username/Password";
             }
 
             if (user != null && username == user.UserName && password == user.PassHash)
