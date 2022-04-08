@@ -3,6 +3,8 @@ using Microsoft.AspNetCore.Mvc;
 using CA1.Models;
 using Microsoft.AspNetCore.Http;
 using System.Linq;
+using System;
+using System.Collections.Generic;
 
 namespace CA1.Controllers
 {
@@ -29,18 +31,19 @@ namespace CA1.Controllers
             ViewData["Orders"] = Orders;
             return View();
         }
+        private Session ValidateSession()
+        {
+            if(Request.Cookies["SessionId"] == null)
+            {
+                return null;
+            }
+            Guid SessionId = Guid.Parse(Request.Cookies["SessionId"]);
+            Session session = dbContext.Sessions.FirstOrDefault(x =>
+                        x.Id == SessionId
+            );
+            return session;
+        }
     }
 
-    private Session ValidateSession()
-    {
-        if(Request.Cookies["SessionId"] == null)
-        {
-            return null;
-        }
-        Guid SessionId = Guid.Parse(Request.Cookies["SessionId"]);
-        Session session = dbContext.Sessions.FirstOrDefault(x =>
-                    x.Id == SessionId
-        );
-        return session;
-    }
+    
 }
