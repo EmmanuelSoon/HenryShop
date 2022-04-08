@@ -20,6 +20,8 @@ namespace CA1.Models
 		[MaxLength(50)]
 		public string PassHash { get; set; }
 
+		public Guid? sessionId { get; set; }
+
 		/* navigational property: 1-to-1 relationship to shopcart */
 		public virtual ShopCart shopcart { get; set; }
 	}
