@@ -5,7 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - CA1</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/lib/font-awesome/css/all.css"/>
     <link rel="stylesheet" href="~/css/site.css" />
+
 </head>
 <body>
     <header>
@@ -24,11 +26,15 @@
                         </li>
                     </ul>
                     @*rename asp-controller and action to fit search logic*@
-                    <form class="form-inline my-2 my-lg-0" asp-controller="Search" asp-action="Index" style="padding-right: 25px;">
+                    <form class="form-inline my-2 my-lg-0" asp-controller="Search" asp-action="Index" style="padding-right: 35px;">
                         @*rename name "searchStr" to fit search logic*@
                         <input name="searchstr" type="text" class="form-control" placeholder="Search for a product...">
-                        <button class="btn btn-outline-primary my-2 my-sm-0" type="submit">Search</button>
+                        <button class="btn btn-outline-primary my-2 my-sm-0" type="submit">
+                            <span class="fa-solid fa-magnifying-glass"></span>
+                            </button>
                     </form>
+                    <a style="padding-right:25px;" class="fa fa-cart-shopping"></a>
+
                 </div>
             </div>
         </nav>
