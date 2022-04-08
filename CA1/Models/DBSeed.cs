@@ -1,4 +1,7 @@
-﻿namespace CA1.Models
+﻿using System.Security.Cryptography;
+using System.Text;
+
+namespace CA1.Models
 {
     public class DBSeed
     {
@@ -54,6 +57,17 @@
                 Desc = "blah blah blah",
                 Img = "./img/top.png",
                 Price = 12346
+            });
+
+            // get a hash algorithm object
+            //HashAlgorithm sha = SHA256.Create();
+            //byte[] hash = sha.ComputeHash(Encoding.UTF8.GetBytes("password1"));
+
+            dbContext.Add(new User
+            {
+
+                UserName = "user1",
+                PassHash = "password",
             });
 
 
