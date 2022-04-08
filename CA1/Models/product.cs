@@ -20,6 +20,7 @@ namespace CA1.Models
         public string Desc { get; set; }
         [Required]
         public string Img { get; set; }
+        public string DownLoadLink { get; set; }
 
         public virtual ICollection<Order> Orders { get; set; }
         public virtual ICollection<ShopCartItem> ShopCartItems { get; set; }
