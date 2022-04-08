@@ -99,7 +99,7 @@ namespace CA1.Controllers
             Response.Cookies.Delete("SessionId");
             Response.Cookies.Delete("Username");
 
-            return RedirectToAction("Index", "Login");
+            return RedirectToAction("Index", "LogIn");
         }
     }
 }
