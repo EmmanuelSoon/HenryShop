@@ -18,30 +18,25 @@ namespace CA1.Controllers
 
         public IActionResult Index()
         {
-            Session session = ValidateSession();
-            if (session == null)
+            User usersession = ValidateSession();
+            if (usersession == null)
             {
                 return RedirectToAction("Index", "Login");
             }
-            //Get UserId From session
-            Guid UserId = session.UserId;
-
             List<Order> Orders = dbContext.Orders.Where(x =>
-                x.UserId == UserId).ToList();
+                x.UserId == usersession.Id).ToList();
             ViewData["Orders"] = Orders;
             return View();
         }
-        private Session ValidateSession()
+        private User ValidateSession()
         {
             if(Request.Cookies["SessionId"] == null)
             {
                 return null;
             }
             Guid SessionId = Guid.Parse(Request.Cookies["SessionId"]);
-            Session session = dbContext.Sessions.FirstOrDefault(x =>
-                        x.Id == SessionId
-            );
-            return session;
+            User usersession = dbContext.Users.FirstOrDefault(x => x.sessionId == SessionId);
+            return usersession;
         }
     }
 
