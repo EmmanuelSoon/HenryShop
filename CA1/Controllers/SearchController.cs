@@ -45,9 +45,9 @@ namespace CA1.Controllers
         public IActionResult AddtoCart(Product product)
         {
 
-            Guid UserID = Guid.Parse(Request.Cookies["Session_id"]);
-
-            ShopCart cart = dbContext.ShopCarts.FirstOrDefault(x => x.UserId == UserID);
+            User user = dbContext.Users.FirstOrDefault(x => x.sessionId == Guid.Parse(Request.Cookies["SessionId"]));
+            
+            ShopCart cart = dbContext.ShopCarts.FirstOrDefault(x => x.UserId == user.Id);
             ShopCartItem cartitem = dbContext.ShopCartItems.FirstOrDefault(x => x.ShopCartId == cart.Id && x.Product.Id == product.Id);
             
             if(cartitem != null)
