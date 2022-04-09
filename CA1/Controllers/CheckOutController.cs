@@ -89,7 +89,7 @@ namespace CA1.Controllers
             for (int i = 0; i < items.Count; i++)
             {
                 ShopCartItem curr = items[i];
-                List<InventoryRecord> invlist = dbContext.InventoryRecords.Where(x => x.ProductId == curr.ProductId && x.IsUsed == false).ToList();
+                List<InventoryRecord> invlist = dbContext.InventoryRecords.Where(x => x.ProductId == curr.ProductId).ToList();
                 if (invlist.Count < curr.Quantity)
                 {
                     return RedirectToAction("Index"); //need to change to alert customer to change quantity
@@ -122,7 +122,7 @@ namespace CA1.Controllers
                     dbContext.InventoryRecords.Remove(inv);
 
                 }
-                order.OrderDetails = orderlist;
+                order.OrderDetails = (ICollection<Models.OrderDetail>)orderlist;
                 dbContext.Orders.Add(order);
             }
 
