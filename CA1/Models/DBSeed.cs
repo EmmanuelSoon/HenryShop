@@ -301,6 +301,29 @@ namespace CA1.Models
 
             dbContext.SaveChanges();
         }
+        public void AddInventory(string productName, int qty)
+        {
+            Product product = dbContext.Products.FirstOrDefault(x => x.Name == productName);
+            if (product != null)
+            {
+                for (int i = 0; i < qty; i++)
+                {
+                    InventoryRecord record = new InventoryRecord()
+                    {
+                        ActivationId = Guid.NewGuid()
+                    };
+
+
+
+                    product.InventoryRecords.Add(record);
+                }
+                dbContext.SaveChanges();
+            }
+            else
+            {
+                Debug.WriteLine("{0} is not in the Product list", productName);
+            }
+        }
     }
 
 
