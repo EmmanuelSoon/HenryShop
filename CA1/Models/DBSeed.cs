@@ -105,6 +105,8 @@ namespace CA1.Models
             {
                 UserName = username,
                 PassHash = hash,
+                Firstname = "Mary",
+                Lastname = "HadALittleLamb",
                 shopcart = cart
             });
 
@@ -118,6 +120,8 @@ namespace CA1.Models
             {
                 UserName = username2,
                 PassHash = hash2,
+                Firstname = "Henry",
+                Lastname = "ThePig",
                 shopcart = cart2
             });
 
@@ -159,7 +163,7 @@ namespace CA1.Models
                 }
             }
 
-            Product product3 = dbContext.Products.FirstOrDefault(x => x.Name == "ML");
+            Product product3 = dbContext.Products.FirstOrDefault(x => x.Name == ".NET ML");
             if (product3 != null)
             {
                 for (int i = 0; i < 1; i++)

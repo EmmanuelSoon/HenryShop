@@ -75,6 +75,7 @@ namespace CA1.Controllers
                 // ask browser to save and send back these cookies next time
                 Response.Cookies.Append("SessionId", user.sessionId.ToString());
                 Response.Cookies.Append("Username", user.UserName);
+                Response.Cookies.Append("Name", user.Firstname + user.Lastname);
 
                 return RedirectToAction("Index", "Search");
             }

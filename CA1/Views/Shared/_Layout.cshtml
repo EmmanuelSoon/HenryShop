@@ -26,19 +26,16 @@
                 <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
                     <ul class="navbar-nav flex-grow-1">
                         <li class="navbar-nav flex-grow-1">
-                            @*rename controller name to direct to product page*@
                             <a class="nav-link text-dark" asp-controller="Search"><i></i>Products</a>
                         </li>
                     </ul>
-                    @*rename asp-controller and action to fit search logic*@
                     <form class="form-inline my-2 my-lg-0" asp-controller="Search" asp-action="Index" style="padding-right: 35px;">
-                        @*rename name "searchStr" to fit search logic*@
                         <input name="searchstr" type="text" class="form-control" placeholder="Search for a product...">
                         <button class="btn btn-outline-primary my-2 my-sm-0" type="submit" >
                             <span class="fa-solid fa-magnifying-glass"></span>
                         </button>
                     </form>
-                    <a style="padding-right:25px;" class="fa fa-cart-shopping"></a>
+                    <a style="padding-right:25px;" class="fa fa-cart-shopping" asp-controller = "CheckOut" asp-action ="Index"></a>
                 </div>
                 <div>
                     <a class="nav-link text-dark" asp-area="" asp-controller="LogIn" asp-action="Logout">
