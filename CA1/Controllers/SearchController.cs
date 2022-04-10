@@ -41,39 +41,47 @@ namespace CA1.Controllers
         }
 
 
-
+        //adding to cart, if user not logged in, we send the user to the log in page.
         public IActionResult AddtoCart(Product product)
         {
 
             User user = dbContext.Users.FirstOrDefault(x => x.sessionId == Guid.Parse(Request.Cookies["SessionId"]));
-            
-            ShopCart cart = dbContext.ShopCarts.FirstOrDefault(x => x.UserId == user.Id);
-            ShopCartItem cartitem = dbContext.ShopCartItems.FirstOrDefault(x => x.ShopCartId == cart.Id && x.Product.Id == product.Id);
-            
-            if(cartitem != null)
+
+            if(user == null)
             {
-                cartitem.Quantity++;
-                dbContext.Update(cartitem);
+                return RedirectToAction("Index", "logIn");
             }
             else
             {
-                cartitem = new ShopCartItem(product)
+                ShopCart cart = dbContext.ShopCarts.FirstOrDefault(x => x.UserId == user.Id);
+                ShopCartItem cartitem = dbContext.ShopCartItems.FirstOrDefault(x => x.ShopCartId == cart.Id && x.Product.Id == product.Id);
+
+                if (cartitem != null)
                 {
-                    Quantity = 1,
-                    ShopCartId = cart.Id
-                };
-                dbContext.ShopCartItems.Add(cartitem);
+                    cartitem.Quantity++;
+                    dbContext.Update(cartitem);
+                }
+                else
+                {
+                    cartitem = new ShopCartItem(product)
+                    {
+                        Quantity = 1,
+                        ShopCartId = cart.Id
+                    };
+                    dbContext.ShopCartItems.Add(cartitem);
+                }
+
+                dbContext.SaveChanges();
+
+
+                string name = product.Name;
+                string statement = name + " added to Cart!";
+
+                TempData["statement"] = statement;
+
+                return RedirectToAction("Index", "Search");
             }
 
-            dbContext.SaveChanges();
-
-
-            string name = product.Name;
-            string statement = name + " added to Cart!";
-            
-            TempData["statement"] = statement;
-
-            return RedirectToAction("Index","Search");
         }
     }
 }
