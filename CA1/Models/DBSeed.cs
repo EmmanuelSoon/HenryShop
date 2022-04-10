@@ -87,6 +87,79 @@ namespace CA1.Models
                 DownLoadLink = "56789.com"
             });
 
+            dbContext.Add(new Product
+            {
+
+                Name = ".NET forms",
+                Desc = "Create forms in a click, simple and quick",
+                Img = "./img/top.png",
+                Price = 99,
+                DownLoadLink = "56789.com"
+            });
+
+            dbContext.Add(new Product
+            {
+
+                Name = ".NET library",
+                Desc = "Need to know more about .NET? here is your one stop solution",
+                Img = "./img/top.png",
+                Price = 99,
+                DownLoadLink = "56789.com"
+            });
+
+            dbContext.Add(new Product
+            {
+
+                Name = ".NET UI",
+                Desc = "Set of controls and features for your platform",
+                Img = "./img/top.png",
+                Price = 9,
+                DownLoadLink = "56789.com"
+            });
+
+            dbContext.Add(new Product
+            {
+
+                Name = ".NET Runtime",
+                Desc = "Analytical tool to check on your app's performance",
+                Img = "./img/top.png",
+                Price = 69,
+                DownLoadLink = "56789.com"
+            });
+
+            dbContext.Add(new Product
+            {
+
+                Name = ".NET Image Processing",
+                Desc = "a computer and artificial intelligence library for image processing",
+                Img = "./img/top.png",
+                Price = 119,
+                DownLoadLink = "56789.com"
+            });
+
+            dbContext.Add(new Product
+            {
+
+                Name = ".NET Unity",
+                Desc = "a development tool to create games for consoles and PCs",
+                Img = "./img/top.png",
+                Price = 39,
+                DownLoadLink = "56789.com"
+            });
+
+            dbContext.Add(new Product
+            {
+
+                Name = ".NET Blazor",
+                Desc = "a framework to enable developers to create web apps",
+                Img = "./img/top.png",
+                Price = 19,
+                DownLoadLink = "56789.com"
+            });
+
+
+
+
             dbContext.SaveChanges();
         }
 
@@ -106,7 +179,7 @@ namespace CA1.Models
                 UserName = username,
                 PassHash = hash,
                 Firstname = "Mary",
-                Lastname = "HadALittleLamb",
+                Lastname = "Lamb",
                 shopcart = cart
             });
 
@@ -121,7 +194,7 @@ namespace CA1.Models
                 UserName = username2,
                 PassHash = hash2,
                 Firstname = "Henry",
-                Lastname = "ThePig",
+                Lastname = "Pig",
                 shopcart = cart2
             });
 
@@ -222,6 +295,10 @@ namespace CA1.Models
 
                 }
             }
+
+
+
+
             dbContext.SaveChanges();
         }
     }
