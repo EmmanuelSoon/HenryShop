@@ -2,6 +2,8 @@
 CA1 e-commerce solution
 
 To do list:
-- InventoryRecords: to remove Session Class and map sessionId from User; to add ValidateSession() 
 - CheckOutController: to add ValidateSession()
-- May want to consider changing SearchController to GalleryController to avoid confusion 
+
+Additional Feature Ideas:
+- Account create, update (forget password), delete
+- Super User account that can edit home page items
