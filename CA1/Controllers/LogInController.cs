@@ -61,7 +61,7 @@ namespace CA1.Controllers
             );
 
 
-            if (user == null)
+            if (user == null && (!string.IsNullOrEmpty(username) || !string.IsNullOrEmpty(password)))
             {
                 message = "Incorrect Username/Password";
             }

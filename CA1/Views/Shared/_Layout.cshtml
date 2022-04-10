@@ -3,7 +3,8 @@
     @using Microsoft.AspNetCore.Http;
 @using Microsoft.AspNetCore.Mvc;
 @{
-   string sessionusername = (string)Context.Request.Cookies["Username"];
+    string sessionUserName = (string)Context.Request.Cookies["Username"];
+    string searchStr = (string)ViewBag.Searchstr;
 }
 <head>
     <meta charset="utf-8" />
@@ -31,7 +32,7 @@
                     </ul>
                     @*Product Searchbar*@
                     <form class="form-inline my-2 my-lg-0" asp-controller="Search" asp-action="Index" style="padding-right: 35px;">
-                        <input name="searchstr" type="text" class="form-control" placeholder="Search for a product...">
+                        <input name="searchstr" type="text" value="@searchStr" class="form-control" placeholder="Search for a product...">
                         <button class="btn btn-outline-primary my-2 my-sm-0" type="submit">
                             <span class="fa-solid fa-magnifying-glass"></span>
                         </button>
@@ -45,22 +46,20 @@
                         </a>
 
                         <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                            <a class="dropdown-item"><b>@sessionusername</b></a>
+                            <a class="dropdown-item"><b>@sessionUserName</b></a>
                             <a class="dropdown-item" asp-controller="Purchase" asp-action="Index">My Purchase</a>
                             <a class="dropdown-item">Additional Feature</a>
                             <a class="dropdown-item">Additional Feature</a>
-                            <a class="nav-link text-dark" asp-area="" asp-controller="LogIn" asp-action="Logout">
-                                @{
-                                    if (!string.IsNullOrEmpty(@sessionusername))
-                                    {
-                                        @: Log Out
-                                    }
-                                    else
-                                    {
-                                        @: Log In
-                                    }
+                            @{
+                                if (!string.IsNullOrEmpty(@sessionUserName))
+                                {
+                                    <a class="dropdown-item" asp-area="" asp-controller="LogIn" asp-action="Logout">Log Out</a>
                                 }
-                            </a>
+                                else
+                                {
+                                    <a class="dropdown-item" asp-area="" asp-controller="LogIn" asp-action="Login">Log In</a>
+                                }
+                            }
                         </div>
                     </div>
                 </div>
