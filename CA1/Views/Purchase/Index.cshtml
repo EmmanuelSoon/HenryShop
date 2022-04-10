@@ -1,33 +1,49 @@
 ﻿@{
     ViewData["Title"] = "MyPurchase";
     List<Order> Orders = (List<Order>)ViewData["Orders"];
+    @*string searchstr = (string)ViewBag.Searchstr;
+    string statement = (string)TempData["statement"];*@
+
 }
 <body>
 
-    @if(Orders.Count == 0)
+    @if (Orders.Count == 0)
     {
         @:You don't have any purchase yet!
     }
     else
     {
+        @*<div class = "container">
+                <div class = "row row-content">
+                    <div class ="col-12 col-sm offset-1 mb-3" align-self-center>
+                        <form>
+                            <div class = "form-row">
+                                <input class= "col-3" name = "searchstr" value = "@searchstr" placeholder= "Search your purchase..."/>
+                                <button type = "submit" class ="btn btn-primary">Search</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>*@
+
         <div class="container-fluid">
-            <div class = "row">
+            <div class="row">
                 <h1 style="text-align: left">My Purchase</h1>
-            </div>    
-            @foreach(Order order in Orders)
+            </div>
+            @foreach (Order order in Orders)
             {
-                <div class = "row">
-                    <div class= "col-md-4">
+                <div class="row">
+                    <div class="col-md-4">
                         <div class="card">
-                            <img src="@order.Product.Img" width = "400" height = "250">
+                            <img src="@order.Product.Img" width="400" height="250">
                         </div>
                         <div class="card-body">
                             <h3 style="text-align: center;">@order.Product.Name</h3>
                             <p class="card-text">@order.Product.Desc</p>
-                            <p style="text-align: center;"><a href="@order.Product.DownLoadLink" class="btn btn-primary" >Download</a></p>
+                            <p style="text-align: center;"><a href="@order.Product.DownLoadLink" class="btn btn-primary">Download</a></p>
                         </div>
                     </div>
-                    <div class= "col-md-6">
+                    <div class="col-md-6">
                         <div class="card">
                             <div class="card-body">
                                 <br><br><br>
@@ -35,7 +51,7 @@
                                 <p>Quantity: @order.Quantity</p>
                                 <p>
                                     <select name="activationcode" id="activationcode">
-                                        @foreach(OrderDetail detail in order.OrderDetails)
+                                        @foreach (OrderDetail detail in order.OrderDetails)
                                         {
                                             <option>@detail.ActivationId</option>
                                         }
