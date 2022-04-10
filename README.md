@@ -7,3 +7,4 @@ To do list:
 Additional Feature Ideas:
 - Account create, update (forget password), delete
 - Super User account that can edit home page items
+- Category tag for product filtering
