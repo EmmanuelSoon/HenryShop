@@ -163,7 +163,7 @@ namespace CA1.Models
                 }
             }
 
-            Product product3 = dbContext.Products.FirstOrDefault(x => x.Name == "ML");
+            Product product3 = dbContext.Products.FirstOrDefault(x => x.Name == ".NET ML");
             if (product3 != null)
             {
                 for (int i = 0; i < 1; i++)

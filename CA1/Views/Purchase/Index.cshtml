@@ -3,46 +3,49 @@
     List<Order> Orders = (List<Order>)ViewData["Orders"];
 }
 <body>
-    <h1 style="text-align: left">My Purchase</h1>
+
     @if(Orders.Count == 0)
     {
         @:You don't have any purchase yet!
     }
     else
     {
-        <table width="100%">
-            <tr>
-                <th>Product Details</th>
-                <th>Order Details</th>
-            </tr>
+        <div class="container-fluid">
+            <div class = "row">
+                <h1 style="text-align: left">My Purchase</h1>
+            </div>    
             @foreach(Order order in Orders)
             {
-                <tr>
-                    <td>
-                        <div><img src="@order.Product.Img"/></div>
-                        <div>@order.Product.Desc</div>
-                        <div>
-                            <a href="@order.Product.DownLoadLink" class="btn">Download</a>
-                            </div>
-                    </td>
-                    <td>
-                        <div>Purchased On: @order.CreatedDate</div>
-                        <div>Quantity: @order.Quantity</div>
-                        <div>
-                            <lable formaction="activationcode">ActivationCode: </lable>
-                            <select name="activationcode" id="activationcode">
-                                    @foreach(OrderDetail detail in order.OrderDetails)
-                                    {
-                                        <option>
-                                            @detail.ActivationId
-                                        </option>
-                                    }
-                            </select>
+                <div class = "row">
+                    <div class= "col-md-4">
+                        <div class="card">
+                            <img src="@order.Product.Img" width = "400" height = "250">
                         </div>
-                    </td>
-                </tr> 
+                        <div class="card-body">
+                            <h3 style="text-align: center;">@order.Product.Name</h3>
+                            <p class="card-text">@order.Product.Desc</p>
+                            <p style="text-align: center;"><a href="@order.Product.DownLoadLink" class="btn btn-primary" >Download</a></p>
+                        </div>
+                    </div>
+                    <div class= "col-md-6">
+                        <div class="card">
+                            <div class="card-body">
+                                <br><br><br>
+                                <p>Purchased On: @order.CreatedDate</p>
+                                <p>Quantity: @order.Quantity</p>
+                                <p>
+                                    <select name="activationcode" id="activationcode">
+                                        @foreach(OrderDetail detail in order.OrderDetails)
+                                        {
+                                            <option>@detail.ActivationId</option>
+                                        }
+                                    </select>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             }
-        </table>
+        </div>
     }
-
 </body>
