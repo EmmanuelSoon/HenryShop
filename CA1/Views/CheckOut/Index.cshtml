@@ -1,8 +1,7 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
-@{
+﻿@{
     List<ShopCartItem> ShopCartItems = (List<ShopCartItem>)((ShopCart)ViewData["ShopCart"]).ShopCartItems;
+    List<InsufficientStock> stock = ViewBag.stock;
+    List<ShopCartItem> stocklist = ViewBag.stocklist;
     float total = (float)ViewBag.total;
     float GST = total * (float) 0.07;
     float totalGST = total + GST;
@@ -45,31 +44,66 @@
                     
                     @foreach(ShopCartItem item in ShopCartItems)
                     {
-                        <div class = "container">
-                            <div class="row">
-                                <div class= "col-sm-4 image-container align-self-center">
-                                    <img src=@item.Product.Img alt="Image not found" width = "200" height = "200">
-                                </div>
-
-                                <div class = "col-sm-6">
-                                    <div class ="card mb-3" style = "max-width: 540px;">
-                                        <div class="card-body">
-                                            <h5 class="card-header">@item.Product.Name</h5>
-                                            <p class="card-text">@item.Product.Desc</p>
-                                        </div>
-                                    <div class="card-body">
-                                            <a>Total: $ @sum(@item.Product.Price,@item.Quantity)</a>
+                        @if (!stocklist.Contains(item))
+                        {
+                            <div class = "container">
+                                <div class="row">
+                                    <div class= "col-sm-4 image-container align-self-center">
+                                        <img src=@item.Product.Img alt="Image not found" width = "200" height = "200">
                                     </div>
-                                        <div class ="card-body">
-                                            @Html.ActionLink("-","MinusFromCart","CheckOut", item, new {@class="btn btn-outline-danger"})
-                                            <a>@item.Quantity</a>
-                                            @Html.ActionLink("+","PlustoCart", "CheckOut", item, new {@class="btn btn-outline-success"})
+
+                                    <div class = "col-sm-6">
+                                        <div class ="card mb-3" style = "max-width: 540px;">
+                                            <div class="card-body">
+                                                <h5 class="card-header">@item.Product.Name</h5>
+                                                <p class="card-text">@item.Product.Desc</p>
+                                            </div>
+                                        <div class="card-body">
+                                                <a>Total: $ @sum(@item.Product.Price,@item.Quantity)</a>
                                         </div>
-                                    </div>   
+                                            <div class ="card-body">
+                                                @Html.ActionLink("-","MinusFromCart","CheckOut", item, new {@class="btn btn-outline-danger"})
+                                                <a>@item.Quantity</a>
+                                                @Html.ActionLink("+","PlustoCart", "CheckOut", item, new {@class="btn btn-outline-success"})
+                                            </div>
+                                            <div class ="card-body">
+                                                @Html.ActionLink("Remove Item","RemoveFromCart1", "CheckOut", item,new {@class="btn btn-danger"})
+                                            </div>
+                                        </div>   
+                                    </div>
                                 </div>
                             </div>
-                        </div>
+                        }
+                    }
+                    @foreach(InsufficientStock item in stock)
+                    {
+                        <div class = "container">
+                                <div class="row">
+                                    <div class= "col-sm-4 image-container align-self-center">
+                                        <img src=@item.ShopCartItem.Product.Img alt="Image not found" width = "200" height = "200">
+                                    </div>
 
+                                    <div class = "col-sm-6">
+                                        <div class ="card mb-3" style = "max-width: 540px;">
+                                            <div class="card-body">
+                                                <h5 class="card-header">@item.ShopCartItem.Product.Name</h5>
+                                                <p class="card-text">@item.ShopCartItem.Product.Desc</p>
+                                            </div>
+                                        <div class="card-body">
+                                                <a>Total: $ @sum(@item.ShopCartItem.Product.Price,@item.ShopCartItem.Quantity)</a>
+                                        </div>
+                                            <div class ="card-body">
+                                                <a>Current Quantity: @item.ShopCartItem.Quantity</a> <br>
+                                                <a style:"color:red;">Total stock: @item.Quantity</a> <br>
+                                                @Html.ActionLink("Change Quantity", "ChangeQ", "CheckOut", item, new {@class="btn btn-warning"})
+                                            </div>
+                                            <div class ="card-body">
+                                                @Html.ActionLink("Remove Item","RemoveFromCart2", "CheckOut", item,new {@class="btn btn-danger"})
+                                            </div>
+                                        </div>   
+                                    </div>
+                                </div>
+                            </div>
                     }
                 }
 
@@ -95,7 +129,7 @@
     
    <div class="row">
        <div class="col-6 col-sm-4">
-            @Html.ActionLink("Checkout!","CheckoutCart", "CheckOut", ShopCartItems, new {@class="btn btn-primary"})
+            @Html.ActionLink("Checkout!","CheckoutCart", "CheckOut", null, new {@class="btn btn-primary btn-block"})
 
        </div>
        <div class="col-6 col-sm-4">
