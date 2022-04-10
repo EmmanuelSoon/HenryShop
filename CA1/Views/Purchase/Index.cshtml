@@ -37,7 +37,7 @@
                                     <select name="activationcode" id="activationcode">
                                         @foreach(OrderDetail detail in order.OrderDetails)
                                         {
-                                            <option>@detail.ActivationId</option>
+                                            <option><b>Activation Code: </b>@detail.ActivationId</option>
                                         }
                                     </select>
                                 </p>
