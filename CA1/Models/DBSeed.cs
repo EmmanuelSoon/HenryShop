@@ -205,102 +205,22 @@ namespace CA1.Models
         public void SeedInventory()
         {
             //id, activation code, and product id
+            AddInventory(".NET Charts", 10);
+            AddInventory(".NET PayPal", 10);
+            AddInventory(".NET ML", 2);
+            AddInventory(".NET Analytics", 10);
+            AddInventory(".NET Logger", 12);
+            AddInventory(".NET Numerics", 5);
+            AddInventory(".NET forms", 5);
+            AddInventory(".NET library", 5);
+            AddInventory(".NET UI", 5);
+            AddInventory(".NET Runtime", 5);
+            AddInventory(".NET Image Processing", 5);
+            AddInventory(".NET Unity", 5);
+            AddInventory(".NET Blazor", 5);
 
-            Product product = dbContext.Products.FirstOrDefault(x => x.Name == ".NET Charts");
-            if (product != null)
-            {
-                for (int i = 0; i < 10; i++)
-                {
-                    InventoryRecord record = new InventoryRecord
-                    {
-                        ActivationId = Guid.NewGuid() //using static method to call instead of default constructor because if not the GUID reverts to default all 0s.
-                    };
-
-                    product.InventoryRecords.Add(record);
-
-                }
-            }
-
-            Product product2 = dbContext.Products.FirstOrDefault(x => x.Name == ".NET PayPal");
-            if (product != null)
-            {
-                for (int i = 0; i < 5; i++)
-                {
-                    InventoryRecord record2 = new InventoryRecord
-                    {
-                        ActivationId = Guid.NewGuid() //using static method to call instead of default constructor because if not the GUID reverts to default all 0s.
-                    };
-
-                    product2.InventoryRecords.Add(record2);
-
-                }
-            }
-
-            Product product3 = dbContext.Products.FirstOrDefault(x => x.Name == ".NET ML");
-            if (product3 != null)
-            {
-                for (int i = 0; i < 1; i++)
-                {
-                    InventoryRecord record3 = new InventoryRecord
-                    {
-                        ActivationId = Guid.NewGuid() //using static method to call instead of default constructor because if not the GUID reverts to default all 0s.
-                    };
-
-                    product3.InventoryRecords.Add(record3);
-
-                }
-            }
-
-            Product product4 = dbContext.Products.FirstOrDefault(x => x.Name == ".NET Analytics");
-            if (product4 != null)
-            {
-                for (int i = 0; i < 2; i++)
-                {
-                    InventoryRecord record4 = new InventoryRecord
-                    {
-                        ActivationId = Guid.NewGuid() //using static method to call instead of default constructor because if not the GUID reverts to default all 0s.
-                    };
-
-                    product4.InventoryRecords.Add(record4);
-
-                }
-            }
-
-            Product product5 = dbContext.Products.FirstOrDefault(x => x.Name == ".NET Logger");
-            if (product5 != null)
-            {
-                for (int i = 0; i < 10; i++)
-                {
-                    InventoryRecord record5 = new InventoryRecord
-                    {
-                        ActivationId = Guid.NewGuid() //using static method to call instead of default constructor because if not the GUID reverts to default all 0s.
-                    };
-
-                    product5.InventoryRecords.Add(record5);
-
-                }
-            }
-
-            Product product6 = dbContext.Products.FirstOrDefault(x => x.Name == ".NET Numerics");
-            if (product6 != null)
-            {
-                for (int i = 0; i < 4; i++)
-                {
-                    InventoryRecord record6 = new InventoryRecord
-                    {
-                        ActivationId = Guid.NewGuid() //using static method to call instead of default constructor because if not the GUID reverts to default all 0s.
-                    };
-
-                    product6.InventoryRecords.Add(record6);
-
-                }
-            }
-
-
-
-
-            dbContext.SaveChanges();
         }
+
         public void AddInventory(string productName, int qty)
         {
             Product product = dbContext.Products.FirstOrDefault(x => x.Name == productName);
