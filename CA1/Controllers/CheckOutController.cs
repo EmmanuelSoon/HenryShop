@@ -49,41 +49,88 @@ namespace CA1.Controllers
         }
 
 
-        public IActionResult PlusToCart(ShopCartItem item)
+        //public IActionResult PlusToCart(ShopCartItem item)
+        //{
+        //    item.Quantity++;
+
+        //    dbContext.ShopCartItems.Update(item);
+        //    dbContext.SaveChanges();
+
+        //    return RedirectToAction("Index");
+
+        //}
+
+        public IActionResult PlusToCart([FromBody] ShopCartItem req)
         {
-            item.Quantity++;
-
-            dbContext.ShopCartItems.Update(item);
-            dbContext.SaveChanges();
-
-            return RedirectToAction("Index");
-
-        }
-
-        public IActionResult MinusFromCart(ShopCartItem item)
-        {
-            item.Quantity--;
-            if (item.Quantity == 0)
+            ShopCartItem item = dbContext.ShopCartItems.FirstOrDefault(x => x.Id.Equals(req.Id));
+            if(item != null)
             {
-                return RemoveFromCart1(item);
-            }        
-            
-            dbContext.ShopCartItems.Update(item);
-            dbContext.SaveChanges();
+                item.Quantity++;
+                dbContext.ShopCartItems.Update(item);
+                dbContext.SaveChanges();
+                return Json(new { status = "success" });
+            }
 
-            return RedirectToAction("Index");
-
-
+            return Json(new { status = "fail" });
         }
 
-        public IActionResult RemoveFromCart1(ShopCartItem item)
+        public IActionResult MinusFromCart([FromBody] ShopCartItem req)
         {
-            dbContext.ShopCartItems.Remove(item);
+            ShopCartItem item = dbContext.ShopCartItems.FirstOrDefault(x => x.Id.Equals(req.Id));
+            if (item != null)
+            {
+                item.Quantity--;
+                if(item.Quantity <= 0)
+                {
+                    return RemoveFromCart1(req);
+                }
+            
+                dbContext.ShopCartItems.Update(item);
+                dbContext.SaveChanges();
+                return Json(new { status = "success" });
+            }
 
-            dbContext.SaveChanges();
-
-            return RedirectToAction("Index");
+            return Json(new { status = "fail" });
         }
+
+        //public IActionResult MinusFromCart(ShopCartItem item)
+        //{
+        //    item.Quantity--;
+        //    if (item.Quantity == 0)
+        //    {
+        //        return RemoveFromCart1(item);
+        //    }        
+
+        //    dbContext.ShopCartItems.Update(item);
+        //    dbContext.SaveChanges();
+
+        //    return RedirectToAction("Index");
+
+
+        //}
+
+        //public IActionResult RemoveFromCart1(ShopCartItem item)
+        //{
+        //    dbContext.ShopCartItems.Remove(item);
+
+        //    dbContext.SaveChanges();
+
+        //    return RedirectToAction("Index");
+        //}
+
+        public IActionResult RemoveFromCart1([FromBody] ShopCartItem req)
+        {
+            ShopCartItem item = dbContext.ShopCartItems.FirstOrDefault(x => x.Id.Equals(req.Id));
+            if (item != null)
+            {
+                dbContext.ShopCartItems.Remove(item);
+                dbContext.SaveChanges();
+                return Json(new { status = "success" });
+            }
+
+            return Json(new { status = "fail" });
+        }
+
 
         public IActionResult RemoveFromCart2(InsufficientStock stock)
         {

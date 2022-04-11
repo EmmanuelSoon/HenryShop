@@ -9,6 +9,9 @@
 
 }
 
+@section Scripts {
+    <script src="~/js/cart.js"></script>
+}
 
 <body>
     <header class = "jumbotron">
@@ -62,13 +65,15 @@
                                                 <a>Total: $ @sum(@item.Product.Price,@item.Quantity)</a>
                                         </div>
                                             <div class ="card-body">
-                                                @Html.ActionLink("-","MinusFromCart","CheckOut", item, new {@class="btn btn-outline-danger"})
-                                                <a>@item.Quantity</a>
-                                                @Html.ActionLink("+","PlustoCart", "CheckOut", item, new {@class="btn btn-outline-success"})
+                                                <div class ="btn btn-group-sm">
+                                                    <button type="button" class="btn btn-danger" id="MinusQuantity"  value=@item.Id><span class="fa fa-caret-down"></span></button>
+                                                    <button type="button" class="btn btn-secondary">@item.Quantity</button>
+                                                    <button type="button" class="btn btn-success" id="AddQuantity" value=@item.Id><span class="fa fa-caret-up"></span></button>
+                                                </div>
                                             </div>
                                             <div class ="card-body">
-                                                @Html.ActionLink("Remove Item","RemoveFromCart1", "CheckOut", item,new {@class="btn btn-danger"})
-                                            </div>
+                                                <button type="button" class="btn btn-danger" id="RemoveItem" value=@item.Id><span class="fa fa-trash-can"></span> Remove Item</button>
+                                                </div>
                                         </div>   
                                     </div>
                                 </div>
