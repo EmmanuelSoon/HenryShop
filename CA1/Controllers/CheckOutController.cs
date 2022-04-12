@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Http;
 using System.Linq;
 using System.Collections.Generic;
 using System;
+using System.Diagnostics;
 
 namespace CA1.Controllers
 {
@@ -21,15 +22,45 @@ namespace CA1.Controllers
         public IActionResult Index()
         {
             User user = dbContext.Users.FirstOrDefault(x => (Request.Cookies["SessionId"] != null) && (x.sessionId == Guid.Parse(Request.Cookies["SessionId"])));
+            ShopCart Cart = new ShopCart();
+
+
             if (user == null)
             {
-                return RedirectToAction("Index", "LogIn");
+                if(Request.Cookies["CartId"] == null)
+                {
+                    if(Request.Cookies["Temp"] != null)
+                    {
+                        Guid cartid = Guid.NewGuid();
+                        dbContext.ShopCarts.Add(new ShopCart()
+                        {
+                            Id = cartid,
+                            UserId = null,
+                            ShopCartItems = new List<ShopCartItem>()
+                        });
+                        dbContext.SaveChanges();
+                        Response.Cookies.Append("CartId", cartid.ToString());
+                        string cartstr = Request.Cookies["Temp"];
+                        
+                        Cart = dbContext.ShopCarts.FirstOrDefault(x => x.Id == cartid);
+                        stringtocart(cartstr, Cart.Id);
+                        Response.Cookies.Delete("Temp");
+                    }
+                }
+                else
+                {
+                    Guid CartId = Guid.Parse(Request.Cookies["CartId"]);
+                    Cart = (ShopCart)dbContext.ShopCarts.FirstOrDefault(x => x.Id == CartId);
+                }
+            }
+            else
+            {
+                Cart = (ShopCart)dbContext.ShopCarts.FirstOrDefault(x => x.UserId.Equals(user.Id));
             }
 
-            ShopCart ShopCart = (ShopCart)dbContext.ShopCarts.FirstOrDefault(x => x.UserId.Equals(user.Id));
 
-            ViewData["ShopCart"] = ShopCart;
-            List<ShopCartItem> ShopCartItems = (List<ShopCartItem>)ShopCart.ShopCartItems;
+            ViewData["ShopCart"] = Cart;
+            List<ShopCartItem> ShopCartItems = (List<ShopCartItem>)Cart.ShopCartItems;
             List<InsufficientStock> insufficientStocks = (List<InsufficientStock>)dbContext.InsufficientStocks.ToList();
             ViewBag.stock = insufficientStocks;
             List<ShopCartItem> stocklist = new List<ShopCartItem>();
@@ -48,6 +79,40 @@ namespace CA1.Controllers
             return View();
         }
 
+        
+        private void stringtocart(string cartstr, Guid CartId)
+        {
+            string[] strarr = cartstr.Split(',');
+            Dictionary<Guid,int> freqdict = new Dictionary<Guid,int>();
+            ShopCart Cart = dbContext.ShopCarts.FirstOrDefault(x => x.Id == CartId);
+            foreach(string str in strarr)
+            {
+                Guid productid = Guid.Parse(str);
+                Debug.WriteLine("str:" + str);
+                Debug.WriteLine("productid:"+productid);
+                if (freqdict.ContainsKey(productid))
+                {
+                    freqdict[productid]++;
+                }
+                else
+                {
+                    freqdict.Add(productid, 1);
+                }
+            }
+
+            foreach(KeyValuePair<Guid,int> item in freqdict)
+            {
+                Debug.WriteLine("Key:"+item.Key);
+                Product product = dbContext.Products.FirstOrDefault(x => x.Id == item.Key);
+                ShopCartItem cartitem = new ShopCartItem(product)
+                {
+                    Quantity = item.Value,
+                    ShopCartId= Cart.Id
+                };
+                dbContext.ShopCartItems.Add(cartitem);
+            }
+            dbContext.SaveChanges();
+        }
 
         //public IActionResult PlusToCart(ShopCartItem item)
         //{
@@ -166,7 +231,7 @@ namespace CA1.Controllers
             User user = dbContext.Users.FirstOrDefault(x => x.sessionId == Guid.Parse(Request.Cookies["SessionId"]));
             List<InsufficientStock> insufficientStocks = dbContext.InsufficientStocks.ToList();
             ShopCart ShopCart = (ShopCart)dbContext.ShopCarts.FirstOrDefault(x => x.UserId.Equals(user.Id));
-            List<ShopCartItem> items = (List<ShopCartItem>) ShopCart.ShopCartItems;
+            
 
             if (user == null)
             {
@@ -175,6 +240,9 @@ namespace CA1.Controllers
 
             else
             {
+                ShopCart = (ShopCart)dbContext.ShopCarts.FirstOrDefault(x => x.UserId.Equals(user.Id)); //Get updated Cart 
+                List<ShopCartItem> items = (List<ShopCartItem>)ShopCart.ShopCartItems;
+
                 for (int i = 0; i < items.Count; i++)
                 {
                     ShopCartItem curr = items[i];
@@ -248,9 +316,6 @@ namespace CA1.Controllers
         {
             return RedirectToAction("Index", "Search");
         }
-
-
-
 
 
     }
