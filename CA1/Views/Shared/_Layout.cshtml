@@ -1,6 +1,6 @@
 ﻿<!DOCTYPE html>
 <html lang="en">
-    @using Microsoft.AspNetCore.Http;
+@using Microsoft.AspNetCore.Http;
 @using Microsoft.AspNetCore.Mvc;
 @{
     string sessionUserName = (string)Context.Request.Cookies["Username"];
@@ -13,13 +13,20 @@
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/lib/font-awesome/css/all.css" />
     <link rel="stylesheet" href="~/css/site.css" />
-
+    <style>
+        #example-search-input:focus {
+            width: 500px;
+        }
+    </style>
 </head>
 <body>
     <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-info border-bottom box-shadow mb-3 fixed-top">
             <div class="container">
-                <a class="navbar-brand" asp-area="" asp-controller="Search" asp-action="Index">Henry's E-Shop</a>
+                <a class="navbar-brand text-white" asp-area="" asp-controller="Search" asp-action="Index">
+                    <img src="/img/piggy-bank.svg" />
+                    Henry's E-Shop
+                </a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
                         aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
@@ -27,24 +34,27 @@
                 <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
                     <ul class="navbar-nav flex-grow-1">
                         <li class="navbar-nav flex-grow-1">
-                            <a class="nav-link text-dark" asp-controller="Search"><i></i>Products</a>
+                            <a class="nav-link text-white" asp-controller="Search"><i></i>Products</a>
                         </li>
                     </ul>
                     @*Product Searchbar*@
-                    <form class="form-inline my-2 my-lg-0" asp-controller="Search" asp-action="Index" style="padding-right: 35px;">
-                        <input name="searchstr" type="text" value="@searchStr" class="form-control" placeholder="Search for a product...">
-                        <button class="btn btn-outline-primary my-2 my-sm-0" type="submit">
-                            <span class="fa-solid fa-magnifying-glass"></span>
-                        </button>
+                    <form class="form-inline my-2 my-lg-0" style="padding-right: 35px;" action="/" method="post">
+                        <div class="input-group">
+                            <input class="form-control border-end-0 rounded border" type="search" value="@searchStr" name="searchstr" id="example-search-input">
+                            <span class="input-group-append">
+                                <button class="btn btn-outline-secondary bg-white border-start-0 border-bottom-0 border ms-n5" type="button">
+                                    <i class="fa fa-search"></i>
+                                </button>
+                            </span>
+                        </div>
                     </form>
                     @*Checkout cart*@
-                    <a style="padding-right:25px;" class="fa fa-cart-shopping" asp-controller="CheckOut" asp-action="Index"></a>
+                    <a class="fa fa-cart-shopping text-white mr-3" asp-controller="CheckOut" asp-action="Index"></a>
                     @*Account dropdown*@
                     <div class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            <i class="fa fa-user"></i>
+                        <a class="nav-link dropdown-toggle text-white" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <i class="fa fa-user text-white"></i>
                         </a>
-
                         <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                             <a class="dropdown-item"><b>@sessionUserName</b></a>
                             <a class="dropdown-item" asp-controller="Purchase" asp-action="Index">My Purchase</a>
@@ -71,7 +81,6 @@
             @RenderBody()
         </main>
     </div>
-
     <footer class="border-top footer text-muted">
         <div class="container">
             &copy; 2022 - Henry Store
