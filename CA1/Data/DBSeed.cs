@@ -4,9 +4,10 @@ using System.Text;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using CA1.Models;
 
 
-namespace CA1.Models
+namespace CA1.Data
 {
     public class DBSeed
     {
@@ -196,6 +197,21 @@ namespace CA1.Models
                 Firstname = "Henry",
                 Lastname = "Pig",
                 shopcart = cart2
+            });
+
+            string adminUser = "SuperUser";
+            string adminPassword = "Secret123";
+            string adminCombo = adminUser + adminPassword;
+            byte[] hashAdmin = sha.ComputeHash(Encoding.UTF8.GetBytes(adminCombo));
+
+            ShopCart cartAdmin = new ShopCart();
+            dbContext.Add(new User
+            {
+                UserName = adminUser,
+                PassHash = hashAdmin,
+                Firstname = "Henry",
+                Lastname = "Boss",
+                shopcart = cartAdmin
             });
 
             dbContext.SaveChanges();

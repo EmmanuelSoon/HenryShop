@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using CA1.Models;
+using CA1.Data;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -9,18 +10,22 @@ using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 
 
+
 namespace CA1.Controllers
 {
     public class SearchController : Controller
     {
         private DBContext dbContext;
+
         public SearchController(DBContext dbContext)
         {
             this.dbContext = dbContext;
         }
+
+
         public IActionResult Index(string searchstr)
-        {   
-            if(searchstr == null)
+        {
+            if (searchstr == null)
             {
                 List<Product> products = dbContext.Products.ToList();
                 ViewBag.Products = products;
@@ -28,9 +33,9 @@ namespace CA1.Controllers
             }
             else
             {
-                List<Product> products = dbContext.Products.Where(x => 
+                List<Product> products = dbContext.Products.Where(x =>
                     x.Name.Contains(searchstr) ||
-                    x.Desc.Contains(searchstr) 
+                    x.Desc.Contains(searchstr)
                 ).ToList();
                 ViewBag.Products = products;
             }
@@ -48,7 +53,7 @@ namespace CA1.Controllers
             User user = dbContext.Users.FirstOrDefault(x => (Request.Cookies["SessionId"] != null) && (x.sessionId == Guid.Parse(Request.Cookies["SessionId"])));
             Product product = dbContext.Products.FirstOrDefault(x => x.Id == req.Id);
 
-            if(user == null)
+            if (user == null)
             {
                 return RedirectToAction("Index", "LogIn");
             }
@@ -80,9 +85,9 @@ namespace CA1.Controllers
                     name = product.Name,
                 });
 
-
             }
 
         }
     }
+
 }

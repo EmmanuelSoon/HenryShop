@@ -13,6 +13,14 @@
 
   <ItemGroup>
     <Folder Include="wwwroot\img\" />
+    <Folder Include="Data\" />
+    <Folder Include="Data\Service\" />
+    <Folder Include="Views\Product\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Remove="Data\" />
+    <None Remove="Data\Services\" />
+    <None Remove="Views\Product\" />
+  </ItemGroup>
 </Project>

@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using CA1.Models;
 
-namespace CA1.Models
+namespace CA1.Data
 {
     public class DBContext: DbContext
     {
@@ -18,6 +19,7 @@ namespace CA1.Models
         public DbSet<InventoryRecord> InventoryRecords { get; set; }
         public DbSet<OrderDetail> OrderDetails { get; set;}
         public DbSet<InsufficientStock> InsufficientStocks { get; set; }
+        
     }
 
 }

@@ -9,6 +9,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using CA1.Models;
+using CA1.Data;
+using CA1.Data.Service;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Mvc;
 
@@ -27,10 +29,16 @@ namespace CA1
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllersWithViews();
+
+            //database config
             services.AddDbContext<DBContext>(options =>
                 options.UseLazyLoadingProxies().UseSqlServer(
                     Configuration.GetConnectionString("db_conn")));
+
             services.AddSession();
+
+            //services config
+            services.AddScoped<IProductService, ProductService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

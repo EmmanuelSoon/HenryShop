@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Mvc;
 using CA1.Models;
+using CA1.Data;
 using Microsoft.AspNetCore.Http;
 using System.Linq;
 using System;

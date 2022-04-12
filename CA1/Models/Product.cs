@@ -15,13 +15,13 @@ namespace CA1.Models
             ShopCartItems = new List<ShopCartItem>();
         }
         public Guid Id { get; set; }
-        [Required]
+        [Required(ErrorMessage ="Price is required.")]
         public float Price { get; set; }
-        [Required]
+        [Required(ErrorMessage = "Name of product is required.")]
         public string Name { get; set; }
-        [Required]
+        [Required(ErrorMessage = "Description of product is required.")]
         public string Desc { get; set; }
-        [Required]
+        [Required(ErrorMessage = "Image of product is required.")]
         public string Img { get; set; }
         public string DownLoadLink { get; set; }
 

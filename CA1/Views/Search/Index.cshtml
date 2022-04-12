@@ -1,9 +1,8 @@
-﻿
-@{
+﻿@{
     ViewData["Title"] = "Index";
     List<Product> products = (List<Product>)ViewBag.Products;
     string searchstr = (string)ViewBag.Searchstr;
-    string statement = (string)TempData["statement"];
+    string statement = (string)TempData["statement"]; 
 
 }
 
@@ -92,40 +91,54 @@
 
 
 <div class = "container">
-   <div class = "row row-content">
-       <div class = "col-10 offset-1">
-                @if (products.Count == 0)
+    <div class = "row row-content">
+        <div class = "col-10 offset-1">
+            @if (products.Count == 0)
+            {
+                @: there are no matches...
+            }
+            else
+            {
+            <div class= "card-deck">
+                @foreach(Product product in products)
                 {
-                    @: there are no matches...
-                }
-                else
-                {
-                    
-
-                    <div class= "card-deck">
-                    @foreach(Product product in products)
-                    {
-                        <div class="col-12 col-sm-4 mb-5 d-flex">
-                            <div class ="card">
-                                <img class="card-img-top" src = @product.Img alt = "image not found" height = "200"> 
-                                <div class="card-body">
-                                    <h5 class="card-header">@product.Name</h5>
-                                    <p class="card-text">@product.Desc</p>
-                                </div>
-                                <div class="card-body">
-                                    <a>$@product.Price</a>
-                                </div>
-                                <div class="card-footer bg-transparent"> 
+                    <div class="col-12 col-sm-4 mb-5 d-flex">
+                        <div class ="card">
+                            <img class="card-img-top" src=@product.Img alt="image not found" height="200">
+                            <div class="card-body">
+                                <h5 class="card-header">@product.Name</h5>
+                                <p class="card-text">@product.Desc</p>
+                            </div>
+                            <div class="card-body">
+                                <a>$@product.Price</a>
+                            </div>
+                            <div class="card-footer bg-transparent">
+                                <div>
                                     <button type="button" class="btn btn-outline-primary" value="@product.Id"><span class="fa-solid fa-cart-arrow-down"></span> Add to Cart</button>
                                 </div>
+
+
+                                <div>
+                                    @*https://codesinging.github.io/bootstrap-icons-font/*@
+                                    <a class="btn btn-outline-primary" asp-controller="Product" asp-action="Edit" asp-route-id="@product.Id"><i class="bi bi-pencil-info"></i>Edit</a>
+                                    <a class="btn btn-outline-info" asp-controller="Product" asp-action="Details" asp-route-id="@product.Id"><i class="bi bi-plus-circle"></i>Details</a>
+                                    <a class="btn btn-danger" asp-controller="Product" asp-action="Delete" asp-route-id="@product.Id"><i class="bi bi-trash"></i>Delete</a>
+                                </div>
+                            </div>
                         </div>
-                        </div>
-                    }
                     </div>
                 }
-       </div>
-   </div>
+            </div>
+            }
+        </div>
+    </div>
 </div>
+
+@*Create product button*@
+<div class="text-white text-center">
+    <a asp-controller="Product" asp-action="Create" class="btn btn-success"><i class="bi bi plus-circle"></i>Add New</a>
+</div>
+
 
 </body>
 
