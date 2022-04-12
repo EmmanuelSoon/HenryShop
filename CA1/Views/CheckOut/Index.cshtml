@@ -6,6 +6,7 @@
     float GST = total * (float) 0.07;
     float totalGST = total + GST;
     Func<float, int, float> sum = (a, b) => a * b;
+    Func<int, int> minus1 = (a) => a - 1;
 
 }
 
@@ -66,7 +67,7 @@
                                         </div>
                                             <div class ="card-body">
                                                 <div class ="btn btn-group-sm">
-                                                    <button type="button" class="btn btn-outline-danger"  value=@item.Id><span class="fa fa-caret-down"></span></button>
+                                                    <button type="button" class="btn btn-outline-danger" value=@item.Id data-value=@minus1(@item.Quantity) ><span class="fa fa-caret-down"></span></button>
                                                     <button type="button" class="btn btn-secondary">@item.Quantity</button>
                                                     <button type="button" class="btn btn-outline-success"  value=@item.Id><span class="fa fa-caret-up"></span></button>
                                                 </div>
