@@ -1,10 +1,13 @@
 ﻿
 @{
+
     ViewData["Title"] = "Index";
     List<Product> products = (List<Product>)ViewBag.Products;
     string searchstr = (string)ViewBag.Searchstr;
     string statement = (string)TempData["statement"];
 
+    //for the modal form
+    string boolean = (string)ViewBag.LoggedIn;
 }
 
 @section Scripts {
@@ -13,126 +16,162 @@
 
 
 <body>
-    <header class = "jumbotron">
-    <div class = "container">
-        <div class ="row row-header">
-            <div>
-                <div class ="col-12 col-sm">
-                    <img src = "img/logo.png" class ="img-fluid" width = "100" height = "100" />
+    <header class="jumbotron">
+        <div class="container">
+            <div class="row row-header">
+                <div>
+                    <div class="col-12 col-sm">
+                        <img src="img/logo.png" class="img-fluid" width="100" height="100" />
+
+                    </div>
+                </div>
+                <div class="col-sm-5">
+                    <h1>Team Henry's E-Shop</h1>
+                    <p>For your every .NET shopping needs!</p>
                 </div>
             </div>
-            <div class = "col-sm-5">
-               <h1>Team Henry's E-Shop</h1>
-               <p>For your every .NET shopping needs!</p>
-            </div>
         </div>
-    </div>
     </header>
 
 
 
-@*<div class = "container">
-    <div class = "row row-content">
-        <div class ="col-12 col-sm offset-1 mb-3" align-self-center>
-            <form>
-                <div class = "form-row">
-                    <input class= "col-3" name = "searchstr" value = "@searchstr" placeholder= "Search for items..."/> 
-                    <button type = "submit" class ="btn btn-primary">Search</button> 
+    @*<div class = "container">
+            <div class = "row row-content">
+                <div class ="col-12 col-sm offset-1 mb-3" align-self-center>
+                    <form>
+                        <div class = "form-row">
+                            <input class= "col-3" name = "searchstr" value = "@searchstr" placeholder= "Search for items..."/>
+                            <button type = "submit" class ="btn btn-primary">Search</button>
+                        </div>
+                    </form>
                 </div>
-            </form>
-        </div>
-    </div>
-</div>*@
+            </div>
+        </div>*@
 
-<div class= "container mb-5">
-    <div class = "row row-content">
-        <div class="col">
-            <div id="mycarousel" class="corousel slide" data-bs-ride="carousel" data-interval="3000">
-@*                <ol class="carousel-indicators"> (currently not working so i comment out first)
-                    <li data-bs-target="#mycarousel" data-slide-to="0" class="active"></li>
-                    <li data-bs-target="#mycarousel" data-slide-to="1"></li>
-                    <li data-bs-target="#mycarousel" data-slide-to="2"></li>
-                </ol>*@
-                <div class="carousel-inner" role="listbox">
-                    <div class="carousel-item active">
-                        <img class="d-block w-100" src = "~/img/bed.png" height="200"/>
+    <div class="container mb-5">
+        <div class="row row-content">
+            <div class="col">
+                <div id="mycarousel" class="corousel slide" data-bs-ride="carousel" data-interval="3000">
+                    @*                <ol class="carousel-indicators"> (currently not working so i comment out first)
+                            <li data-bs-target="#mycarousel" data-slide-to="0" class="active"></li>
+                            <li data-bs-target="#mycarousel" data-slide-to="1"></li>
+                            <li data-bs-target="#mycarousel" data-slide-to="2"></li>
+                        </ol>*@
+                    <div class="carousel-inner" role="listbox">
+                        <div class="carousel-item active">
+                            <img class="d-block w-100" src="~/img/Henryshop.png" height="400" />
+                        </div>
+                        <div class="carousel-item">
+                            <img class="d-block w-100" src="~/img/Henryshop4.png" height="400" />
+                        </div>
+                        <div class="carousel-item">
+                            <img class="d-block w-100" src="~/img/Henryshop3.png" height="400" />
+                        </div>
                     </div>
-                    <div class="carousel-item">
-                        <img class="d-block w-100" src = "~/img/chart.png" height="200"/>
-                    </div>
-                    <div class="carousel-item">
-                        <img class="d-block w-100" src = "~/img/top.png" height="200"/>
-                    </div>
+
+                    <a class="carousel-control-prev" data-bs-target="#mycarousel" role="button" data-bs-slide="prev">
+                        <span class="carousel-control-prev-icon"></span>
+                        <span class="sr-only">Previous</span>
+                    </a>
+                    <a class="carousel-control-next" data-bs-target="#mycarousel" role="button" data-bs-slide="next">
+                        <span class="carousel-control-next-icon"></span>
+                        <span class="sr-only">Next</span>
+                    </a>
                 </div>
-
-                <a class="carousel-control-prev" data-bs-target="#mycarousel" role="button" data-bs-slide="prev">
-                    <span class="carousel-control-prev-icon"></span>
-                    <span class="sr-only">Previous</span>
-                </a>
-                <a class="carousel-control-next" data-bs-target="#mycarousel" role="button" data-bs-slide="next">
-                    <span class="carousel-control-next-icon"></span>
-                    <span class="sr-only">Next</span>
-                </a>
             </div>
         </div>
     </div>
-</div>
 
 
-<div class="container">
-    <div class = "row row-content">
-        <div class="mt-3 mb-2 offset-1">
-            <h4>@statement</h4>
+    <div class="container">
+        <div class="row row-content">
+            <div class="mt-3 mb-2 offset-1">
+                <h4>@statement</h4>
+            </div>
         </div>
     </div>
-</div>
 
 
 
 
 
-<div class = "container">
-   <div class = "row row-content">
-       <div class = "col-10 offset-1">
+    <div class="container">
+        <div class="row row-content">
+            <div class="col-10 offset-1">
                 @if (products.Count == 0)
                 {
                     @: there are no matches...
                 }
                 else
                 {
-                    
 
-                    <div class= "card-deck">
-                    @foreach(Product product in products)
-                    {
-                        <div class="col-12 col-sm-4 mb-5 d-flex">
-                            <div class ="card">
-                                <img class="card-img-top" src = @product.Img alt = "image not found" height = "200"> 
-                                <div class="card-body">
-                                    <h5 class="card-header">@product.Name</h5>
-                                    <p class="card-text">@product.Desc</p>
-                                </div>
-                                <div class="card-body">
-                                    <a>$@product.Price</a>
-                                </div>
-                                <div class="card-footer bg-transparent"> 
-                                    <button type="button" class="btn btn-outline-primary" value="@product.Id"><span class="fa-solid fa-cart-arrow-down"></span> Add to Cart</button>
+
+                    <div class="card-deck">
+                        @foreach (Product product in products)
+                        {
+                            <div class="col-12 col-sm-4 mb-5 d-flex">
+                                <div class="card">
+                                    <img class="card-img-top" src=@product.Img alt="image not found" height="200">
+                                    <div class="card-body">
+                                        <h5 class="card-header">@product.Name</h5>
+                                        <p class="card-text">@product.Desc</p>
+                                    </div>
+                                    <div class="card-body">
+                                        <a>$@product.Price</a>
+                                    </div>
+                                    <div class="card-footer bg-transparent">
+
+                                        <button type="button" class="btn btn-outline-primary" data-toggle="modal" data-target="@boolean" value="@product.Id"><span class="fa-solid fa-cart-arrow-down"></span> Add to Cart</button>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
 
-                    }
+                        }
                     </div>
                 }
-       </div>
-   </div>
-</div>
-
-
-    
+            </div>
+        </div>
+    </div>
 
 </body>
 
+@*
+    modal form for login (to be put in checkout cart index)*@
+<form asp-controller="LogIn" asp-action="login" method="post">
+    <div class="modal fade" id="modalLoginForm" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+
+                <div class="modal-header text-center">
+                    <h4 class="modal-title w-100 font-weight-bold">Sign in</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body mx-3">
+                    <div class="md-form mb-5">
+                        <i class="fas fa-envelope prefix grey-text"></i>
+                        <input type="text" name="Username" defaultForm-email" class="form-control validate">
+                        <label data-error="wrong" data-success="right" for="defaultForm-email">Your email</label>
+                    </div>
+
+                    <div class="md-form mb-4">
+                        <i class="fas fa-lock prefix grey-text"></i>
+                        <input type="password" name="Password" id="defaultForm-pass" class="form-control validate">
+                        <label data-error="wrong" data-success="right" for="defaultForm-pass">Your password</label>
+                    </div>
+
+                </div>
+                <div class="modal-footer d-flex justify-content-center">
+                    <button class="btn btn-default">Login</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+</form>
 
 
 
