@@ -15,4 +15,14 @@ $('a[data-slide="next"]').click(function () {
     $('#mycarousel').carousel('next');
 });
 
+function copy(index) {
+    var copyText = document.getElementById(index);
+    navigator.clipboard.writeText(copyText.value);
+    alert("Copied the Code: " + copyText.value);
+}
 
+function copySingle(index) {
+    var copyText = document.getElementById(index);
+    navigator.clipboard.writeText(copyText.innerText);
+    alert("Copied the Code: " + copyText.innerText);
+}

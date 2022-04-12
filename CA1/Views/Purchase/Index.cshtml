@@ -2,8 +2,9 @@
     ViewData["Title"] = "MyPurchase";
     List<Order> Orders = (List<Order>)ViewData["Orders"];
     @*string searchstr = (string)ViewBag.Searchstr;
-    string statement = (string)TempData["statement"];*@
-
+        string statement = (string)TempData["statement"];*@
+    @*Index is the uniqueId assigned for html tag for the activation code display*@
+    int index = 0;
 }
 <body>
 
@@ -35,7 +36,7 @@
                 <div class="row">
                     <div class="col-md-4">
                         <div class="card">
-                            <img src="@order.Product.Img" width="400" height="250">
+                            <img src="@order.Product.Img" width="300" height="300">
                         </div>
                         <div class="card-body">
                             <h3 style="text-align: center;">@order.Product.Name</h3>
@@ -43,24 +44,35 @@
                             <p style="text-align: center;"><a href="@order.Product.DownLoadLink" class="btn btn-primary">Download</a></p>
                         </div>
                     </div>
-                    <div class="col-md-6">
+                    <div class="col-md-8">
                         <div class="card">
                             <div class="card-body">
                                 <br><br><br>
                                 <p>Purchased On: @order.CreatedDate</p>
                                 <p>Quantity: @order.Quantity</p>
                                 <p>
-                                    <select name="activationcode" id="activationcode">
-                                        @foreach (OrderDetail detail in order.OrderDetails)
-                                        {
-                                            <option><b>Activation Code: </b>@detail.ActivationId</option>
-                                        }
-                                    </select>
+                                    <b>Activation Code: </b>
+                                    @if(order.OrderDetails.Count > 1)
+                                    {
+                                        <select id="@index">
+                                            @foreach (OrderDetail detail in order.OrderDetails)
+                                            {
+                                                <option value="@detail.ActivationId">@detail.ActivationId</option>
+                                            }
+                                        </select>
+                                        <button onclick="copy(@index)">Copy Code</button>
+                                    }
+                                    else
+                                    {
+                                        <span id="@index">@order.OrderDetails.First().ActivationId</span>
+                                        <button onclick="copySingle(@index)">Copy Code</button>
+                                    }
                                 </p>
                             </div>
                         </div>
                     </div>
                 </div>
+                index++;
             }
         </div>
     }
