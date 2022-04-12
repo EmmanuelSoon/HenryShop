@@ -231,6 +231,7 @@ namespace CA1.Controllers
                         }
                         order.OrderDetails = orderlist;
                         dbContext.Orders.Add(order);
+                        dbContext.ShopCartItems.Remove(curr);
                     }
 
                     dbContext.SaveChanges();
