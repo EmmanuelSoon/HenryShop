@@ -7,6 +7,10 @@
 
 }
 
+@section Scripts {
+    <script src="~/js/Home.js"></script>
+}
+
 
 <body>
     <header class = "jumbotron">
@@ -44,11 +48,11 @@
     <div class = "row row-content">
         <div class="col">
             <div id="mycarousel" class="corousel slide" data-bs-ride="carousel" data-interval="3000">
-                <ol class="carousel-indicators">
+@*                <ol class="carousel-indicators"> (currently not working so i comment out first)
                     <li data-bs-target="#mycarousel" data-slide-to="0" class="active"></li>
                     <li data-bs-target="#mycarousel" data-slide-to="1"></li>
                     <li data-bs-target="#mycarousel" data-slide-to="2"></li>
-                </ol>
+                </ol>*@
                 <div class="carousel-inner" role="listbox">
                     <div class="carousel-item active">
                         <img class="d-block w-100" src = "~/img/bed.png" height="200"/>
@@ -111,8 +115,8 @@
                                 <div class="card-body">
                                     <a>$@product.Price</a>
                                 </div>
-                                <div class="card-body"> 
-                                    @Html.ActionLink("Add to Cart","AddtoCart", "Search", product, new {@class="btn btn-outline-primary"})
+                                <div class="card-footer bg-transparent"> 
+                                    <button type="button" class="btn btn-outline-primary" value="@product.Id"><span class="fa-solid fa-cart-arrow-down"></span> Add to Cart</button>
                                 </div>
                         </div>
                         </div>

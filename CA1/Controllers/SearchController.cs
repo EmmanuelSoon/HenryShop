@@ -42,10 +42,11 @@ namespace CA1.Controllers
 
 
         //adding to cart, if user not logged in, we send the user to the log in page.
-        public IActionResult AddtoCart(Product product)
+        public IActionResult AddtoCart([FromBody] Product req)
         {
 
             User user = dbContext.Users.FirstOrDefault(x => (Request.Cookies["SessionId"] != null) && (x.sessionId == Guid.Parse(Request.Cookies["SessionId"])));
+            Product product = dbContext.Products.FirstOrDefault(x => x.Id == req.Id);
 
             if(user == null)
             {
@@ -73,13 +74,13 @@ namespace CA1.Controllers
 
                 dbContext.SaveChanges();
 
+                return Json(new
+                {
+                    status = "success",
+                    name = product.Name,
+                });
 
-                string name = product.Name;
-                string statement = name + " added to Cart!";
 
-                TempData["statement"] = statement;
-
-                return RedirectToAction("Index", "Search");
             }
 
         }
