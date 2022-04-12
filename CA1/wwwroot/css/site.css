@@ -92,3 +92,6 @@ td, th {
     border-radius: 100%;
 }
 
+button span {
+    pointer-events: none;
+}

@@ -1,22 +1,34 @@
 ﻿window.onload = function () {
-    let adding = document.getElementById("AddQuantity");
-    let minus = document.getElementById("MinusQuantity");
-    let remove = document.getElementById("RemoveItem");
+    
+    let adding = document.getElementsByClassName("btn-outline-success");
+    let minus = document.getElementsByClassName("btn-outline-danger")
+    let remove = document.getElementsByClassName("btn-danger")
 
 
-    adding.onclick = function () {
-        PlusToCart(adding.value)
+    for (let i = 0; i < adding.length; i++) {
+        adding[i].addEventListener('click', Addclick);
     }
 
-    minus.onclick = function () {
-        MinusFromCart(minus.value);
+    for (let i = 0; i < adding.length; i++) {
+        minus[i].addEventListener('click', Minusclick);
     }
 
-    remove.onclick = function () {
-        RemoveFromCart1(remove.value);
+    for (let i = 0; i < adding.length; i++) {
+        remove[i].addEventListener('click', Removeclick);
+    }
+
+    function Addclick(event) {
+        PlusToCart(event.target.value);
+    }
+
+    function Minusclick(event) {
+        MinusFromCart(event.target.value);
+    }
+
+    function Removeclick(event) {
+        RemoveFromCart1(event.target.value);
     }
 }
-
 
 
 
