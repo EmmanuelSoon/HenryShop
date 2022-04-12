@@ -20,10 +20,10 @@ namespace CA1.Controllers
         }
         public IActionResult Index()
         {
-            User user = dbContext.Users.FirstOrDefault(x => x.sessionId == Guid.Parse(Request.Cookies["SessionId"]));
+            User user = dbContext.Users.FirstOrDefault(x => (Request.Cookies["SessionId"] != null) && (x.sessionId == Guid.Parse(Request.Cookies["SessionId"])));
             if (user == null)
             {
-                return RedirectToAction("Index", "logIn");
+                return RedirectToAction("Index", "LogIn");
             }
 
             ShopCart ShopCart = (ShopCart)dbContext.ShopCarts.FirstOrDefault(x => x.UserId.Equals(user.Id));
