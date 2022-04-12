@@ -1,19 +1,19 @@
 ﻿window.onload = function () {
     
     let adding = document.getElementsByClassName("btn-outline-success");
-    let minus = document.getElementsByClassName("btn-outline-danger")
-    let remove = document.getElementsByClassName("btn-danger")
+    let minus = document.getElementsByClassName("btn-outline-danger");
+    let remove = document.getElementsByClassName("btn-danger");
 
 
     for (let i = 0; i < adding.length; i++) {
         adding[i].addEventListener('click', Addclick);
     }
 
-    for (let i = 0; i < adding.length; i++) {
+    for (let i = 0; i < minus.length; i++) {
         minus[i].addEventListener('click', Minusclick);
     }
 
-    for (let i = 0; i < adding.length; i++) {
+    for (let i = 0; i < remove.length; i++) {
         remove[i].addEventListener('click', Removeclick);
     }
 
@@ -22,7 +22,12 @@
     }
 
     function Minusclick(event) {
-        MinusFromCart(event.target.value);
+        if (event.target.getAttribute('data-value') <= 0) {
+            RemoveFromCart1(event.target.getAttribute('value'));
+        }
+        else {
+            MinusFromCart(event.target.getAttribute('value'));
+        }
     }
 
     function Removeclick(event) {
@@ -87,26 +92,28 @@ function MinusFromCart(id) {
 
 
 function RemoveFromCart1(id) {
-    let xhr = new XMLHttpRequest();
+    if (confirm("Remove item from Cart?")) {
+        let xhr = new XMLHttpRequest();
 
-    xhr.open("POST", "/CheckOut/RemoveFromCart1");
+        xhr.open("POST", "/CheckOut/RemoveFromCart1");
 
-    xhr.setRequestHeader("Content-Type", "application/json; charset=utf8");
+        xhr.setRequestHeader("Content-Type", "application/json; charset=utf8");
 
-    xhr.onreadystatechange = function () {
-        if (this.readyState == XMLHttpRequest.DONE) {
-            if (this.status == 200) {
-                let data = JSON.parse(this.responseText);
+        xhr.onreadystatechange = function () {
+            if (this.readyState == XMLHttpRequest.DONE) {
+                if (this.status == 200) {
+                    let data = JSON.parse(this.responseText);
 
 
-                if (data.status == "success") {
-                    window.location.reload(true);
+                    if (data.status == "success") {
+                        window.location.reload(true);
+                    }
                 }
             }
         }
+
+        let req = { "Id": id }
+
+        xhr.send(JSON.stringify(req));
     }
-
-    let req = { "Id": id }
-
-    xhr.send(JSON.stringify(req));
 }
