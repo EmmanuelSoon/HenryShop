@@ -61,3 +61,25 @@ window.onload = function () {
 function Clickfordetail(event) {
     showreview(event.target.id);
 }
+
+//Add validation checking when user submit product review
+window.onload = function()
+{
+
+let form = document.getElementById("reviewform");
+    form.onsubmit = function ()
+    {
+        let rate = document.getElementById("rate");
+        let content = document.getElementById("content");
+            if (content.value.length == 0) {
+            alert("The Content can not be empty");
+                return false;
+            }
+            if (content.value.length > 250)
+            {
+                alert("The Content can not more than 250 characters!");
+                return false;
+            }
+            alert("Your review was sucessfully submitted!");
+            }
+}
