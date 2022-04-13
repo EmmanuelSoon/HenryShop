@@ -55,11 +55,11 @@ namespace CA1.Controllers
                 Expires = DateTime.Now.AddMinutes(360),
             };
 
-            if (user == null)
+            if (user == null) //user has not log in yet
             {
-                if(Request.Cookies["CartId"] == null)
+                if(Request.Cookies["CartId"] == null) //user has not gone to the cart page before in the current session
                 {
-                    if (Request.Cookies["Temp"] == null)
+                    if (Request.Cookies["Temp"] == null) //user has not added to cart yet 
                     {
                         string str = product.Id.ToString();
                         Response.Cookies.Append("Temp", str, opts);
@@ -79,7 +79,7 @@ namespace CA1.Controllers
                     });
 
                 }
-                else
+                else //user gone to cart page before in session 
                 {
                     Guid CartId = Guid.Parse(Request.Cookies["CartId"]);
                     ShopCart cart = dbContext.ShopCarts.FirstOrDefault(x => x.Id == CartId);
@@ -87,7 +87,7 @@ namespace CA1.Controllers
                 }
 
             }
-            else
+            else //user log in already 
             {
                 ShopCart cart = dbContext.ShopCarts.FirstOrDefault(x => x.UserId == user.Id);
                 return AddHelper(cart, product);
@@ -95,7 +95,10 @@ namespace CA1.Controllers
 
         }
 
-        public IActionResult AddHelper(ShopCart cart, Product product)
+
+
+ /*---------------------------HELPER FUNCTIONS HERE-----------------------------------*/
+        private IActionResult AddHelper(ShopCart cart, Product product)
         {
             ShopCartItem cartitem = dbContext.ShopCartItems.FirstOrDefault(x => x.ShopCartId == cart.Id && x.Product.Id == product.Id);
 
@@ -123,7 +126,7 @@ namespace CA1.Controllers
             });
         }
 
-        public bool CleanUp()
+        private bool CleanUp()
         {
             List<ShopCart> carts = dbContext.ShopCarts.Where(x => x.UserId == null).ToList();
 

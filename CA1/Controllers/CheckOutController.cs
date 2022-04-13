@@ -25,7 +25,6 @@ namespace CA1.Controllers
             User user = dbContext.Users.FirstOrDefault(x => (Request.Cookies["SessionId"] != null) && (x.sessionId == Guid.Parse(Request.Cookies["SessionId"])));
             ShopCart Cart = new ShopCart();
 
-
             if (user == null)
             {
                 if(Request.Cookies["CartId"] == null)
@@ -198,7 +197,7 @@ namespace CA1.Controllers
                 List<ShopCartItem> insuff_stock = new List<ShopCartItem>();
                 List<int> insuff_stock_qty = new List<int>();
 
-                for (int i = 0; i < items.Count; i++)
+                for (int i = 0; i < items.Count; i++) //Checking if our inventory has enough for the order 
                 {
                     ShopCartItem curr = items[i];
                     List<InventoryRecord> invlist = dbContext.InventoryRecords.Where(x => x.ProductId == curr.ProductId).ToList();
@@ -208,11 +207,11 @@ namespace CA1.Controllers
                     {
                         insuff_stock.Add(curr);
                         insuff_stock_qty.Add(invlist.Count);
-                    
 
                     }
                 }
-                if (insuff_stock.Count != 0)
+
+                if (insuff_stock.Count != 0) //not enough, let user know, get user to change 
                 {
                     TempData["stocklist"] = JsonConvert.SerializeObject(insuff_stock, new JsonSerializerSettings()
                     {
@@ -229,7 +228,7 @@ namespace CA1.Controllers
 
 
 
-                else //creates new orders and add it into Db
+                else //if have enough, creates new orders and add it into Db
                 {
                     for (int i = 0; i < items.Count; i++)
                     {

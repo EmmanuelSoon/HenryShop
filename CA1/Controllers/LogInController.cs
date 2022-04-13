@@ -118,6 +118,9 @@ namespace CA1.Controllers
         }
 
 
+
+ /*---------------------------HELPER FUNCTIONS HERE-----------------------------------*/
+
         private void CombineCarts(Guid tempcartid, ShopCart Cart)
         {
             ShopCart temp = dbContext.ShopCarts.FirstOrDefault(x => x.Id == tempcartid);
