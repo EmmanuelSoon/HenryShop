@@ -228,14 +228,14 @@ namespace CA1.Controllers
 
         public IActionResult CheckOutCart()
         {
-            User user = dbContext.Users.FirstOrDefault(x => x.sessionId == Guid.Parse(Request.Cookies["SessionId"]));
+            User user = dbContext.Users.FirstOrDefault(x => (Request.Cookies["SessionId"] != null) && (x.sessionId == Guid.Parse(Request.Cookies["SessionId"])));
             List<InsufficientStock> insufficientStocks = dbContext.InsufficientStocks.ToList();
-            ShopCart ShopCart = (ShopCart)dbContext.ShopCarts.FirstOrDefault(x => x.UserId.Equals(user.Id));
+            ShopCart ShopCart = (ShopCart)dbContext.ShopCarts.FirstOrDefault(x => (Request.Cookies["SessionId"] != null) && (x.UserId.Equals(user.Id)));
             
 
             if (user == null)
             {
-                return RedirectToAction("Index", "logIn");
+                return RedirectToAction("Index", "LogIn");
             }
 
             else
