@@ -71,6 +71,14 @@ namespace CA1.Controllers
                 user.sessionId = Guid.NewGuid();
                 dbContext.SaveChanges();
 
+                //Combine temp cart if needed.
+                if (Request.Cookies["CartId"] != null)
+                {
+                    ShopCart UserCart = dbContext.ShopCarts.FirstOrDefault(x => x.UserId == user.Id);
+                    Guid cartid = Guid.Parse(Request.Cookies["CartId"]);
+                    CombineCarts(cartid, UserCart);
+                    Response.Cookies.Delete("CartId");
+                }
 
                 // ask browser to save and send back these cookies next time
                 Response.Cookies.Append("SessionId", user.sessionId.ToString());
@@ -108,5 +116,22 @@ namespace CA1.Controllers
 
             return RedirectToAction("Index", "LogIn");
         }
+
+
+        private void CombineCarts(Guid tempcartid, ShopCart Cart)
+        {
+            ShopCart temp = dbContext.ShopCarts.FirstOrDefault(x => x.Id == tempcartid);
+            List<ShopCartItem> items = (List<ShopCartItem>)temp.ShopCartItems;
+
+            foreach (ShopCartItem item in items)
+            {
+                item.ShopCartId = Cart.Id;
+                dbContext.ShopCartItems.Update(item);
+            }
+
+            dbContext.ShopCarts.Remove(temp);
+            dbContext.SaveChanges();
+        }
     }
+
 }

@@ -63,7 +63,8 @@
                                                 <p class="card-text">@item.Product.Desc</p>
                                             </div>
                                         <div class="card-body">
-                                                <a>Total: $ @sum(@item.Product.Price,@item.Quantity)</a>
+                                                <a>Unit Price: $ @item.Product.Price</a><br/>
+                                                <a>Subtotal: $ @sum(@item.Product.Price,@item.Quantity)</a>
                                         </div>
                                             <div class ="card-body">
                                                 <div class ="btn btn-group-sm">

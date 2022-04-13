@@ -11,7 +11,21 @@
         </button>
     </div>
 }
-<div class="container bg-light mt-5">
+
+<link rel="stylesheet" href="css/style.css">
+
+<style>
+.navbar {
+    display: none;
+    visibility: hidden;
+}
+</style>
+
+@section Scripts {
+    <script src="~/js/main.js"></script>
+}
+
+@*<div class="container bg-light mt-5">
     <div class="row">
         <div class="col my-3">
             <form action="/LogIn/Login" method="post">
@@ -41,4 +55,44 @@
             <img src="/img/bg_1.png" class="img-fluid" alt="image" />
         </div>
     </div>
-</div>
+</div>*@
+
+	<body class="img js-fullheight" style="background-image: url(images/bg.jpg);">
+	<section class="ftco-section">
+		<div class="container">
+			<div class="row justify-content-center">
+				<div class="col-md-6 text-center mb-5">
+					<h2 class="heading-section">Login</h2>
+				</div>
+			</div>
+			<div class="row justify-content-center">
+				<div class="col-md-6 col-lg-4">
+					<div class="login-wrap p-0">
+		      	<h3 class="mb-4 text-center">Have an account?</h3>
+		      	 <form action="/LogIn/Login" method="post">
+		      		<div class="form-group">
+		      			<input type="text" class="form-control" placeholder="Username" name="Username" required>
+		      		</div>
+	            <div class="form-group">
+	              <input id="password-field" type="password" class="form-control" placeholder="Password" name="Password" required>
+	              <span toggle="#password-field" class="fa fa-fw fa-eye field-icon toggle-password"></span>
+@*				  <input type="password" name="Password" id="password-field" required>
+					<i  toggle="#password-field" class="fa fa-fw fa-eye field-icon toggle-password" cursor: pointer;"></i>*@
+	            </div>
+
+
+
+
+	            <div class="form-group">
+	            	<button type="submit" class="form-control btn btn-primary submit px-3">Sign In</button>
+	            </div>
+                </form>
+		      </div>
+				</div>
+			</div>
+		</div>
+	</section>
+
+
+</body>
+

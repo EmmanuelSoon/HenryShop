@@ -5,15 +5,22 @@
     let remove = document.getElementsByClassName("btn-danger");
 
 
+    //for (let i = 0; i < adding.length; i++) {
+    //    adding[i].addEventListener('click', Addclick);
+    //}
+
+    //for (let i = 0; i < minus.length; i++) {
+    //    minus[i].addEventListener('click', Minusclick);
+    //}
+
+    //for (let i = 0; i < remove.length; i++) {
+    //    remove[i].addEventListener('click', Removeclick);
+    //}
+
+    // combine above three codes
     for (let i = 0; i < adding.length; i++) {
         adding[i].addEventListener('click', Addclick);
-    }
-
-    for (let i = 0; i < minus.length; i++) {
         minus[i].addEventListener('click', Minusclick);
-    }
-
-    for (let i = 0; i < remove.length; i++) {
         remove[i].addEventListener('click', Removeclick);
     }
 
@@ -31,7 +38,7 @@
     }
 
     function Removeclick(event) {
-        RemoveFromCart1(event.target.value);
+        RemoveFromCart1(event.target.value);       
     }
 }
 
