@@ -183,7 +183,6 @@ namespace CA1.Controllers
         public IActionResult CheckOutCart()
         {
             User user = dbContext.Users.FirstOrDefault(x => (Request.Cookies["SessionId"] != null) && (x.sessionId == Guid.Parse(Request.Cookies["SessionId"])));
-            List<InsufficientStock> insufficientStocks = dbContext.InsufficientStocks.ToList();
             ShopCart ShopCart = (ShopCart)dbContext.ShopCarts.FirstOrDefault(x => (Request.Cookies["SessionId"] != null) && (x.UserId.Equals(user.Id)));
             
 
