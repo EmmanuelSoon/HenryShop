@@ -23,4 +23,7 @@
     <None Remove="Data\Services\" />
     <None Remove="Views\Product\" />
   </ItemGroup>
+  <ItemGroup>
+    <Compile Remove="Data\UserRole.cs" />
+  </ItemGroup>
 </Project>

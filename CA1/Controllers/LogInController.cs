@@ -9,6 +9,7 @@ using CA1.Data;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
+
 // For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace CA1.Controllers
@@ -77,6 +78,7 @@ namespace CA1.Controllers
                 Response.Cookies.Append("SessionId", user.sessionId.ToString());
                 Response.Cookies.Append("Username", user.UserName);
                 Response.Cookies.Append("Name", user.Firstname + user.Lastname);
+                Response.Cookies.Append("Role", user.UserRole);
 
                 return RedirectToAction("Index", "Search");
             }

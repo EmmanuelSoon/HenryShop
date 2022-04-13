@@ -14,10 +14,10 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace CA1.Controllers
 {
+
     public class ProductController : Controller
     {
         private readonly IProductService service;
-        private readonly DBContext dbContext;
 
         public ProductController(IProductService service)
         {
@@ -67,7 +67,7 @@ namespace CA1.Controllers
             return View(productDetails);
         }
         [HttpPost]
-        public async Task<IActionResult> Update(Guid Id,[Bind("Id,Name,Img,Price,Desc")] Product product)
+        public async Task<IActionResult> Update(Guid Id, [Bind("Id,Name,Img,Price,Desc")] Product product)
         {
             if (!ModelState.IsValid)
             {

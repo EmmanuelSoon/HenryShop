@@ -1,9 +1,10 @@
 ﻿using System;
+using CA1.Data;
 using System.ComponentModel.DataAnnotations;
 
 namespace CA1.Models
 {
-	public class User
+	public class User 
 	{
 		public User()
 		{
@@ -24,9 +25,13 @@ namespace CA1.Models
 		[MaxLength(100)]
 		public string Lastname { get; set; }
 
+
 		public Guid? sessionId { get; set; }
+
+		public string UserRole { get; set; }
 
 		/* navigational property: 1-to-1 relationship to shopcart */
 		public virtual ShopCart shopcart { get; set; }
+
 	}
 }

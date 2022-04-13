@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using CA1.Models;
+using CA1.Data;
 
 
 namespace CA1.Data
@@ -164,6 +165,8 @@ namespace CA1.Data
             dbContext.SaveChanges();
         }
 
+      
+
         public void SeedUser()
         {
             // get a hash algorithm object
@@ -174,6 +177,7 @@ namespace CA1.Data
             string combo = username + password;
             byte[] hash = sha.ComputeHash(Encoding.UTF8.GetBytes(combo));
 
+            
             ShopCart cart = new ShopCart();
             dbContext.Add(new User
             {
@@ -181,8 +185,11 @@ namespace CA1.Data
                 PassHash = hash,
                 Firstname = "Mary",
                 Lastname = "Lamb",
+                UserRole = "User",
                 shopcart = cart
             });
+            
+           
 
             string username2 = "user2";
             string password2 = "password2";
@@ -196,8 +203,11 @@ namespace CA1.Data
                 PassHash = hash2,
                 Firstname = "Henry",
                 Lastname = "Pig",
+                UserRole = "User",
                 shopcart = cart2
             });
+
+
 
             string adminUser = "SuperUser";
             string adminPassword = "Secret123";
@@ -211,6 +221,7 @@ namespace CA1.Data
                 PassHash = hashAdmin,
                 Firstname = "Henry",
                 Lastname = "Boss",
+                UserRole = "Admin",
                 shopcart = cartAdmin
             });
 

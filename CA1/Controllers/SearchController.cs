@@ -61,7 +61,7 @@ namespace CA1.Controllers
             {
                 ShopCart cart = dbContext.ShopCarts.FirstOrDefault(x => x.UserId == user.Id);
                 ShopCartItem cartitem = dbContext.ShopCartItems.FirstOrDefault(x => x.ShopCartId == cart.Id && x.Product.Id == product.Id);
-
+                
                 if (cartitem != null)
                 {
                     cartitem.Quantity++;
