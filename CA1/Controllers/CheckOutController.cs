@@ -6,6 +6,7 @@ using System.Linq;
 using System.Collections.Generic;
 using System;
 using System.Diagnostics;
+using Newtonsoft.Json;
 
 namespace CA1.Controllers
 {
@@ -29,6 +30,7 @@ namespace CA1.Controllers
             {
                 if(Request.Cookies["CartId"] == null)
                 {
+                    //User first time click on cart page after adding to cart without logging in 
                     if(Request.Cookies["Temp"] != null)
                     {
                         Guid cartid = Guid.NewGuid();
@@ -52,29 +54,34 @@ namespace CA1.Controllers
                         Response.Cookies.Delete("Temp");
                     }
                 }
-                else
+                else //still not log in, moved to search page then back to cart 
                 {
                     Guid CartId = Guid.Parse(Request.Cookies["CartId"]);
                     Cart = (ShopCart)dbContext.ShopCarts.FirstOrDefault(x => x.Id == CartId);
                 }
             }
-            else
+            else //logged in already 
             {
                 Cart = (ShopCart)dbContext.ShopCarts.FirstOrDefault(x => x.UserId.Equals(user.Id));
             }
 
 
-            ViewData["ShopCart"] = Cart;
             List<ShopCartItem> ShopCartItems = (List<ShopCartItem>)Cart.ShopCartItems;
-            List<InsufficientStock> insufficientStocks = (List<InsufficientStock>)dbContext.InsufficientStocks.ToList();
-            ViewBag.stock = insufficientStocks;
-            List<ShopCartItem> stocklist = new List<ShopCartItem>();
-            float total = 0;
-            foreach (var item in insufficientStocks)
+            List<ShopCartItem> insuff_stock = new List<ShopCartItem>();
+            List<int> insuff_stock_qty = new List<int>();
+            if (TempData.Peek("stocklist") != null)
             {
-                stocklist.Add(item.ShopCartItem);
+                insuff_stock = JsonConvert.DeserializeObject<List<ShopCartItem>>((string)TempData.Peek("stocklist"));
+                insuff_stock_qty = JsonConvert.DeserializeObject<List<int>>((string)TempData.Peek("stockcount"));
+
             }
-            ViewBag.stocklist = stocklist;
+
+            ViewData["ShopCart"] = ShopCartItems;
+            ViewData["stocklist"] = insuff_stock;
+            ViewData["stockcount"] = insuff_stock_qty;
+
+
+            float total = 0;
             for (int i = 0; i < ShopCartItems.Count; i++)
             {
                 total += ShopCartItems[i].Product.Price * ShopCartItems[i].Quantity;
@@ -84,51 +91,13 @@ namespace CA1.Controllers
             return View();
         }
 
-        
-        private void stringtocart(string cartstr, Guid CartId)
-        {
-            string[] strarr = cartstr.Split(',');
-            Dictionary<Guid,int> freqdict = new Dictionary<Guid,int>();
-            ShopCart Cart = dbContext.ShopCarts.FirstOrDefault(x => x.Id == CartId);
-            foreach(string str in strarr)
-            {
-                Guid productid = Guid.Parse(str);
-                Debug.WriteLine("str:" + str);
-                Debug.WriteLine("productid:"+productid);
-                if (freqdict.ContainsKey(productid))
-                {
-                    freqdict[productid]++;
-                }
-                else
-                {
-                    freqdict.Add(productid, 1);
-                }
-            }
 
-            foreach(KeyValuePair<Guid,int> item in freqdict)
-            {
-                Debug.WriteLine("Key:"+item.Key);
-                Product product = dbContext.Products.FirstOrDefault(x => x.Id == item.Key);
-                ShopCartItem cartitem = new ShopCartItem(product)
-                {
-                    Quantity = item.Value,
-                    ShopCartId= Cart.Id
-                };
-                dbContext.ShopCartItems.Add(cartitem);
-            }
-            dbContext.SaveChanges();
+        public IActionResult Home()
+        {
+            return RedirectToAction("Index", "Search");
         }
 
-        //public IActionResult PlusToCart(ShopCartItem item)
-        //{
-        //    item.Quantity++;
 
-        //    dbContext.ShopCartItems.Update(item);
-        //    dbContext.SaveChanges();
-
-        //    return RedirectToAction("Index");
-
-        //}
 
         public IActionResult PlusToCart([FromBody] ShopCartItem req)
         {
@@ -152,7 +121,7 @@ namespace CA1.Controllers
                 item.Quantity--;
                 if(item.Quantity <= 0)
                 {
-                    return RemoveFromCart1(req);
+                    return RemoveFromCart(req);
                 }
             
                 dbContext.ShopCartItems.Update(item);
@@ -163,36 +132,23 @@ namespace CA1.Controllers
             return Json(new { status = "fail" });
         }
 
-        //public IActionResult MinusFromCart(ShopCartItem item)
-        //{
-        //    item.Quantity--;
-        //    if (item.Quantity == 0)
-        //    {
-        //        return RemoveFromCart1(item);
-        //    }        
 
-        //    dbContext.ShopCartItems.Update(item);
-        //    dbContext.SaveChanges();
-
-        //    return RedirectToAction("Index");
-
-
-        //}
-
-        //public IActionResult RemoveFromCart1(ShopCartItem item)
-        //{
-        //    dbContext.ShopCartItems.Remove(item);
-
-        //    dbContext.SaveChanges();
-
-        //    return RedirectToAction("Index");
-        //}
-
-        public IActionResult RemoveFromCart1([FromBody] ShopCartItem req)
+        public IActionResult RemoveFromCart([FromBody] ShopCartItem req)
         {
             ShopCartItem item = dbContext.ShopCartItems.FirstOrDefault(x => x.Id.Equals(req.Id));
+            if(TempData.Peek("stocklist") != null)
+            {
+                List<ShopCartItem> insuff_stock = JsonConvert.DeserializeObject<List<ShopCartItem>>((string)TempData.Peek("stocklist"));
+                List<int> insuff_stock_qty = JsonConvert.DeserializeObject<List<int>>((string)TempData.Peek("stockcount"));
+                if (item != null) 
+                { 
+                    updateLists(item); 
+                }
+            }
+
             if (item != null)
             {
+
                 dbContext.ShopCartItems.Remove(item);
                 dbContext.SaveChanges();
                 return Json(new { status = "success" });
@@ -202,34 +158,27 @@ namespace CA1.Controllers
         }
 
 
-        public IActionResult RemoveFromCart2(InsufficientStock stock)
-        {
-            ShopCartItem shopCartItem = dbContext.ShopCartItems.FirstOrDefault(x=> x.Id == stock.ShopCartItemId);
-            dbContext.ShopCartItems.Remove(shopCartItem);
-            dbContext.InsufficientStocks.Remove(stock);
-            dbContext.SaveChanges();
 
-            return RedirectToAction("Index");
-        }
-
-        public IActionResult ChangeQ(InsufficientStock stock)
+        public IActionResult ChangeQ(Guid itemid, int stockqty)
         {
-            if (stock.Quantity == 0)
+            ShopCartItem item = dbContext.ShopCartItems.FirstOrDefault(x => x.Id == itemid);
+            if (stockqty == 0)
             {
-                return RemoveFromCart2(stock);
+
+                return RemoveFromCart(item);
             }
             else
             {
-                ShopCartItem shopCartItem = dbContext.ShopCartItems.FirstOrDefault(x => x.Id == stock.ShopCartItemId);
-                shopCartItem.Quantity = stock.Quantity;
-                dbContext.ShopCartItems.Update(shopCartItem);
-                dbContext.InsufficientStocks.Remove(stock);
+                item.Quantity = stockqty;
+                dbContext.ShopCartItems.Update(item);
                 dbContext.SaveChanges();
-
+                updateLists(item);
                 return RedirectToAction("Index");
             }
 
         }
+
+
 
         public IActionResult CheckOutCart()
         {
@@ -240,7 +189,6 @@ namespace CA1.Controllers
 
             if (user == null)
             {
-
                 return RedirectToAction("Index", "LogIn");
             }
 
@@ -248,32 +196,41 @@ namespace CA1.Controllers
             {
                 ShopCart = (ShopCart)dbContext.ShopCarts.FirstOrDefault(x => x.UserId.Equals(user.Id)); //Get updated Cart 
                 List<ShopCartItem> items = (List<ShopCartItem>)ShopCart.ShopCartItems;
+                List<ShopCartItem> insuff_stock = new List<ShopCartItem>();
+                List<int> insuff_stock_qty = new List<int>();
 
                 for (int i = 0; i < items.Count; i++)
                 {
                     ShopCartItem curr = items[i];
                     List<InventoryRecord> invlist = dbContext.InventoryRecords.Where(x => x.ProductId == curr.ProductId).ToList();
+
+
                     if (invlist.Count < curr.Quantity)
                     {
-                        InsufficientStock insufficientStock = new InsufficientStock
-                        {
-                            ShopCartItemId = curr.Id,
-                            Quantity = invlist.Count
-                        };
-                        if (!insufficientStocks.Contains(insufficientStock))
-                        {
-                            dbContext.InsufficientStocks.Add(insufficientStock);
-                            dbContext.SaveChanges();
-                        }
+                        insuff_stock.Add(curr);
+                        insuff_stock_qty.Add(invlist.Count);
+                    
+
                     }
                 }
-                insufficientStocks = dbContext.InsufficientStocks.ToList();
-
-                if (insufficientStocks.Count != 0)
+                if (insuff_stock.Count != 0)
                 {
+                    TempData["stocklist"] = JsonConvert.SerializeObject(insuff_stock, new JsonSerializerSettings()
+                    {
+                        ReferenceLoopHandling = ReferenceLoopHandling.Ignore,
+                        PreserveReferencesHandling = PreserveReferencesHandling.Objects
+                });
+                    TempData["stockcount"] = JsonConvert.SerializeObject(insuff_stock_qty, new JsonSerializerSettings()
+                    {
+                        ReferenceLoopHandling = ReferenceLoopHandling.Ignore,
+                        PreserveReferencesHandling = PreserveReferencesHandling.Objects
+                    });
                     return RedirectToAction("Index");
                 }
-                else
+
+
+
+                else //creates new orders and add it into Db
                 {
                     for (int i = 0; i < items.Count; i++)
                     {
@@ -317,12 +274,102 @@ namespace CA1.Controllers
         }
 
 
+/*---------------------------HELPER FUNCTIONS HERE-----------------------------------*/
 
-        public IActionResult Home()
+        private void stringtocart(string cartstr, Guid CartId)
         {
-            return RedirectToAction("Index", "Search");
+            string[] strarr = cartstr.Split(',');
+            Dictionary<Guid, int> freqdict = new Dictionary<Guid, int>();
+            ShopCart Cart = dbContext.ShopCarts.FirstOrDefault(x => x.Id == CartId);
+            foreach (string str in strarr)
+            {
+                Guid productid = Guid.Parse(str);
+                Debug.WriteLine("str:" + str);
+                Debug.WriteLine("productid:" + productid);
+                if (freqdict.ContainsKey(productid))
+                {
+                    freqdict[productid]++;
+                }
+                else
+                {
+                    freqdict.Add(productid, 1);
+                }
+            }
+
+            foreach (KeyValuePair<Guid, int> item in freqdict)
+            {
+                Debug.WriteLine("Key:" + item.Key);
+                Product product = dbContext.Products.FirstOrDefault(x => x.Id == item.Key);
+                ShopCartItem cartitem = new ShopCartItem(product)
+                {
+                    Quantity = item.Value,
+                    ShopCartId = Cart.Id
+                };
+                dbContext.ShopCartItems.Add(cartitem);
+            }
+            dbContext.SaveChanges();
+        }
+
+        private void updateLists(ShopCartItem item)
+        {
+            List<ShopCartItem> insuff_stock = JsonConvert.DeserializeObject<List<ShopCartItem>>((string)TempData["stocklist"]);
+            List<int> insuff_stock_qty = JsonConvert.DeserializeObject<List<int>>((string)TempData["stockcount"]);
+            for (int i = 0; i < insuff_stock.Count; i++)
+            {
+                if (item.Id == insuff_stock[i].Id)
+                {
+                    insuff_stock.RemoveAt(i);
+                    insuff_stock_qty.RemoveAt(i);
+                }
+            }
+            TempData["stocklist"] = JsonConvert.SerializeObject(insuff_stock, new JsonSerializerSettings()
+            {
+                ReferenceLoopHandling = ReferenceLoopHandling.Ignore,
+                PreserveReferencesHandling = PreserveReferencesHandling.Objects
+            });
+            TempData["stockcount"] = JsonConvert.SerializeObject(insuff_stock_qty, new JsonSerializerSettings()
+            {
+                ReferenceLoopHandling = ReferenceLoopHandling.Ignore,
+                PreserveReferencesHandling = PreserveReferencesHandling.Objects
+            });
         }
 
 
+
+        //public IActionResult PlusToCart(ShopCartItem item)
+        //{
+        //    item.Quantity++;
+
+        //    dbContext.ShopCartItems.Update(item);
+        //    dbContext.SaveChanges();
+
+        //    return RedirectToAction("Index");
+
+        //}
+
+        //public IActionResult MinusFromCart(ShopCartItem item)
+        //{
+        //    item.Quantity--;
+        //    if (item.Quantity == 0)
+        //    {
+        //        return RemoveFromCart1(item);
+        //    }        
+
+        //    dbContext.ShopCartItems.Update(item);
+        //    dbContext.SaveChanges();
+
+        //    return RedirectToAction("Index");
+
+
+        //}
+
+        //public IActionResult RemoveFromCart1(ShopCartItem item)
+        //{
+        //    dbContext.ShopCartItems.Remove(item);
+
+        //    dbContext.SaveChanges();
+
+        //    return RedirectToAction("Index");
+        //}
     }
 }

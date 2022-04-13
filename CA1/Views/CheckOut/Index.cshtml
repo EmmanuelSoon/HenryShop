@@ -1,7 +1,8 @@
 ﻿@{
-    List<ShopCartItem> ShopCartItems = (List<ShopCartItem>)((ShopCart)ViewData["ShopCart"]).ShopCartItems;
-    List<InsufficientStock> stock = ViewBag.stock;
-    List<ShopCartItem> stocklist = ViewBag.stocklist;
+    List<ShopCartItem> ShopCartItems = (List<ShopCartItem>) ViewData["ShopCart"];
+    List<ShopCartItem> insuff_stock = (List<ShopCartItem>)ViewData["stocklist"];
+    List<int> insuff_stock_qty = (List<int>) ViewData["stockcount"];
+
     float total = (float)ViewBag.total;
     float GST = total * (float) 0.07;
     float totalGST = total + GST;
@@ -45,72 +46,85 @@
                 }
                 else
                 {
-                    
-                    @foreach(ShopCartItem item in ShopCartItems)
+
+                    @foreach (ShopCartItem item in ShopCartItems)
                     {
-                        @if (!stocklist.Contains(item))
+                
+                        
+                        <div class = "container">
+                            <div class="row">
+                                <div class= "col-sm-4 image-container align-self-center">
+                                    <img src=@item.Product.Img alt="Image not found" width = "200" height = "200">
+                                </div>
+
+                                <div class = "col-sm-6">
+                                    <div class ="card mb-3" style = "max-width: 540px;">
+                                        <div class="card-body">
+                                            <h5 class="card-header">@item.Product.Name</h5>
+                                            <p class="card-text">@item.Product.Desc</p>
+                                        </div>
+                                        <div class="card-body">
+                                            <a>Unit Price: $ @item.Product.Price</a><br/>
+                                            <a>Subtotal: $ @sum(@item.Product.Price,@item.Quantity)</a>
+                                        </div>
+                                        <div class ="card-body">
+                                            <div class ="btn btn-group-sm">
+                                                <button type="button" class="btn btn-outline-danger" value=@item.Id data-value=@minus1(@item.Quantity) ><span class="fa fa-caret-down"></span></button>
+                                                <button type="button" class="btn btn-secondary">@item.Quantity</button>
+                                                <button type="button" class="btn btn-outline-success"  value=@item.Id><span class="fa fa-caret-up"></span></button>
+                                            </div>
+                                        </div>
+                                        <div class ="card-body">
+                                            <button type="button" class="btn btn-danger" name="RemoveItem" value=@item.Id><span class="fa fa-trash-can"></span> Remove Item</button>
+                                        </div>
+                                    </div>   
+                                </div>
+                            </div>
+                        </div>
+                        
+                    }
+
+
+
+                    @if (insuff_stock.Count > 0)
+                    {
+                        <div class= "container">
+                            <div class="row row-content">
+                                <h3 class="mb-2">Sorry... Please note we do not have enough of the following items </h3> <br>
+                                <p>Remove item or change the quantity of the items over here.</p>
+                            </div>
+                        </div>
+
+
+                        @for (var i = 0; i < insuff_stock.Count; i++)
                         {
                             <div class = "container">
                                 <div class="row">
                                     <div class= "col-sm-4 image-container align-self-center">
-                                        <img src=@item.Product.Img alt="Image not found" width = "200" height = "200">
+                                        <img src=@insuff_stock[i].Product.Img alt="Image not found" width = "200" height = "200">
                                     </div>
 
                                     <div class = "col-sm-6">
                                         <div class ="card mb-3" style = "max-width: 540px;">
                                             <div class="card-body">
-                                                <h5 class="card-header">@item.Product.Name</h5>
-                                                <p class="card-text">@item.Product.Desc</p>
+                                                <h5 class="card-header">@insuff_stock[i].Product.Name</h5>
+                                                <p class="card-text">@insuff_stock[i].Product.Desc</p>
                                             </div>
-                                        <div class="card-body">
-                                                <a>Unit Price: $ @item.Product.Price</a><br/>
-                                                <a>Subtotal: $ @sum(@item.Product.Price,@item.Quantity)</a>
-                                        </div>
-                                            <div class ="card-body">
-                                                <div class ="btn btn-group-sm">
-                                                    <button type="button" class="btn btn-outline-danger" value=@item.Id data-value=@minus1(@item.Quantity) ><span class="fa fa-caret-down"></span></button>
-                                                    <button type="button" class="btn btn-secondary">@item.Quantity</button>
-                                                    <button type="button" class="btn btn-outline-success"  value=@item.Id><span class="fa fa-caret-up"></span></button>
-                                                </div>
+                                            <div class="card-body">
+                                                <a>Total: $ @sum(@insuff_stock[i].Product.Price,@insuff_stock[i].Quantity)</a>
                                             </div>
                                             <div class ="card-body">
-                                                <button type="button" class="btn btn-danger" name="RemoveItem" value=@item.Id><span class="fa fa-trash-can"></span> Remove Item</button>
-                                                </div>
+                                                <a>Current Quantity: @insuff_stock[i].Quantity</a> <br>
+                                                <a style:"color:red;">Total stock: @insuff_stock_qty[i]</a> <br>
+                                            </div>
+                                            <div class ="card-body">
+                                                @Html.ActionLink("Change Quantity", "ChangeQ", "CheckOut",new {itemid=@insuff_stock[i].Id, stockqty= @insuff_stock_qty[i]} , new {@class="btn btn-warning mr-2"})
+                                            </div>
                                         </div>   
                                     </div>
                                 </div>
                             </div>
                         }
-                    }
-                    @foreach(InsufficientStock item in stock)
-                    {
-                        <div class = "container">
-                                <div class="row">
-                                    <div class= "col-sm-4 image-container align-self-center">
-                                        <img src=@item.ShopCartItem.Product.Img alt="Image not found" width = "200" height = "200">
-                                    </div>
-
-                                    <div class = "col-sm-6">
-                                        <div class ="card mb-3" style = "max-width: 540px;">
-                                            <div class="card-body">
-                                                <h5 class="card-header">@item.ShopCartItem.Product.Name</h5>
-                                                <p class="card-text">@item.ShopCartItem.Product.Desc</p>
-                                            </div>
-                                        <div class="card-body">
-                                                <a>Total: $ @sum(@item.ShopCartItem.Product.Price,@item.ShopCartItem.Quantity)</a>
-                                        </div>
-                                            <div class ="card-body">
-                                                <a>Current Quantity: @item.ShopCartItem.Quantity</a> <br>
-                                                <a style:"color:red;">Total stock: @item.Quantity</a> <br>
-                                                @Html.ActionLink("Change Quantity", "ChangeQ", "CheckOut", item, new {@class="btn btn-warning"})
-                                            </div>
-                                            <div class ="card-body">
-                                                @Html.ActionLink("Remove Item","RemoveFromCart2", "CheckOut", item,new {@class="btn btn-danger"})
-                                            </div>
-                                        </div>   
-                                    </div>
-                                </div>
-                            </div>
                     }
                 }
 

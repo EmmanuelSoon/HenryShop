@@ -125,8 +125,19 @@ namespace CA1.Controllers
 
             foreach (ShopCartItem item in items)
             {
-                item.ShopCartId = Cart.Id;
-                dbContext.ShopCartItems.Update(item);
+                ShopCartItem cartitem = dbContext.ShopCartItems.FirstOrDefault(x => x.Id == item.Id);
+                if(cartitem == null)
+                {
+                    item.ShopCartId = Cart.Id;
+                    dbContext.ShopCartItems.Update(item);
+                }
+                else
+                {
+                    cartitem.Quantity = cartitem.Quantity + item.Quantity;
+                    dbContext.ShopCartItems.Update(cartitem);
+                    dbContext.ShopCartItems.Remove(item);
+                }
+
             }
 
             dbContext.ShopCarts.Remove(temp);

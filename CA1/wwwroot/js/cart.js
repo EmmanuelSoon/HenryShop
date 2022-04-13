@@ -38,7 +38,7 @@
     }
 
     function Removeclick(event) {
-        RemoveFromCart1(event.target.value);       
+        RemoveFromCart(event.target.value);       
     }
 }
 
@@ -98,11 +98,11 @@ function MinusFromCart(id) {
 }
 
 
-function RemoveFromCart1(id) {
+function RemoveFromCart(id) {
     if (confirm("Remove item from Cart?")) {
         let xhr = new XMLHttpRequest();
 
-        xhr.open("POST", "/CheckOut/RemoveFromCart1");
+        xhr.open("POST", "/CheckOut/RemoveFromCart");
 
         xhr.setRequestHeader("Content-Type", "application/json; charset=utf8");
 
