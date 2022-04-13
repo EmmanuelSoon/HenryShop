@@ -52,21 +52,13 @@ function showreview(orderId) {
     };
     xhr.send(JSON.stringify(data));
 }
+//added function of user's comments validation
 window.onload = function () {
     let elems = document.getElementsByClassName("reviewdetail");
     for (let i = 0; i < elems.length; i++) {
         elems[i].addEventListener('click', Clickfordetail);
     }
-}
-function Clickfordetail(event) {
-    showreview(event.target.id);
-}
-
-//Add validation checking when user submit product review
-window.onload = function()
-{
-
-let form = document.getElementById("reviewform");
+    let form = document.getElementById("reviewform");
     form.onsubmit = function ()
     {
         let rate = document.getElementById("rate");
@@ -81,5 +73,9 @@ let form = document.getElementById("reviewform");
                 return false;
             }
             alert("Your review was sucessfully submitted!");
-            }
+     }
+}
+
+function Clickfordetail(event) {
+    showreview(event.target.id);
 }
