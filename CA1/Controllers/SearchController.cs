@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using System.Web;
 using System.Net;
+using Microsoft.AspNetCore.Http;
 
 namespace CA1.Controllers
 {
@@ -49,21 +50,26 @@ namespace CA1.Controllers
             User user = dbContext.Users.FirstOrDefault(x => (Request.Cookies["SessionId"] != null) && (x.sessionId == Guid.Parse(Request.Cookies["SessionId"])));
             Product product = dbContext.Products.FirstOrDefault(x => x.Id == req.Id);
 
-            if(user == null)
+            CookieOptions opts = new CookieOptions()
+            {
+                Expires = DateTime.Now.AddMinutes(360),
+            };
+
+            if (user == null)
             {
                 if(Request.Cookies["CartId"] == null)
                 {
                     if (Request.Cookies["Temp"] == null)
                     {
                         string str = product.Id.ToString();
-                        Response.Cookies.Append("Temp", str);
+                        Response.Cookies.Append("Temp", str, opts);
                     }
                     else
                     {
                         string temp = Request.Cookies["Temp"];
                         temp = temp +","+product.Id.ToString();
                         Response.Cookies.Delete("Temp");
-                        Response.Cookies.Append("Temp", temp);
+                        Response.Cookies.Append("Temp", temp, opts);
                     }
 
                     return Json(new

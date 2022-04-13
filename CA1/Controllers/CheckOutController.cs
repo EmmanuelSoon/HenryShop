@@ -39,7 +39,12 @@ namespace CA1.Controllers
                             ShopCartItems = new List<ShopCartItem>()
                         });
                         dbContext.SaveChanges();
-                        Response.Cookies.Append("CartId", cartid.ToString());
+                        CookieOptions opts = new CookieOptions()
+                        {
+                            Expires = DateTime.Now.AddMinutes(360),
+                        };
+                        Response.Cookies.Append("CartId", cartid.ToString(), opts);
+                        
                         string cartstr = Request.Cookies["Temp"];
                         
                         Cart = dbContext.ShopCarts.FirstOrDefault(x => x.Id == cartid);
@@ -235,6 +240,7 @@ namespace CA1.Controllers
 
             if (user == null)
             {
+
                 return RedirectToAction("Index", "LogIn");
             }
 
