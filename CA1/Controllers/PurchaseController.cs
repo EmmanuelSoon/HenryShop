@@ -66,7 +66,7 @@ namespace CA1.Controllers
                 Content = content,
                 OrderId = currOrder.Id,
             };
-            dbContext.productReviews.Add(review);
+            dbContext.ProductReviews.Add(review);
             currOrder.ProductReview = review;
             dbContext.Orders.Update(currOrder);
             dbContext.SaveChanges();
@@ -82,7 +82,7 @@ namespace CA1.Controllers
 
             if( data != null && data.Id != null)
             {
-                ProductReview review = (ProductReview)dbContext.productReviews.FirstOrDefault(x => x.OrderId == data.Id);
+                ProductReview review = (ProductReview)dbContext.ProductReviews.FirstOrDefault(x => x.OrderId == data.Id);
                 return Json(new
                 {
                     status = "success",

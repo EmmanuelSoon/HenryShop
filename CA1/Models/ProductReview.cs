@@ -21,5 +21,7 @@ namespace CA1.Models
         [Range(0, 5)]
         public int Rating { get; set; }
         public string CreatedDate { get; set; }
+
+
     }
 }

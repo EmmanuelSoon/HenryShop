@@ -29,8 +29,6 @@ namespace CA1.Models
         public virtual ICollection<ShopCartItem> ShopCartItems { get; set; }
         public virtual ICollection<InventoryRecord> InventoryRecords { get; set; }
 
-
-
     }
 }
 

@@ -1,0 +1,71 @@
+﻿
+@{
+    Product product = ViewBag.Product;
+    double rating = ViewBag.Rating;
+    List<ProductReview> reviews = ViewBag.Reviews;
+    List<User> users = ViewBag.Users;
+    string boolean = (string)ViewBag.LoggedIn;
+}
+
+@section Scripts {
+    <script src="~/js/Home.js"></script>
+}
+
+<body>
+
+    <div class="container">
+        <div class="row">
+            <h1>blank</h1>
+        </div>
+    </div>
+
+    <div class= "container">
+        <div class="row-header">
+            <div class="col-12 col-sm-12 mb-5 mt-5 border-bottom">
+                <h2 class="pt-10">@product.Name</h2>
+            </div>
+        </div>
+        <div class = "row row-content mb-5">
+            <div class="col-12 col-sm-6">
+                <img class="img-thumbnail" src=@product.Img height="400" />
+            </div>
+            <div class="col-12 col-sm">
+                <div class="productdetails">
+                    <p>@product.Desc</p> <br />
+                    <p><strong>$@product.Price</strong></p>
+                    <button type="button" class="btn btn-outline-primary" data-toggle="modal" data-target="@boolean" value="@product.Id"><span class="fa-solid fa-cart-arrow-down"></span> Add to Cart</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class = "container border p-5">
+        <h2 class="mb-5">Customer Reviews</h2>
+        @if(reviews.Count <= 0)
+        {
+            @: Currently no reviews
+        }
+        else
+        {
+            @for(var i = 0; i < reviews.Count; i++)
+            {
+                <div class="row row-content align-items-center">
+                    <div class="col-12">
+                        <div class="media">
+                            <img class="d-flex mr-3 img-thumbnail align-self-center" src="~/img/blank_Profile.png">
+                            <div class="media-body">
+                                <p> <u>@users[i].Firstname @users[i].Lastname</u></p>
+                                <p class="mb-1"><strong>Review Rating:</strong> @reviews[i].Rating</p>
+                                <p>@reviews[i].Content;</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+        }
+
+
+    </div>
+</body>
+
+

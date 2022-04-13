@@ -114,10 +114,11 @@
                                     <img class="card-img-top" src=@product.Img alt="image not found" height="200">
                                     <div class="card-body">
                                         <h5 class="card-header">@product.Name</h5>
-                                        <p class="card-text">@product.Desc</p>
+                                        <p class="card-text">@product.Desc </p> <br>
+                                        @Html.ActionLink("Click for more details","ProductDetails", "Search", product, null)
                                     </div>
                                     <div class="card-body">
-                                        <a>$@product.Price</a>
+                                        <a>$@product.Price</a>                                     
                                     </div>
                                     <div class="card-footer bg-transparent">
 

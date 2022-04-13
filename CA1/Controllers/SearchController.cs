@@ -43,6 +43,30 @@ namespace CA1.Controllers
             return View();
         }
 
+        public IActionResult ProductDetails(Product product)
+        {
+            List<Order> orders = dbContext.Orders.Where(x => x.ProductId == product.Id).ToList();
+            List<ProductReview> reviews = new List<ProductReview>();
+            List<User> users = new List<User>();
+            foreach(Order order in orders)
+            {
+                ProductReview review = dbContext.ProductReviews.FirstOrDefault(x => x.OrderId == order.Id);
+                User user = dbContext.Users.FirstOrDefault(x => x.Id == order.UserId);
+                if (review != null && user != null)
+                {
+                    reviews.Add(review);
+                    users.Add(user);
+                }
+            }
+            double AvgRating = AverageRating(reviews);
+            ViewBag.Reviews = reviews;
+            ViewBag.Product = product;
+            ViewBag.Rating = AvgRating;
+            ViewBag.Users = users;
+            return View();
+        }
+
+
 
         public IActionResult AddtoCart([FromBody] Product req)
         {
@@ -146,6 +170,25 @@ namespace CA1.Controllers
             dbContext.SaveChanges();
 
             return true;
+        }
+
+        private double AverageRating(List<ProductReview> reviews)
+        {
+            double rating = 0;
+            int sum = 0;
+            foreach (ProductReview review in reviews)
+            {
+                sum = sum + review.Rating;
+            }
+            if(reviews.Count > 0)
+            {
+                rating = sum / reviews.Count;
+            }
+            else
+            {
+                return 0;
+            }
+            return rating;
         }
     }
 }

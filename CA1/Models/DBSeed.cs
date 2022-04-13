@@ -32,7 +32,7 @@ namespace CA1.Models
 
                 Name = ".NET Charts",
                 Desc = "Brings powerful charting capabilities to your .NET applications",
-                Img = "./img/Charts.jpg",
+                Img = "/img/Charts.jpg",
                 Price = 99,
                 DownLoadLink = "www.12345.com"
             });
@@ -42,7 +42,7 @@ namespace CA1.Models
 
                 Name = ".NET PayPal",
                 Desc = "Integrate your .NET apps with PayPal the easy way!",
-                Img = "./img/Paypal.jpg",
+                Img = "/img/Paypal.jpg",
                 Price = 69,
                 DownLoadLink = "www.23456.com"
             });
@@ -52,7 +52,7 @@ namespace CA1.Models
 
                 Name = ".NET ML",
                 Desc = "Supercharged .NET machine learning libraries",
-                Img = "./img/Machine.jpg",
+                Img = "/img/Machine.jpg",
                 Price = 299,
                 DownLoadLink = "www.34567.com"
             });
@@ -62,7 +62,7 @@ namespace CA1.Models
 
                 Name = ".NET Analytics",
                 Desc = "Performs data mining and analytics easily in .NET",
-                Img = "./img/Analytics.jpg",
+                Img = "/img/Analytics.jpg",
                 Price = 299,
                 DownLoadLink = "45678.com"
             });
@@ -72,7 +72,7 @@ namespace CA1.Models
 
                 Name = ".NET Logger",
                 Desc = "Logs and aggregates events easily in your .NET apps",
-                Img = "./img/Logger.jpg",
+                Img = "/img/Logger.jpg",
                 Price = 49,
                 DownLoadLink = "56789.com"
             });
@@ -82,7 +82,7 @@ namespace CA1.Models
 
                 Name = ".NET Numerics",
                 Desc = "Powerful numerical methods for your .NET simulations",
-                Img = "./img/Numerics.png",
+                Img = "/img/Numerics.png",
                 Price = 199,
                 DownLoadLink = "56789.com"
             });
@@ -92,7 +92,7 @@ namespace CA1.Models
 
                 Name = ".NET forms",
                 Desc = "Create forms in a click, simple and quick",
-                Img = "./img/Forms.jpg",
+                Img = "/img/Forms.jpg",
                 Price = 99,
                 DownLoadLink = "56789.com"
             });
@@ -102,7 +102,7 @@ namespace CA1.Models
 
                 Name = ".NET library",
                 Desc = "Need to know more about .NET? here is your one stop solution",
-                Img = "./img/Library.jpg",
+                Img = "/img/Library.jpg",
                 Price = 99,
                 DownLoadLink = "56789.com"
             });
@@ -112,7 +112,7 @@ namespace CA1.Models
 
                 Name = ".NET UI",
                 Desc = "Set of controls and features for your platform",
-                Img = "./img/UI.png",
+                Img = "/img/UI.png",
                 Price = 9,
                 DownLoadLink = "56789.com"
             });
@@ -122,7 +122,7 @@ namespace CA1.Models
 
                 Name = ".NET Runtime",
                 Desc = "Analytical tool to check on your app's performance",
-                Img = "./img/RunTime.jpg",
+                Img = "/img/RunTime.jpg",
                 Price = 69,
                 DownLoadLink = "56789.com"
             });
@@ -132,7 +132,7 @@ namespace CA1.Models
 
                 Name = ".NET Image Processing",
                 Desc = "a computer and artificial intelligence library for image processing",
-                Img = "./img/Images.jpg",
+                Img = "/img/Images.jpg",
                 Price = 119,
                 DownLoadLink = "56789.com"
             });
@@ -142,7 +142,7 @@ namespace CA1.Models
 
                 Name = ".NET Unity",
                 Desc = "a development tool to create games for consoles and PCs",
-                Img = "./img/unityweb.png",
+                Img = "/img/unityweb.png",
                 Price = 39,
                 DownLoadLink = "56789.com"
             });
@@ -152,7 +152,7 @@ namespace CA1.Models
 
                 Name = ".NET Blazor",
                 Desc = "a framework to enable developers to create web apps",
-                Img = "./img/Blazorweb.png",
+                Img = "/img/Blazorweb.png",
                 Price = 19,
                 DownLoadLink = "56789.com"
             });
