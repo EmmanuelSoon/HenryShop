@@ -17,7 +17,8 @@ namespace CA1.Models
         public DbSet<Product> Products { get; set; }
         public DbSet<InventoryRecord> InventoryRecords { get; set; }
         public DbSet<OrderDetail> OrderDetails { get; set;}
-
+        public DbSet<InsufficientStock> InsufficientStocks { get; set; }
+        public DbSet<ProductReview> productReviews { get; set; }
     }
 
 }

@@ -47,7 +47,6 @@
                     <div class="col-md-8">
                         <div class="card">
                             <div class="card-body">
-                                <br><br><br>
                                 <p>Purchased On: @order.CreatedDate</p>
                                 <p>Quantity: @order.Quantity</p>
                                 <p>
@@ -65,9 +64,22 @@
                                     else
                                     {
                                         <span id="@index">@order.OrderDetails.First().ActivationId</span>
-                                        <button onclick="copySingle(@index)">Copy Code</button>
+                                        <button onclick="copySingle(@index)" class="btn btn-primary">Copy Code</button>
                                     }
                                 </p>
+                                @if(order.ProductReview != null)
+                                {
+                                    <p id=@order.Id class = "reviewdetail">
+                                        <button id=@order.Id>Click to view your review!</button>
+                                    </p>
+                                }
+                                else
+                                {
+                                    <p>Your have not tell us your review yet!</p>
+                                    <p>
+                                        @Html.ActionLink("Click to add review","AddReview", "Purchase", order, new {@class="btn btn-primary"})
+                                    </p>
+                                }
                             </div>
                         </div>
                     </div>
