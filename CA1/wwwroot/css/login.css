@@ -43,7 +43,7 @@ html {
 }
 
 .form_container {
-    margin-top: 100px;
+    margin-top: 130px;
 }
 
 .login_btn {
@@ -76,4 +76,8 @@ html {
 
 .custom-checkbox .custom-control-input:checked ~ .custom-control-label::before {
     background-color: #5bc0de !important;
+}
+
+h4 {
+    margin-bottom: 0px;
 }
