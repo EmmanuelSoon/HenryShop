@@ -11,10 +11,10 @@
 }
 
 @section Scripts {
-    <script src="~/js/cart.js"></script>
+<script src="~/js/cart.js"></script>
 }
 
-<link rel="stylesheet" href="~/css/checkout.css"/>
+<link rel="stylesheet" href="~/css/checkout.css" />
 
 
 
@@ -76,6 +76,8 @@
                     </tr>
                     @foreach (ShopCartItem item in ShopCartItems)
                     {
+                        var Productprice = "ProductPrice" + @item.ProductId;
+                        var productQuantity = @item.ProductId;
                         <tr>
                             <td>
                                 <img src=@item.Product.Img style="width:100px;" />
@@ -84,12 +86,12 @@
                                 <h5>@item.Product.Name</h5>
                                 <p>@item.Product.Desc</p>
                             </td>
-                            <td class="p-2 text-nowrap align-middle">$ @item.Product.Price</td>
+                            <td id="@Productprice" class="p-2 text-nowrap align-middle">$ @item.Product.Price</td>
                             <td class="align-middle" style="width:125px">
                                 <div class="btn btn-group-sm row">
-                                    <button type="button" class="btn btn-outline-danger" value=@item.Id data-value=@minus1(@item.Quantity)><span class="fa fa-caret-down"></span></button>
-                                    <button type="button" class="btn btn-secondary">@item.Quantity</button>
-                                    <button type="button" class="btn btn-outline-success" value=@item.Id><span class="fa fa-caret-up"></span></button>
+                                    <div>
+                                        <input id="@productQuantity" type="number" step="1" min="1" max="99" name="quantity" value="@item.Quantity" title="qty" data-value=@item.Id class="btn btn-secondary" size="2" pattern="" inputmode="">
+                                    </div>
                                 </div>
                             </td>
                             <td class="p-2 text-nowrap align-middle">$ @sum(@item.Product.Price, @item.Quantity)</td>
@@ -149,18 +151,18 @@
                 <div class="modal-body mx-3">
 
                     <div class="input-group mb-3">
-							<div class="input-group-append">
-								<span class="input-group-text"><i class="fas fa-user"></i></span>
-							</div>
-							<input type="text" name="Username" class="form-control input_user" value="" placeholder="username">
-						</div>
-						<div class="input-group mb-2">
-							<div class="input-group-append">
-								<span class="input-group-text"><i class="fas fa-key"></i></span>
-							</div>
-							<input type="password" name="Password" class="form-control input_pass" value="" placeholder="password">
-							<input type="hidden" name="returnUrl" value="CheckOut" />
-						</div>
+                        <div class="input-group-append">
+                            <span class="input-group-text"><i class="fas fa-user"></i></span>
+                        </div>
+                        <input type="text" name="Username" class="form-control input_user" value="" placeholder="username">
+                    </div>
+                    <div class="input-group mb-2">
+                        <div class="input-group-append">
+                            <span class="input-group-text"><i class="fas fa-key"></i></span>
+                        </div>
+                        <input type="password" name="Password" class="form-control input_pass" value="" placeholder="password">
+                        <input type="hidden" name="returnUrl" value="CheckOut" />
+                    </div>
 
                 </div>
                 <div class="modal-footer d-flex justify-content-center">
