@@ -18,15 +18,22 @@
         RemoveFromCart(event.target.value);
     }
 
+    //function UpdateClick(event) {
+    //    var specifiedElement = document.getElementById(event.target.id)
+    //    document.addEventListener('click', function (event) {
+    //        var isClickInside = specifiedElement.contains(event.target);
+
+    //        if (!isClickInside) {
+    //            UpdateCartQty(specifiedElement.getAttribute('data-value'),specifiedElement.value)
+    //        }
+    //    });
+    //}
+
     function UpdateClick(event) {
         var specifiedElement = document.getElementById(event.target.id)
-        document.addEventListener('click', function (event) {
-            var isClickInside = specifiedElement.contains(event.target);
-
-            if (!isClickInside) {
-                UpdateCartQty(specifiedElement.getAttribute('data-value'),specifiedElement.value)
-            }
-        });
+        specifiedElement.addEventListener('mouseleave', function (event){
+            UpdateCartQty(specifiedElement.getAttribute('data-value'), specifiedElement.value)
+        })
     }
 
 
