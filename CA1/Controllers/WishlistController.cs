@@ -23,32 +23,33 @@ namespace CA1.Controllers
         public IActionResult Index()
         {
             User user = dbContext.Users.FirstOrDefault(x => (Request.Cookies["SessionId"] != null) && (x.sessionId == Guid.Parse(Request.Cookies["SessionId"])));
-            if(user == null)
+            if (user == null)
             {
                 return RedirectToAction("Index", "LogIn");
             }
             else
             {
                 WishList wishList = dbContext.WishLists.FirstOrDefault(x => x.UserId == user.Id);
-                if (wishList != null) { 
-                List<WishListItem> wishListItems = dbContext.WishListItems.Where(x => x.WishListId == wishList.Id).ToList();
-                List<int> stockcount = new List<int>();
-
-                foreach(WishListItem item in wishListItems)
+                if (wishList != null)
                 {
-                    List<InventoryRecord> record = dbContext.InventoryRecords.Where(x => x.ProductId == item.ProductId).ToList();
-                    if(record.Count > 0)
-                    {
-                        stockcount.Add(record.Count);
-                    }
-                    else
-                    {
-                        stockcount.Add(0);
-                    }
-                }
+                    List<WishListItem> wishListItems = dbContext.WishListItems.Where(x => x.WishListId == wishList.Id).ToList();
+                    List<int> stockcount = new List<int>();
 
-                ViewBag.WishList = wishListItems;
-                ViewBag.StockCount = stockcount;
+                    foreach (WishListItem item in wishListItems)
+                    {
+                        List<InventoryRecord> record = dbContext.InventoryRecords.Where(x => x.ProductId == item.ProductId).ToList();
+                        if (record.Count > 0)
+                        {
+                            stockcount.Add(record.Count);
+                        }
+                        else
+                        {
+                            stockcount.Add(0);
+                        }
+                    }
+
+                    ViewBag.WishList = wishListItems;
+                    ViewBag.StockCount = stockcount;
                 }
             }
             return View();
@@ -68,14 +69,15 @@ namespace CA1.Controllers
             if (!IsExistedInWishList(product.Id, user))
             {
                 WishList wishlist = dbContext.WishLists.FirstOrDefault(x => x.UserId == user.Id);
-                WishListItem item = new WishListItem{
+                WishListItem item = new WishListItem
+                {
                     ProductId = product.Id,
                     WishListId = wishlist.Id,
                     Product = product
                 };
                 wishlist.WishListItems.Add(item);
                 dbContext.WishListItems.Add(item);
-                dbContext.SaveChanges(); 
+                dbContext.SaveChanges();
                 return Json(new
                 {
                     status = "success",
@@ -90,25 +92,50 @@ namespace CA1.Controllers
                     name = product.Name,
                 });
             }
-           
+
         }
 
         public bool IsExistedInWishList(Guid ProductId, User user)
         {
-            if(user != null)
+            if (user != null)
             {
                 WishList wishlist = dbContext.WishLists.FirstOrDefault(x => x.UserId == user.Id);
                 if (wishlist != null)
                 {
                     WishListItem wishListItem = dbContext.WishListItems.FirstOrDefault(x => x.WishListId == wishlist.Id && x.ProductId == ProductId);
-                    if(wishListItem != null)
+                    if (wishListItem != null)
                     {
                         return true;
                     }
                 }
             }
             return false;
-            
+
+        }
+
+        public IActionResult RemoveFromWishList([FromBody] Product delReq)
+        {
+            bool flag = false;
+            if (!flag)
+            {
+                User user = dbContext.Users.FirstOrDefault(x => (Request.Cookies["SessionId"] != null) && (x.sessionId == Guid.Parse(Request.Cookies["SessionId"])));
+
+                WishList userWL = dbContext.WishLists.FirstOrDefault(x => x.UserId == user.Id);
+
+                WishListItem toDelete = dbContext.WishListItems.FirstOrDefault(x => x.WishListId == userWL.Id && x.ProductId == delReq.Id);
+
+                dbContext.WishListItems.Remove(toDelete);
+                dbContext.SaveChanges();
+                flag = true;
+            }
+            if (flag)
+            {
+                return Json(new { status = "success" });
+            }
+            else
+            {
+                return Json(new { status = "error" });
+            }
         }
     }
 }

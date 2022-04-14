@@ -2,6 +2,7 @@
 
     let add = document.getElementsByClassName("btn-outline-primary");
     let addwishlists = document.getElementsByClassName("fa-heart");
+    let deleteWL = document.getElementsByClassName("btn btn-outline-danger");
 
     for (let i = 0; i < add.length; i++) {
         add[i].addEventListener('click', Addclick);
@@ -9,12 +10,19 @@
     for (let i = 0; i < addwishlists.length; i++) {
         addwishlists[i].addEventListener('click', Addlist);
     }
+    for (let i = 0; i < deleteWL.length; i++) {
+        deleteWL[i].addEventListener('click', DeleteClick);
+    }
+
 
     function Addclick(event) {
         AddToCart(event.target.value);
     }
     function Addlist(event) {
         AddToWishList(event.target.value);
+    }
+    function DeleteClick(event) {
+        RemoveFromWishList(event.target.value);
     }
 
 }
@@ -100,5 +108,31 @@ function AddToWishList(id) {
 
     let req = { "Id": id }
     xhr.send(JSON.stringify(req));
+}
+
+function RemoveFromWishList(id) {
+    let xhr = new XMLHttpRequest();
+
+    xhr.open("POST", "/Wishlist/RemoveFromWishList");
+
+    xhr.setRequestHeader("Content-Type", "application/json; charset=utf8");
+
+    xhr.onreadystatechange = function () {
+        if (this.readyState == XMLHttpRequest.DONE) {
+            if (this.status == 200) {
+                let data = JSON.parse(this.responseText);
+                if (data.status == "success") {
+                    alert("Removed from your wishlist");
+                }
+                else if (data.status == "error") {
+                    alert("There was an error removing the item.")
+                }
+                window.location.href = '/WishList';
+            }
+        }
+    }
+
+    let delReq = { "Id": id }
+    xhr.send(JSON.stringify(delReq));
 }
 
