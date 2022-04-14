@@ -2,7 +2,6 @@
     let adding = document.getElementsByClassName("btn-outline-success");
     let minus = document.getElementsByClassName("btn-outline-danger");
     let remove = document.getElementsByClassName("btn-danger");
-    alert(adding.length);
 
     //for (let i = 0; i < adding.length; i++) {
     //    adding[i].addEventListener('click', Addclick);
@@ -39,6 +38,10 @@
     function Removeclick(event) {
         RemoveFromCart(event.target.value);       
     }
+
+    //modal stuff here:
+    let elem = document.getElementById("checkoutBtn");
+    elem.addEventListener('click', ShowModal);
 }
 
 
@@ -122,4 +125,26 @@ function RemoveFromCart(id) {
 
         xhr.send(JSON.stringify(req));
     }
+}
+
+//show login modal
+
+function ShowModal(event) {
+    let xhr = new XMLHttpRequest();
+    xhr.open("POST", "/Checkout/CheckUser");
+    xhr.setRequestHeader("Content-type", "application/json; charset=utf8");
+    xhr.onreadystatechange = function () {
+        if (this.readyState == XMLHttpRequest.DONE) {
+            if (this.status == 200) {
+                let data = JSON.parse(this.responseText);
+                if (data.status == "notlogged") {
+                    $('#modalLoginForm').modal('toggle');
+                }
+                else {
+                    window.location.href = '/CheckOut/CheckOutCart/'
+                }
+            }
+        }
+    };
+    xhr.send()
 }

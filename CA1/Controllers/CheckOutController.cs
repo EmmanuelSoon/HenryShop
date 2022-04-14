@@ -178,6 +178,16 @@ namespace CA1.Controllers
         }
 
 
+        //check for user login for the JS
+        public IActionResult CheckUser()
+        {
+            User user = dbContext.Users.FirstOrDefault(x => (Request.Cookies["SessionId"] != null) && (x.sessionId == Guid.Parse(Request.Cookies["SessionId"])));
+            if (user == null)
+            {
+                return Json(new { status = "notlogged" });
+            }
+            return Json(new { status = "logged" });
+        }
 
         public IActionResult CheckOutCart()
         {

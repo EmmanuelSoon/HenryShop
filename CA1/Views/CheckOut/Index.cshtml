@@ -21,80 +21,80 @@
 
         @if (ShopCartItems.Count == 0)
         {
-        <div class="container">
-            <div class="row justify-content-md-center">
-                <div class="col-4 text-center">
-                    <img class="text-center" src="/img/cart.svg" />
-                    <p class="my-3">Your Cart is Empty</p>
-                    <a href="/">Continue Shopping</a>
-                </div>  
+            <div class="container">
+                <div class="row justify-content-md-center">
+                    <div class="col-4 text-center">
+                        <img class="text-center" src="/img/cart.svg" />
+                        <p class="my-3">Your Cart is Empty</p>
+                        <a href="/">Continue Shopping</a>
+                    </div>
+                </div>
             </div>
-        </div>
         }
         else
         {
-    <div class="col-8">
-        @if (insuff_stock.Count > 0)
-        {
-            <div class="card">
-                <div class="card-header">
-                    Sorry... Please note we do not have enough of the following items
-                    <p>Remove item or change the quantity of the items over here.</p>
-                </div>
-                @for (var i = 0; i < insuff_stock.Count; i++)
-                    {
-                        <div class="card-body row">
-                            <div class="col-5">
-                                <img src=@insuff_stock[i].Product.Img alt="Image not found" width="200" height="200">
-                            </div>
-                            <div class="col">
-                                <h5>@insuff_stock[i].Product.Name</h5>
-                                <p>@insuff_stock[i].Product.Desc</p>
-                                <p>Total: $ @sum(@insuff_stock[i].Product.Price, @insuff_stock[i].Quantity)</p>
-                                <p>Current Quantity: @insuff_stock[i].Quantity</p>
-                                <p style:"color:red;">Total stock: @insuff_stock_qty[i]</p>
-                                @Html.ActionLink("Change Quantity", "ChangeQ", "CheckOut", new { itemid = @insuff_stock[i].Id, stockqty = @insuff_stock_qty[i] }, new { @class = "btn btn-warning mr-2" })
-                            </div>
+            <div class="col-8">
+                @if (insuff_stock.Count > 0)
+                {
+                    <div class="card">
+                        <div class="card-header">
+                            Sorry... Please note we do not have enough of the following items
+                            <p>Remove item or change the quantity of the items over here.</p>
                         </div>
-                    }
-            </div>
-        }
+                        @for (var i = 0; i < insuff_stock.Count; i++)
+                        {
+                            <div class="card-body row">
+                                <div class="col-5">
+                                    <img src=@insuff_stock[i].Product.Img alt="Image not found" width="200" height="200">
+                                </div>
+                                <div class="col">
+                                    <h5>@insuff_stock[i].Product.Name</h5>
+                                    <p>@insuff_stock[i].Product.Desc</p>
+                                    <p>Total: $ @sum(@insuff_stock[i].Product.Price, @insuff_stock[i].Quantity)</p>
+                                    <p>Current Quantity: @insuff_stock[i].Quantity</p>
+                                    <p style:"color:red;">Total stock: @insuff_stock_qty[i]</p>
+                                    @Html.ActionLink("Change Quantity", "ChangeQ", "CheckOut", new { itemid = @insuff_stock[i].Id, stockqty = @insuff_stock_qty[i] }, new { @class = "btn btn-warning mr-2" })
+                                </div>
+                            </div>
+                        }
+                    </div>
+                }
 
-        <table class="table">
-            <tr>
-                <th>Image</th>
-                <th>Detail</th>
-                <th>Price</th>
-                <th class="text-center">Qty</th>
-                <th>Total</th>
-                <th></th>
-            </tr>
-            @foreach (ShopCartItem item in ShopCartItems)
-            {
-                <tr>
-                    <td>
-                        <img src=@item.Product.Img style="width:100px;" />
-                    </td>
-                    <td class="text-break">
-                        <h5>@item.Product.Name</h5>
-                        <p>@item.Product.Desc</p>
-                    </td>
-                    <td class="p-2 text-nowrap align-middle">$ @item.Product.Price</td>
-                    <td class="align-middle" style="width:125px">
-                        <div class="btn btn-group-sm row">
-                            <button type="button" class="btn btn-outline-danger" value=@item.Id data-value=@minus1(@item.Quantity)><span class="fa fa-caret-down"></span></button>
-                            <button type="button" class="btn btn-secondary">@item.Quantity</button>
-                            <button type="button" class="btn btn-outline-success" value=@item.Id><span class="fa fa-caret-up"></span></button>
-                        </div>
-                    </td>
-                    <td class="p-2 text-nowrap align-middle">$ @sum(@item.Product.Price, @item.Quantity)</td>
-                    <td class="align-middle">
-                        <button type="button" class="btn btn-danger" name="RemoveItem" value=@item.Id><span class="fa fa-trash-can"></span></button>
-                    </td>
-                </tr>
-            }
-        </table>
-        </div>
+                <table class="table">
+                    <tr>
+                        <th>Image</th>
+                        <th>Detail</th>
+                        <th>Price</th>
+                        <th class="text-center">Qty</th>
+                        <th>Total</th>
+                        <th></th>
+                    </tr>
+                    @foreach (ShopCartItem item in ShopCartItems)
+                    {
+                        <tr>
+                            <td>
+                                <img src=@item.Product.Img style="width:100px;" />
+                            </td>
+                            <td class="text-break">
+                                <h5>@item.Product.Name</h5>
+                                <p>@item.Product.Desc</p>
+                            </td>
+                            <td class="p-2 text-nowrap align-middle">$ @item.Product.Price</td>
+                            <td class="align-middle" style="width:125px">
+                                <div class="btn btn-group-sm row">
+                                    <button type="button" class="btn btn-outline-danger" value=@item.Id data-value=@minus1(@item.Quantity)><span class="fa fa-caret-down"></span></button>
+                                    <button type="button" class="btn btn-secondary">@item.Quantity</button>
+                                    <button type="button" class="btn btn-outline-success" value=@item.Id><span class="fa fa-caret-up"></span></button>
+                                </div>
+                            </td>
+                            <td class="p-2 text-nowrap align-middle">$ @sum(@item.Product.Price, @item.Quantity)</td>
+                            <td class="align-middle">
+                                <button type="button" class="btn btn-danger" name="RemoveItem" value=@item.Id><span class="fa fa-trash-can"></span></button>
+                            </td>
+                        </tr>
+                    }
+                </table>
+            </div>
             <div class="col-4 ">
                 <div class="container rounded border border-success">
                     <h3 class="my-3">Order Summary</h3>
@@ -113,7 +113,8 @@
                         </tr>
                         <tr>
                             <td colspan="2" class="border-0">
-                                @Html.ActionLink("Proceed to Checkout!", "CheckoutCart", "CheckOut", null, new { @class = "btn btn-primary btn-block w-100" })
+                                @*@Html.ActionLink("Proceed to Checkout!", "CheckUser", "CheckOut", null, new { @class = "btn btn-primary btn-block w-100" })*@
+                                <button class="btn btn-primary btn block w-100" id="checkoutBtn">Checkout!</button>
                             </td>
                         </tr>
                         <tr>
@@ -127,3 +128,35 @@
         }
     </div>
 </div>
+
+@*modal form for login (to be put in checkout cart index)*@
+<form asp-controller="LogIn" asp-action="login" method="post">
+    <div class="modal fade" id="modalLoginForm" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header text-center">
+                    <h4 class="modal-title w-100 font-weight-bold">Sign in</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body mx-3">
+                    <div class="md-form mb-5">
+                        <i class="fas fa-person prefix grey-text"></i>
+                        <input type="text" name="Username" id="username" class="form-control validate">
+                        <label data-error="wrong" data-success="right" for="username">Username</label>
+                    </div>
+                    <div class="md-form mb-4">
+                        <i class="fas fa-lock prefix grey-text"></i>
+                        <input type="password" name="Password" id="defaultForm-pass" class="form-control validate">
+                        <label data-error="wrong" data-success="right" for="defaultForm-pass">Your password</label>
+                    </div>
+                </div>
+                <div class="modal-footer d-flex justify-content-center">
+                    <button class="btn btn-default">Login</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
