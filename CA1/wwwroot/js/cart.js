@@ -1,9 +1,8 @@
 ﻿window.onload = function () {
-    
     let adding = document.getElementsByClassName("btn-outline-success");
     let minus = document.getElementsByClassName("btn-outline-danger");
     let remove = document.getElementsByClassName("btn-danger");
-
+    alert(adding.length);
 
     //for (let i = 0; i < adding.length; i++) {
     //    adding[i].addEventListener('click', Addclick);
@@ -30,7 +29,7 @@
 
     function Minusclick(event) {
         if (event.target.getAttribute('data-value') <= 0) {
-            RemoveFromCart1(event.target.getAttribute('value'));
+            RemoveFromCart(event.target.getAttribute('value'));
         }
         else {
             MinusFromCart(event.target.getAttribute('value'));
