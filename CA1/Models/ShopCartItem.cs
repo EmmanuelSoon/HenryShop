@@ -20,7 +20,7 @@ namespace CA1.Models
         }
 
         public Guid Id { get; set; }
-        [Required]
+
         public int Quantity { get; set; }
         public Guid ProductId { get; set; }
 
