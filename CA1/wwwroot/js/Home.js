@@ -51,7 +51,12 @@ function AddToCart(id) {
                         '  </div>' +
                         '</div>');
                     $('#myModal').modal('show');
-                    
+
+                    setTimeout(function () {
+                        $(myModal).modal('hide');
+                    }, 4000);
+
+
                     //alert(data.name + " Added to cart");
                 }
             }
@@ -62,3 +67,4 @@ function AddToCart(id) {
 
     xhr.send(JSON.stringify(req));
 }
+
