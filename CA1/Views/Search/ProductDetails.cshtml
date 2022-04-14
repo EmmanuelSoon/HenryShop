@@ -5,6 +5,7 @@
     List<ProductReview> reviews = ViewBag.Reviews;
     List<User> users = ViewBag.Users;
     string boolean = (string)ViewBag.LoggedIn;
+    int percent = (int) (rating*100/5);
 }
 
 @section Scripts {
@@ -27,12 +28,13 @@
         </div>
         <div class = "row row-content mb-5">
             <div class="col-12 col-sm-6">
-                <img class="img-thumbnail" src=@product.Img height="400" />
+                <img class="img-thumbnail" src="../../@product.Img" height="400" />
             </div>
             <div class="col-12 col-sm">
                 <div class="productdetails">
                     <p>@product.Desc</p> <br />
                     <p><strong>$@product.Price</strong></p>
+                    <p></p>
                     <button type="button" class="btn btn-outline-primary" data-toggle="modal" data-target="@boolean" value="@product.Id"><span class="fa-solid fa-cart-arrow-down"></span> Add to Cart</button>
                 </div>
             </div>
@@ -47,6 +49,10 @@
         }
         else
         {
+            <ul><li>
+                <div class="stars" style="--w: @percent%;"></div>  
+                <span style= "font-size: 20px">    AVG Rating: <span style="color:red">@rating</span>/5 | <span style="color:red">@reviews.Count</span> reviews</span>
+                </li></ul>
             @for(var i = 0; i < reviews.Count; i++)
             {
                 <div class="row row-content align-items-center">
@@ -54,9 +60,17 @@
                         <div class="media">
                             <img class="d-flex mr-3 img-thumbnail align-self-center" src="~/img/blank_Profile.png">
                             <div class="media-body">
+                                <ul>
                                 <p> <u>@users[i].Firstname @users[i].Lastname</u></p>
-                                <p class="mb-1"><strong>Review Rating:</strong> @reviews[i].Rating</p>
-                                <p>@reviews[i].Content;</p>
+                                @*<p class="mb-1"><strong>Review Rating:</strong> @reviews[i].Rating</p>*@
+                                @*<strong>Review Rating:</strong>*@
+                                <p><div class="stars" style="--w: @(reviews[i].Rating*100/5)%;"></div></p>
+                                    @if (reviews[i].Content != "" && reviews[i].Content != null)
+                                    {
+                                        <p><strong>Content:</strong>
+                                            <br>@reviews[i].Content;</p>
+                                    }
+                            </ul>
                             </div>
                         </div>
                     </div>

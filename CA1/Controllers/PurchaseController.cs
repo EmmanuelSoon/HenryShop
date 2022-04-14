@@ -60,6 +60,11 @@ namespace CA1.Controllers
             {
                 rating = Convert.ToInt32(rate);
             }
+            if (content == null)
+            {
+                content = "";
+            }
+
             ProductReview review = new ProductReview()
             {
                 Rating = rating,
@@ -88,7 +93,7 @@ namespace CA1.Controllers
                     status = "success",
                     date = review.CreatedDate,
                     rating = review.Rating,
-                    Content = review.Content
+                    Content = review.Content,
                 });
             }
             return Json(new { status = "fail" });

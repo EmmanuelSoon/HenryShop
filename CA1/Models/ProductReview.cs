@@ -15,7 +15,6 @@ namespace CA1.Models
         }
         public Guid Id { get; set; }
         public virtual Guid OrderId { get; set; }
-        [Required]
         [MaxLength(250)]
         public string Content { get; set; }
         [Range(0, 5)]

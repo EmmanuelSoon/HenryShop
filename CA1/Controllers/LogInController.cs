@@ -124,11 +124,11 @@ namespace CA1.Controllers
         private void CombineCarts(Guid tempcartid, ShopCart Cart)
         {
             ShopCart temp = dbContext.ShopCarts.FirstOrDefault(x => x.Id == tempcartid);
-            List<ShopCartItem> items = (List<ShopCartItem>)temp.ShopCartItems;
+            List<ShopCartItem> items = dbContext.ShopCartItems.Where(x => x.ShopCartId == tempcartid).ToList();
 
             foreach (ShopCartItem item in items)
             {
-                ShopCartItem cartitem = dbContext.ShopCartItems.FirstOrDefault(x => x.Id == item.Id);
+                ShopCartItem cartitem = dbContext.ShopCartItems.FirstOrDefault(x => x.ShopCartId == Cart.Id && x.ProductId == item.ProductId);
                 if(cartitem == null)
                 {
                     item.ShopCartId = Cart.Id;

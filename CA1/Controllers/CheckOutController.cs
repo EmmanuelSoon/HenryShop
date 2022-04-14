@@ -135,24 +135,33 @@ namespace CA1.Controllers
         public IActionResult RemoveFromCart([FromBody] ShopCartItem req)
         {
             ShopCartItem item = dbContext.ShopCartItems.FirstOrDefault(x => x.Id.Equals(req.Id));
-            if(TempData.Peek("stocklist") != null)
+
+            if (req.ProductId == Guid.Empty)
             {
-                List<ShopCartItem> insuff_stock = JsonConvert.DeserializeObject<List<ShopCartItem>>((string)TempData.Peek("stocklist"));
-                List<int> insuff_stock_qty = JsonConvert.DeserializeObject<List<int>>((string)TempData.Peek("stockcount"));
-                if (item != null) 
-                { 
-                    updateLists(item); 
+                if (item != null)
+                {
+
+                    dbContext.ShopCartItems.Remove(item);
+                    dbContext.SaveChanges();
+                    return Json(new { status = "success" });
                 }
             }
-
-            if (item != null)
+            else
             {
+                if (TempData.Peek("stocklist") != null)
+                {
+                    List<ShopCartItem> insuff_stock = JsonConvert.DeserializeObject<List<ShopCartItem>>((string)TempData.Peek("stocklist"));
+                    List<int> insuff_stock_qty = JsonConvert.DeserializeObject<List<int>>((string)TempData.Peek("stockcount"));
+                    if (item != null)
+                    {
+                        updateLists(item);
+                        dbContext.ShopCartItems.Remove(item);
+                        dbContext.SaveChanges();
+                        return RedirectToAction("Index");
+                    }
+                }
 
-                dbContext.ShopCartItems.Remove(item);
-                dbContext.SaveChanges();
-                return Json(new { status = "success" });
             }
-
             return Json(new { status = "fail" });
         }
 
@@ -330,6 +339,7 @@ namespace CA1.Controllers
                     insuff_stock_qty.RemoveAt(i);
                 }
             }
+
             TempData["stocklist"] = JsonConvert.SerializeObject(insuff_stock, new JsonSerializerSettings()
             {
                 ReferenceLoopHandling = ReferenceLoopHandling.Ignore,
@@ -340,6 +350,7 @@ namespace CA1.Controllers
                 ReferenceLoopHandling = ReferenceLoopHandling.Ignore,
                 PreserveReferencesHandling = PreserveReferencesHandling.Objects
             });
+            
         }
 
 

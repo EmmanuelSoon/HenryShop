@@ -146,3 +146,29 @@ button span {
     height: 530px;
 }
 
+
+.stars{
+    position: relative;
+    display: inline-block;
+    font-size: 40pt;
+    height: 1em;
+    line-height: 1em;
+}
+
+.stars:before {
+    content: "\2606\2606\2606\2606\2606";
+}
+
+.stars:after {
+        content: "\2605\2605\2605\2605\2605";
+        position: absolute;
+        left: 0;
+        overflow: hidden;
+        width: var(--w,50%);
+        color: rgb(255, 200, 0);
+        z-index: -1;
+}
+
+li {
+    display: table;
+}
