@@ -78,7 +78,7 @@
                     {
                         var Productprice = "ProductPrice" + @item.ProductId;
                         var productQuantity = @item.ProductId;
-                        <tr>
+                        <tr id=@productQuantity>
                             <td>
                                 <img src=@item.Product.Img style="width:100px;" />
                             </td>
@@ -91,7 +91,7 @@
                                 <div class="btn btn-group-sm row">
                                     <div>
                                         @*<input id="@productQuantity" type="number" step="1" min="1" max="99" name="quantity" value="@item.Quantity" title="qty" data-value=@item.Id class="btn btn-secondary" size="2" pattern="" inputmode="">*@
-                                        <input id="@item.Id" type="number" step="1" min="1" max="99" name="quantity" value="@item.Quantity" data-value=@item.Id class="btn btn-secondary" size="2">
+                                        <input id="@item.Id" type="number" step="1" min="1" max="99" name="quantity" value="@item.Quantity" data-value=@productQuantity class="btn btn-secondary" size="2">
                                     </div>
                                 </div>
                             </td>

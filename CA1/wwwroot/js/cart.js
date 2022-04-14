@@ -1,6 +1,9 @@
 ﻿window.onload = function () {
     let remove = document.getElementsByClassName("btn-danger");
     let quantity = document.getElementsByClassName("btn-secondary");
+    let elem = document.getElementById("checkoutBtn");
+
+    elem.addEventListener('click', ShowModal);
 
     for (let i = 0; i < remove.length; i++) {
         remove[i].addEventListener('click', Removeclick);
@@ -20,6 +23,11 @@
 
     //function UpdateClick(event) {
     //    var specifiedElement = document.getElementById(event.target.id)
+
+    //    elem.addEventListener('mouseenter', function (event) {
+    //        UpdateCartQty(specifiedElement.getAttribute('data-value'), specifiedElement.value)
+    //    })
+
     //    document.addEventListener('click', function (event) {
     //        var isClickInside = specifiedElement.contains(event.target);
 
@@ -30,16 +38,16 @@
     //}
 
     function UpdateClick(event) {
+        var specifiedRow = document.getElementById(event.target.getAttribute('data-value'))
         var specifiedElement = document.getElementById(event.target.id)
-        specifiedElement.addEventListener('mouseleave', function (event){
-            UpdateCartQty(specifiedElement.getAttribute('data-value'), specifiedElement.value)
+
+        specifiedRow.addEventListener('mouseleave', function (event){
+            UpdateCartQty(specifiedElement.id, specifiedElement.value)
         })
     }
 
 
-    //modal stuff here:
-    let elem = document.getElementById("checkoutBtn");
-    elem.addEventListener('click', ShowModal);
+
 }
 
 
