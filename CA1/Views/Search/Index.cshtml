@@ -118,12 +118,12 @@
                                         <div>
                                             <button type="button" class="btn btn-outline-primary" value="@product.Id"><span class="fa-solid fa-cart-arrow-down"></span> Add to Cart</button>
                                         </div>
-
+                                        <a class="btn btn-outline-info" asp-controller="Product" asp-action="Details" asp-route-id="@product.Id"><i class="bi bi-plus-circle"></i>Details</a>
                                         @if (userRole == "Admin" && !string.IsNullOrEmpty(sessionUserName))
                                         {
                                             <div>
                                                 <a class="btn btn-outline-primary" asp-controller="Product" asp-action="Update" asp-route-id="@product.Id"><i class="bi bi-pencil-info"></i>Edit</a>
-                                                <a class="btn btn-outline-info" asp-controller="Product" asp-action="Details" asp-route-id="@product.Id"><i class="bi bi-plus-circle"></i>Details</a>
+
                                                 <a class="btn btn-danger" asp-controller="Product" asp-action="Delete" asp-route-id="@product.Id"><i class="bi bi-trash"></i>Delete</a>
                                             </div>
                                         }

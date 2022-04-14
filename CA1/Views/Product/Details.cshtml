@@ -1,6 +1,8 @@
 ﻿@model Product
 @{
     ViewData["Title"] = "Add a new product";
+    string sessionUserName = (string)Context.Request.Cookies["Username"];
+    string userRole = (string)Context.Request.Cookies["Role"];
 }
 
 @*@section Scripts{
@@ -51,8 +53,14 @@
                     <input asp-for="DownLoadLink" class="form-control" readonly />
                     <span asp-validation-for="DownLoadLink" class="text-danger"></span>
                 </div>
+
                 <div class="form-group">
-                    <a class="btn btn-outline-success float-right" asp-action="Update" asp-route-id="@Model.Id">Edit</a>
+                    @if (userRole == "Admin" && !string.IsNullOrEmpty(sessionUserName))
+                    {
+                        <a class="btn btn-outline-success float-right" asp-action="Update" asp-route-id="@Model.Id">Edit</a>
+
+                    }
+
                     <a class="btn btn-outline-secondary" asp-controller="Search" asp-action="Index">Show All</a>
                 </div>
             </div>
