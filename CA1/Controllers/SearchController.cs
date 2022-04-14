@@ -21,8 +21,10 @@ namespace CA1.Controllers
             this.dbContext = dbContext;
         }
         public IActionResult Index(string searchstr)
-        {   
-            if(searchstr == null)
+        {
+            User user = dbContext.Users.FirstOrDefault(x => (Request.Cookies["SessionId"] != null) && (x.sessionId == Guid.Parse(Request.Cookies["SessionId"])));
+
+            if (searchstr == null)
             {
                 List<Product> products = dbContext.Products.ToList();
                 ViewBag.Products = products;
@@ -38,6 +40,17 @@ namespace CA1.Controllers
             }
 
             CleanUp();
+            if(Request.Cookies["cartcount"] == null)
+            {
+                Response.Cookies.Append("cartcount", "0");
+            }
+
+            if(user != null)
+            {
+                ShopCart Cart = dbContext.ShopCarts.FirstOrDefault(x => x.UserId == user.Id);
+                CheckCartCount(Cart);
+            }
+            
 
             ViewBag.Searchstr = searchstr;
             return View();
@@ -70,9 +83,11 @@ namespace CA1.Controllers
 
         public IActionResult AddtoCart([FromBody] Product req)
         {
+            AddCartCount();
 
             User user = dbContext.Users.FirstOrDefault(x => (Request.Cookies["SessionId"] != null) && (x.sessionId == Guid.Parse(Request.Cookies["SessionId"])));
             Product product = dbContext.Products.FirstOrDefault(x => x.Id == req.Id);
+
 
             CookieOptions opts = new CookieOptions()
             {
@@ -81,8 +96,10 @@ namespace CA1.Controllers
 
             if (user == null) //user has not log in yet
             {
-                if(Request.Cookies["CartId"] == null) //user has not gone to the cart page before in the current session
+
+                if (Request.Cookies["CartId"] == null) //user has not gone to the cart page before in the current session
                 {
+
                     if (Request.Cookies["Temp"] == null) //user has not added to cart yet 
                     {
                         string str = product.Id.ToString();
@@ -189,6 +206,24 @@ namespace CA1.Controllers
                 return 0;
             }
             return rating;
+        }
+
+        private void AddCartCount()
+        {
+            int cartcount = int.Parse(Request.Cookies["cartcount"]);
+            cartcount++;
+            Response.Cookies.Append("cartcount", cartcount.ToString());
+        }
+
+        private void CheckCartCount(ShopCart Cart)
+        {
+            List<ShopCartItem> items = dbContext.ShopCartItems.Where(x => x.ShopCartId == Cart.Id).ToList();
+            int cartcount = 0;
+            foreach (ShopCartItem item in items)
+            {
+                cartcount = cartcount + item.Quantity;
+            }
+            Response.Cookies.Append("cartcount", cartcount.ToString());
         }
     }
 }

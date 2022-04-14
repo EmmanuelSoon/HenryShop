@@ -79,9 +79,18 @@ window.onload = function () {
                 return false;
             }
             alert("Your review was sucessfully submitted!");
-     }
+    }
+    setInterval(reload, 1000);
 }
 
 function Clickfordetail(event) {
     showreview(event.target.id);
+}
+
+$(document).ready(function () {
+    setInterval(reload, 100);
+})
+
+function reload() {
+    $("#here").load(window.location.href + " #here");
 }

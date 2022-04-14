@@ -17,8 +17,6 @@ namespace CA1.Controllers
         public CheckOutController(DBContext dbContext)
         {
             this.dbContext = dbContext;
-
-
         }
         public IActionResult Index()
         {
@@ -64,7 +62,7 @@ namespace CA1.Controllers
                 Cart = (ShopCart)dbContext.ShopCarts.FirstOrDefault(x => x.UserId.Equals(user.Id));
             }
 
-
+            CheckCartCount(Cart);
             List<ShopCartItem> ShopCartItems = (List<ShopCartItem>)Cart.ShopCartItems;
             List<ShopCartItem> insuff_stock = new List<ShopCartItem>();
             List<int> insuff_stock_qty = new List<int>();
@@ -135,6 +133,7 @@ namespace CA1.Controllers
         public IActionResult RemoveFromCart([FromBody] ShopCartItem req)
         {
             ShopCartItem item = dbContext.ShopCartItems.FirstOrDefault(x => x.Id.Equals(req.Id));
+            int change = item.Quantity;
 
             if (req.ProductId == Guid.Empty)
             {
@@ -170,9 +169,9 @@ namespace CA1.Controllers
         public IActionResult ChangeQ(Guid itemid, int stockqty)
         {
             ShopCartItem item = dbContext.ShopCartItems.FirstOrDefault(x => x.Id == itemid);
+            int change = item.Quantity - stockqty;
             if (stockqty == 0)
             {
-
                 return RemoveFromCart(item);
             }
             else
@@ -281,7 +280,7 @@ namespace CA1.Controllers
                         dbContext.Orders.Add(order);
                         dbContext.ShopCartItems.Remove(curr);
                     }
-
+                    ResetCartCount();
                     dbContext.SaveChanges();
 
                     return RedirectToAction("Index", "Purchase");
@@ -301,8 +300,7 @@ namespace CA1.Controllers
             foreach (string str in strarr)
             {
                 Guid productid = Guid.Parse(str);
-                Debug.WriteLine("str:" + str);
-                Debug.WriteLine("productid:" + productid);
+
                 if (freqdict.ContainsKey(productid))
                 {
                     freqdict[productid]++;
@@ -315,7 +313,6 @@ namespace CA1.Controllers
 
             foreach (KeyValuePair<Guid, int> item in freqdict)
             {
-                Debug.WriteLine("Key:" + item.Key);
                 Product product = dbContext.Products.FirstOrDefault(x => x.Id == item.Key);
                 ShopCartItem cartitem = new ShopCartItem(product)
                 {
@@ -354,6 +351,22 @@ namespace CA1.Controllers
         }
 
 
+
+        private void ResetCartCount()
+        {
+            Response.Cookies.Append("cartcount", "0");
+        }
+
+        private void CheckCartCount(ShopCart Cart)
+        {
+            List<ShopCartItem> items = dbContext.ShopCartItems.Where(x => x.ShopCartId == Cart.Id).ToList();
+            int cartcount = 0;
+            foreach (ShopCartItem item in items)
+            {
+                cartcount = cartcount + item.Quantity;
+            }
+            Response.Cookies.Append("cartcount", cartcount.ToString());
+        }
 
         //public IActionResult PlusToCart(ShopCartItem item)
         //{

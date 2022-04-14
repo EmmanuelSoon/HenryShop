@@ -72,12 +72,30 @@ namespace CA1.Controllers
                 dbContext.SaveChanges();
 
                 //Combine temp cart if needed.
-                if (Request.Cookies["CartId"] != null)
+                if (Request.Cookies["CartId"] != null || Request.Cookies["Temp"] != null)
                 {
                     ShopCart UserCart = dbContext.ShopCarts.FirstOrDefault(x => x.UserId == user.Id);
-                    Guid cartid = Guid.Parse(Request.Cookies["CartId"]);
-                    CombineCarts(cartid, UserCart);
-                    Response.Cookies.Delete("CartId");
+
+                    if (Request.Cookies["Temp"] != null)
+                    {
+                        Guid Tempid = Guid.NewGuid();
+                        dbContext.ShopCarts.Add(new ShopCart()
+                        {
+                            Id = Tempid,
+                            UserId = null,
+                            ShopCartItems = new List<ShopCartItem>()
+                        });
+                        dbContext.SaveChanges();
+                        stringtocart(Request.Cookies["Temp"], Tempid);
+                        CombineCarts(Tempid, UserCart);
+                        Response.Cookies.Delete("Temp");
+                    }
+                    else
+                    {
+                        Guid cartid = Guid.Parse(Request.Cookies["CartId"]);
+                        CombineCarts(cartid, UserCart);
+                        Response.Cookies.Delete("CartId");
+                    }
                 }
 
                 // ask browser to save and send back these cookies next time
@@ -113,13 +131,45 @@ namespace CA1.Controllers
             // they won't be sent over next time
             Response.Cookies.Delete("SessionId");
             Response.Cookies.Delete("Username");
+            Response.Cookies.Delete("cartcount");
 
             return RedirectToAction("Index", "LogIn");
         }
 
 
 
- /*---------------------------HELPER FUNCTIONS HERE-----------------------------------*/
+        /*---------------------------HELPER FUNCTIONS HERE-----------------------------------*/
+
+        private void stringtocart(string cartstr, Guid CartId)
+        {
+            string[] strarr = cartstr.Split(',');
+            Dictionary<Guid, int> freqdict = new Dictionary<Guid, int>();
+            ShopCart Cart = dbContext.ShopCarts.FirstOrDefault(x => x.Id == CartId);
+            foreach (string str in strarr)
+            {
+                Guid productid = Guid.Parse(str);
+                if (freqdict.ContainsKey(productid))
+                {
+                    freqdict[productid]++;
+                }
+                else
+                {
+                    freqdict.Add(productid, 1);
+                }
+            }
+
+            foreach (KeyValuePair<Guid, int> item in freqdict)
+            {
+                Product product = dbContext.Products.FirstOrDefault(x => x.Id == item.Key);
+                ShopCartItem cartitem = new ShopCartItem(product)
+                {
+                    Quantity = item.Value,
+                    ShopCartId = Cart.Id
+                };
+                dbContext.ShopCartItems.Add(cartitem);
+            }
+            dbContext.SaveChanges();
+        }
 
         private void CombineCarts(Guid tempcartid, ShopCart Cart)
         {
@@ -146,6 +196,9 @@ namespace CA1.Controllers
             dbContext.ShopCarts.Remove(temp);
             dbContext.SaveChanges();
         }
+
+
     }
+
 
 }

@@ -5,6 +5,7 @@
 @{
     string sessionUserName = (string)Context.Request.Cookies["Username"];
     string searchStr = (string)ViewBag.Searchstr;
+    string cartcount = Context.Request.Cookies["cartcount"];
 }
 <head>
     <meta charset="utf-8" />
@@ -50,6 +51,19 @@
                     </form>
                     @*Checkout cart*@
                     <a class="fa fa-cart-shopping text-white mr-3" asp-controller="CheckOut" asp-action="Index"></a>
+                    <a id="here">
+                        @{
+                            if (string.IsNullOrEmpty(@cartcount))
+                            {
+                                @: 0
+                            }
+                            else
+                            {
+                                @cartcount
+                            }
+                        }
+                    
+                    </a>
                     @*Account dropdown*@
                     <div class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle text-white" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
