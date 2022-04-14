@@ -40,10 +40,16 @@ function showreview(orderId) {
             let data = JSON.parse(this.responseText);
             if (data.status === "success") {
                 let obj = document.getElementById(orderId);
-                var date = "Review was made on " + data.date;
-                var rating = "You rated " + data.rating + "/5";
+                var date = "<b>Date:</b>  " + data.date;
+                var rating = "<b>Rating:</b> " + data.rating + "/5";
                 var content = data.content;
-                obj.innerHTML = "<p>" + date + "</p><p>" + rating + "</p><p><b>Content:</b><br>" + content + "</p>";
+                if (content != "") {
+                    content = "</p><p><b>Content:</b><br>" + content;
+                }
+                else {
+                    content = "There is no content in this review!"
+                }
+                obj.innerHTML = "<p>" + date + "</p><p>" + rating + "</p><p>" + content + "</p>";
             }
         }
     }
@@ -63,10 +69,10 @@ window.onload = function () {
     {
         let rate = document.getElementById("rate");
         let content = document.getElementById("content");
-            if (content.value.length == 0) {
-            alert("The Content can not be empty");
-                return false;
-            }
+            //if (content.value.length == 0) {
+            //alert("The Content can not be empty");
+                //return false;
+            //}
             if (content.value.length > 250)
             {
                 alert("The Content can not more than 250 characters!");
