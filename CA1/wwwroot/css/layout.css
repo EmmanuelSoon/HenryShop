@@ -1,0 +1,13 @@
+﻿#search-input:focus {
+    width: 400px;
+}
+
+.cart-count {
+    position: relative;
+}
+
+.cart-count > a span {
+    position: absolute;
+    top: -7px;
+    left: 13px;
+}

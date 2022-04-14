@@ -14,11 +14,7 @@
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/lib/font-awesome/css/all.css" />
     <link rel="stylesheet" href="~/css/site.css" />
-    <style>
-        #example-search-input:focus {
-            width: 500px;
-        }
-    </style>
+    <link rel="stylesheet" href="~/css/layout.css"/>
 </head>
 <body>
     <header>
@@ -41,7 +37,7 @@
                     @*Product Searchbar*@
                     <form class="form-inline my-2 my-lg-0" style="padding-right: 35px;" action="/" method="post">
                         <div class="input-group">
-                            <input class="form-control border-end-0 rounded border" type="search" value="@searchStr" name="searchstr" id="example-search-input">
+                            <input class="form-control border-end-0 rounded border" type="search" value="@searchStr" name="searchstr" id="search-input">
                             <span class="input-group-append">
                                 <button class="btn btn-outline-secondary bg-white border-start-0 border-bottom-0 border ms-n5" type="button">
                                     <i class="fa fa-search"></i>
@@ -50,20 +46,16 @@
                         </div>
                     </form>
                     @*Checkout cart*@
-                    <a class="fa fa-cart-shopping text-white mr-3" asp-controller="CheckOut" asp-action="Index"></a>
-                    <a id="here">
-                        @{
-                            if (string.IsNullOrEmpty(@cartcount))
-                            {
-                                @: 0
+                    <div class="cart-count">
+                        <a class="fa fa-cart-shopping text-white mr-3" asp-controller="CheckOut" asp-action="Index">
+                            @{
+                                if (!string.IsNullOrEmpty(@cartcount))
+                                {
+                                    <span class="badge badge-warning" id="CartCount here">@cartcount</span>
+                                }
                             }
-                            else
-                            {
-                                @cartcount
-                            }
-                        }
-                    
-                    </a>
+                        </a>
+                    </div>
                     @*Account dropdown*@
                     <div class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle text-white" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -72,7 +64,7 @@
                         <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                             <a class="dropdown-item"><b>@sessionUserName</b></a>
                             <a class="dropdown-item" asp-controller="Purchase" asp-action="Index">My Purchase</a>
-                            <a class="dropdown-item">Additional Feature</a>
+                            <a class="dropdown-item" asp-controller="WishList" asp-action="Index">WishList</a>
                             <a class="dropdown-item">Additional Feature</a>
                             @{
                                 if (!string.IsNullOrEmpty(@sessionUserName))
@@ -86,8 +78,8 @@
                             }
                         </div>
                     </div>
-                </div>
             </div>
+        </div>
         </nav>
     </header>
     <div class="container">
