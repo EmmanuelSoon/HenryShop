@@ -8,15 +8,16 @@
     float totalGST = total + GST;
     Func<float, int, float> sum = (a, b) => a * b;
     Func<int, int> minus1 = (a) => a - 1;
-
 }
 
 @section Scripts {
     <script src="~/js/cart.js"></script>
 }
 
-<div class="container" style="margin-top:90px;">
-    <h3 class="my-5">Your Shooping Cart</h3>
+<link rel="stylesheet" href="~/css/checkout.css"/>
+
+<div class="container">
+    <h3 class="my-5">Your Shopping Cart</h3>
     <div class="row">
 
         @if (ShopCartItems.Count == 0)
@@ -97,23 +98,22 @@
             </div>
             <div class="col-4 ">
                 <div class="container rounded border border-success">
-                    <h3 class="my-3">Order Summary</h3>
-                    <table class="table none">
+                    <h4 class="my-3">Order Summary</h4>
+                    <table class="table none order-summary">
                         <tr>
-                            <td>Price before GST </td>
+                            <td class="text-left font-weight-bold">Price before GST : </td>
                             <td class="text-right">$ @total</td>
                         </tr>
                         <tr>
-                            <td>GST(7%): </td>
+                            <td class="text-left font-weight-bold">GST(7%) : </td>
                             <td class="text-right">@GST</td>
                         </tr>
                         <tr>
-                            <td>Total Price</td>
-                            <td>@totalGST</td>
+                            <td class="text-left font-weight-bold">Total Price :</td>
+                            <td class="text-right">$ @totalGST</td>
                         </tr>
                         <tr>
                             <td colspan="2" class="border-0">
-                                @*@Html.ActionLink("Proceed to Checkout!", "CheckUser", "CheckOut", null, new { @class = "btn btn-primary btn-block w-100" })*@
                                 <button class="btn btn-primary btn block w-100" id="checkoutBtn">Checkout!</button>
                             </td>
                         </tr>
