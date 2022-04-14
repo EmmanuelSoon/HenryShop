@@ -90,7 +90,8 @@
                             <td class="align-middle" style="width:125px">
                                 <div class="btn btn-group-sm row">
                                     <div>
-                                        <input id="@productQuantity" type="number" step="1" min="1" max="99" name="quantity" value="@item.Quantity" title="qty" data-value=@item.Id class="btn btn-secondary" size="2" pattern="" inputmode="">
+                                        @*<input id="@productQuantity" type="number" step="1" min="1" max="99" name="quantity" value="@item.Quantity" title="qty" data-value=@item.Id class="btn btn-secondary" size="2" pattern="" inputmode="">*@
+                                        <input id="@item.Id" type="number" step="1" min="1" max="99" name="quantity" value="@item.Quantity" data-value=@item.Id class="btn btn-secondary" size="2">
                                     </div>
                                 </div>
                             </td>

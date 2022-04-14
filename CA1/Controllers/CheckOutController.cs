@@ -95,7 +95,7 @@ namespace CA1.Controllers
         }
         public IActionResult RemoveFromCart([FromBody] ShopCartItem req)
         {
-            ShopCartItem item = dbContext.ShopCartItems.FirstOrDefault(x => x.Id.Equals(req.Id));
+            ShopCartItem item = dbContext.ShopCartItems.FirstOrDefault(x => x.Id == req.Id);
             int change = item.Quantity;
 
             if (req.ProductId == Guid.Empty)
@@ -127,17 +127,26 @@ namespace CA1.Controllers
             return Json(new { status = "fail" });
         }
 
-        public IActionResult UpdateQuantity([FromBody] ShopCartItem shopcartitem)
+        public IActionResult UpdateQuantity([FromBody] ShopCartItem req)
         {
-            ShopCartItem item = dbContext.ShopCartItems.FirstOrDefault(x => x.Id.Equals(shopcartitem.Id));
+            
+            ShopCartItem item = dbContext.ShopCartItems.FirstOrDefault(x => x.Id.Equals(req.Id));
             if (item != null)
             {
-                item.Quantity = shopcartitem.Quantity;
-                dbContext.SaveChanges();
-                return Json(new { status = "success" });
+
+                    item.Quantity = req.Quantity;
+                    dbContext.SaveChanges();
+                    return Json(new { status = "success" });
+                    
+
             }
+            
             return Json(new { status = "fail" });
         }
+
+
+
+
         public IActionResult ChangeQ(Guid itemid, int stockqty)
         {
             ShopCartItem item = dbContext.ShopCartItems.FirstOrDefault(x => x.Id == itemid);

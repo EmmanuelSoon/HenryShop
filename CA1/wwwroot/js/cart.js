@@ -6,18 +6,74 @@
         remove[i].addEventListener('click', Removeclick);
     }
 
+    //for (let i = 0; i < quantity.length; i++) {
+    //    quantity[i].addEventListener('input', UpdateQuantityCart);
+    //}
+
     for (let i = 0; i < quantity.length; i++) {
-        quantity[i].addEventListener('input', UpdateQuantityCart);
+        quantity[i].addEventListener('click', UpdateClick);
     }
 
     function Removeclick(event) {
         RemoveFromCart(event.target.value);
     }
 
+    function UpdateClick(event) {
+        var specifiedElement = document.getElementById(event.target.id)
+        document.addEventListener('click', function (event) {
+            var isClickInside = specifiedElement.contains(event.target);
+
+            if (!isClickInside) {
+                UpdateCartQty(specifiedElement.getAttribute('data-value'),specifiedElement.value)
+            }
+        });
+    }
+
+
     //modal stuff here:
     let elem = document.getElementById("checkoutBtn");
     elem.addEventListener('click', ShowModal);
 }
+
+
+function UpdateCartQty(id ,value) {
+
+    var Value = value * 1;
+
+    if (Value < 1 || !Number.isInteger(Value)) {
+        alert("Please input a correct quantity. You may remove the item by clicking on the delete icon on the right.");
+        document.getElementById(productId).value = 1;
+        Value = document.getElementById(productId).value * 1;
+    }
+
+    let xhr = new XMLHttpRequest();
+
+    xhr.open("POST", "/CheckOut/UpdateQuantity");
+
+    xhr.setRequestHeader("Content-Type", "application/json; charset=utf8");
+
+    xhr.onreadystatechange = function () {
+        if (this.readyState == XMLHttpRequest.DONE) {
+            if (this.status == 200) {
+                let data = JSON.parse(this.responseText);
+
+                if (data.status == "success") {
+                    window.location.reload(true);
+                }
+            }
+        }
+    }
+    let req = {
+        "Id": id,
+        "Quantity": Value
+
+    }
+
+    xhr.send(JSON.stringify(req));
+}
+
+
+
 
 function RemoveFromCart(id) {
     if (confirm("Remove item from Cart?")) {
@@ -36,6 +92,7 @@ function RemoveFromCart(id) {
                     if (data.status == "success") {
                         window.location.reload(true);
                     }
+
                 }
             }
         }
@@ -46,54 +103,55 @@ function RemoveFromCart(id) {
     }
 }
 
-function UpdateQuantityCart(event) {
-    let productId = event.target.id;
-    let shopcartitemid = event.target.getAttribute('data-value');
-    let ProductpriceId = "ProductPrice" + productId;
 
-    let value = document.getElementById(productId).value * 1;
+//function UpdateQuantityCart(event) {
+//    let productId = event.target.id;
+//    let shopcartitemid = event.target.getAttribute('data-value');
+//    let ProductpriceId = "ProductPrice" + productId;
 
-    let Productprice = parseFloat(document.getElementById(ProductpriceId).innerHTML.substring(1));
+//    let value = document.getElementById(productId).value * 1;
 
-    if (value < 1 || !Number.isInteger(value)) {
-        alert("Please input a correct quantity. You may remove the item by clicking on the delete icon on the right.");
-        document.getElementById(productId).value = 1;
-    }
+//    let Productprice = parseFloat(document.getElementById(ProductpriceId).innerHTML.substring(1));
 
-    value = document.getElementById(productId).value * 1;
+//    if (value < 1 || !Number.isInteger(value)) {
+//        alert("Please input a correct quantity. You may remove the item by clicking on the delete icon on the right.");
+//        document.getElementById(productId).value = 1;
+//    }
 
-    UpdateCartItemwithQuantity(productId, value, shopcartitemid);
-}
+//    value = document.getElementById(productId).value * 1;
 
-function UpdateCartItemwithQuantity(productId, value, shopcartitemid) {
-    let xhr = new XMLHttpRequest();
+//    UpdateCartItemwithQuantity(productId, value, shopcartitemid);
+//}
 
-    xhr.open("POST", "/CheckOut/UpdateQuantity");
+//function UpdateCartItemwithQuantity(productId, value, shopcartitemid) {
+//    let xhr = new XMLHttpRequest();
 
-    xhr.setRequestHeader("Content-Type", "application/json; charset=utf8");
+//    xhr.open("POST", "/CheckOut/UpdateQuantity");
 
-    xhr.onreadystatechange = function () {
-        if (this.readyState == XMLHttpRequest.DONE) {
-            if (this.status == 200) {
-                let data = JSON.parse(this.responseText);
+//    xhr.setRequestHeader("Content-Type", "application/json; charset=utf8");
+
+//    xhr.onreadystatechange = function () {
+//        if (this.readyState == XMLHttpRequest.DONE) {
+//            if (this.status == 200) {
+//                let data = JSON.parse(this.responseText);
 
 
-                if (data.status == "success") {
-                    window.location.reload(true);
-                }
-            }
-        }
-    }
+//                if (data.status == "success") {
+//                    window.location.reload(true);
+//                }
+//            }
+//        }
+//    }
 
-    let shopcartitem = {
-        Id: shopcartitemid,
-        ProductId: productId,
-        Quantity: value
+//    let shopcartitem = {
+//        Id: shopcartitemid,
+//        ProductId: productId,
+//        Quantity: value
 
-    }
+//    }
 
-    xhr.send(JSON.stringify(shopcartitem));
-}
+//    xhr.send(JSON.stringify(shopcartitem));
+//}
 
 //show login modal
 function ShowModal(event) {
