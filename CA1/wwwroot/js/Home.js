@@ -67,7 +67,7 @@ function AddToCart(id) {
 
                     setTimeout(function () {
                         $(myModal).modal('hide');
-                    }, 4000);
+                    }, 2000);
 
 
                     //alert(data.name + " Added to cart");

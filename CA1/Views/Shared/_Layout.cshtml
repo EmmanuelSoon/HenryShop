@@ -44,20 +44,19 @@
                             </span>
                         </div>
                     </form>
-                    @*Checkout cart*@
-                        <a class="fa fa-cart-shopping text-white mr-3" asp-controller="CheckOut" asp-action="Index">
-                            <a id="here">
+                        <a class="fa fa-cart-shopping text-white mr-3" asp-controller="CheckOut" asp-action="Index" style="position:relative">
+                            <div id="here" style="position: absolute;top: -8px;right:-7px;">
                                 @{
                                     if (string.IsNullOrEmpty(@cartcount))
                                     {
-                                        @: 0
+                                       <span class="badge badge-warning rounded-circle">0</span> 
                                     }
                                     else
                                     {
-                                        @cartcount
+                                        <span class="badge badge-warning rounded-circle">@cartcount</span>
                                     }
                                 }
-                            </a>
+                            </div>
                         </a>
                     @*Account dropdown*@
                     <div class="nav-item dropdown">
