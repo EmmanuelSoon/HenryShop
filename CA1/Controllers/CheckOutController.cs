@@ -25,10 +25,10 @@ namespace CA1.Controllers
 
             if (user == null)
             {
-                if(Request.Cookies["CartId"] == null)
+                if (Request.Cookies["CartId"] == null)
                 {
                     //User first time click on cart page after adding to cart without logging in 
-                    if(Request.Cookies["Temp"] != null)
+                    if (Request.Cookies["Temp"] != null)
                     {
                         Guid cartid = Guid.NewGuid();
                         dbContext.ShopCarts.Add(new ShopCart()
@@ -43,9 +43,9 @@ namespace CA1.Controllers
                             Expires = DateTime.Now.AddMinutes(360),
                         };
                         Response.Cookies.Append("CartId", cartid.ToString(), opts);
-                        
+
                         string cartstr = Request.Cookies["Temp"];
-                        
+
                         Cart = dbContext.ShopCarts.FirstOrDefault(x => x.Id == cartid);
                         stringtocart(cartstr, Cart.Id);
                         Response.Cookies.Delete("Temp");
@@ -83,7 +83,7 @@ namespace CA1.Controllers
             {
                 total += ShopCartItems[i].Product.Price * ShopCartItems[i].Quantity;
             }
-            
+
             ViewBag.Total = total;
             return View();
         }
@@ -93,43 +93,6 @@ namespace CA1.Controllers
         {
             return RedirectToAction("Index", "Search");
         }
-
-
-
-        public IActionResult PlusToCart([FromBody] ShopCartItem req)
-        {
-            ShopCartItem item = dbContext.ShopCartItems.FirstOrDefault(x => x.Id.Equals(req.Id));
-            if(item != null)
-            {
-                item.Quantity++;
-                dbContext.ShopCartItems.Update(item);
-                dbContext.SaveChanges();
-                return Json(new { status = "success" });
-            }
-
-            return Json(new { status = "fail" });
-        }
-
-        public IActionResult MinusFromCart([FromBody] ShopCartItem req)
-        {
-            ShopCartItem item = dbContext.ShopCartItems.FirstOrDefault(x => x.Id.Equals(req.Id));
-            if (item != null)
-            {
-                item.Quantity--;
-                if(item.Quantity <= 0)
-                {
-                    return RemoveFromCart(req);
-                }
-            
-                dbContext.ShopCartItems.Update(item);
-                dbContext.SaveChanges();
-                return Json(new { status = "success" });
-            }
-
-            return Json(new { status = "fail" });
-        }
-
-
         public IActionResult RemoveFromCart([FromBody] ShopCartItem req)
         {
             ShopCartItem item = dbContext.ShopCartItems.FirstOrDefault(x => x.Id.Equals(req.Id));
@@ -164,8 +127,17 @@ namespace CA1.Controllers
             return Json(new { status = "fail" });
         }
 
-
-
+        public IActionResult UpdateQuantity([FromBody] ShopCartItem shopcartitem)
+        {
+            ShopCartItem item = dbContext.ShopCartItems.FirstOrDefault(x => x.Id.Equals(shopcartitem.Id));
+            if (item != null)
+            {
+                item.Quantity = shopcartitem.Quantity;
+                dbContext.SaveChanges();
+                return Json(new { status = "success" });
+            }
+            return Json(new { status = "fail" });
+        }
         public IActionResult ChangeQ(Guid itemid, int stockqty)
         {
             ShopCartItem item = dbContext.ShopCartItems.FirstOrDefault(x => x.Id == itemid);
@@ -201,7 +173,7 @@ namespace CA1.Controllers
         {
             User user = dbContext.Users.FirstOrDefault(x => (Request.Cookies["SessionId"] != null) && (x.sessionId == Guid.Parse(Request.Cookies["SessionId"])));
             ShopCart ShopCart = (ShopCart)dbContext.ShopCarts.FirstOrDefault(x => (Request.Cookies["SessionId"] != null) && (x.UserId.Equals(user.Id)));
-            
+
 
             if (user == null)
             {
@@ -235,7 +207,7 @@ namespace CA1.Controllers
                     {
                         ReferenceLoopHandling = ReferenceLoopHandling.Ignore,
                         PreserveReferencesHandling = PreserveReferencesHandling.Objects
-                });
+                    });
                     TempData["stockcount"] = JsonConvert.SerializeObject(insuff_stock_qty, new JsonSerializerSettings()
                     {
                         ReferenceLoopHandling = ReferenceLoopHandling.Ignore,
@@ -260,7 +232,7 @@ namespace CA1.Controllers
                             ProductId = curr.ProductId,
                             Quantity = curr.Quantity,
                             UserId = user.Id,
-               
+
                         };
 
 
@@ -290,7 +262,7 @@ namespace CA1.Controllers
         }
 
 
-/*---------------------------HELPER FUNCTIONS HERE-----------------------------------*/
+        /*---------------------------HELPER FUNCTIONS HERE-----------------------------------*/
 
         private void stringtocart(string cartstr, Guid CartId)
         {
@@ -347,7 +319,7 @@ namespace CA1.Controllers
                 ReferenceLoopHandling = ReferenceLoopHandling.Ignore,
                 PreserveReferencesHandling = PreserveReferencesHandling.Objects
             });
-            
+
         }
 
 
