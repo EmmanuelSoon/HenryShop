@@ -103,7 +103,8 @@ namespace CA1.Controllers
                 Response.Cookies.Append("Username", user.UserName);
                 Response.Cookies.Append("Name", user.Firstname + user.Lastname);
 
-                return RedirectToAction("Index", "Search");
+                string controllerUrl = form["returnUrl"];
+                return RedirectToAction("Index", controllerUrl);
             }
             else
             {
