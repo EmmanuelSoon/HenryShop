@@ -14,7 +14,6 @@
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/lib/font-awesome/css/all.css" />
     <link rel="stylesheet" href="~/css/site.css" />
-    <link rel="stylesheet" href="~/css/layout.css"/>
 </head>
 <body>
     <header>
@@ -46,16 +45,20 @@
                         </div>
                     </form>
                     @*Checkout cart*@
-                    <div class="cart-count">
                         <a class="fa fa-cart-shopping text-white mr-3" asp-controller="CheckOut" asp-action="Index">
-                            @{
-                                if (!string.IsNullOrEmpty(@cartcount))
-                                {
-                                    <span class="badge badge-warning" id="CartCount here">@cartcount</span>
+                            <a id="here">
+                                @{
+                                    if (string.IsNullOrEmpty(@cartcount))
+                                    {
+                                        @: 0
+                                    }
+                                    else
+                                    {
+                                        @cartcount
+                                    }
                                 }
-                            }
+                            </a>
                         </a>
-                    </div>
                     @*Account dropdown*@
                     <div class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle text-white" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
