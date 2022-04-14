@@ -1,7 +1,53 @@
 ﻿
 @{
-    ViewData["Title"] = "Index";
+    List<WishListItem> wishListItems = ViewBag.WishList;
+    List<int> stockcount = ViewBag.StockCount; 
 }
 
-<h1>Index</h1>
+@section Scripts {
+    <script src="~/js/Home.js"></script>
+}
 
+
+
+<div class="container">
+    <h3 class="my-5">Your Wishlist</h3>
+    <div class="row">
+
+        @if (wishListItems.Count == 0)
+        {
+            <div class="container">
+                <div class="row justify-content-md-center">
+                    <div class="col-4 text-center">
+                        <p class="my-3">Your Wishlist is Empty</p>
+                    </div>
+                </div>
+            </div>
+        }
+        else
+        {
+            <div class="col-10 offset-1">
+                @for(var i = 0; i < wishListItems.Count; i++)
+                {
+                    <div class="col-5">
+                        <img src =@wishListItems[i].Product.Img alt="Image not found" width ="200" height="200">
+                    </div>
+                    <div class="col">
+                        <h5>@wishListItems[i].Product.Name</h5>
+                        <p>@wishListItems[i].Product.Desc</p>
+                        @if(stockcount[i] != 0)
+                        {
+                            <p>Currently in stock! <span class="fa-solid fa-champagne-glasses"></span></p>
+                            <button type="button" class="btn btn-outline-primary" value="@wishListItems[i].Product.Id"><span class="fa-solid fa-cart-arrow-down"></span> Add to Cart</button>
+                        }
+                        else
+                        {
+                            <p>Sorry... we are out of stock <span class="fa-solid fa-ghost"></span></p>
+                        }
+                    </div>
+                }
+
+            </div>
+        }
+    </div>
+</div>
