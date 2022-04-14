@@ -172,13 +172,17 @@ namespace CA1.Models
             byte[] hash = sha.ComputeHash(Encoding.UTF8.GetBytes(combo));
 
             ShopCart cart = new ShopCart();
+            //Updated to add wishlist
+            WishList wishList = new WishList();
+
             dbContext.Add(new User
             {
                 UserName = username,
                 PassHash = hash,
                 Firstname = "Mary",
                 Lastname = "Lamb",
-                shopcart = cart
+                shopcart = cart,
+                wishlist = wishList
             });
 
             string username2 = "user2";
@@ -187,13 +191,15 @@ namespace CA1.Models
             byte[] hash2 = sha.ComputeHash(Encoding.UTF8.GetBytes(combo2));
 
             ShopCart cart2 = new ShopCart();
+            WishList wishList2 = new WishList();
             dbContext.Add(new User
             {
                 UserName = username2,
                 PassHash = hash2,
                 Firstname = "Henry",
                 Lastname = "Pig",
-                shopcart = cart2
+                shopcart = cart2,
+                wishlist = wishList2
             });
 
             dbContext.SaveChanges();

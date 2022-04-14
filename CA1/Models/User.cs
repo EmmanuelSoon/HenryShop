@@ -28,5 +28,6 @@ namespace CA1.Models
 
 		/* navigational property: 1-to-1 relationship to shopcart */
 		public virtual ShopCart shopcart { get; set; }
+		public virtual WishList wishlist { get; set; }
 	}
 }
