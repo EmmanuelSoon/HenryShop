@@ -14,7 +14,7 @@ namespace CA1.Models
             WishListItems = new List<WishListItem>();
         }
         public Guid Id { get; set; }
-        public Guid UserId { get; set; }
+        public virtual Guid UserId { get; set; }
         public virtual ICollection<WishListItem> WishListItems { get; set; }
     }
 }

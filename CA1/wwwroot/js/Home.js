@@ -1,15 +1,20 @@
 ﻿window.onload = function () {
 
     let add = document.getElementsByClassName("btn-outline-primary");
-
+    let addwishlists = document.getElementsByClassName("fa-heart");
 
     for (let i = 0; i < add.length; i++) {
         add[i].addEventListener('click', Addclick);
     }
-
+    for (let i = 0; i < addwishlists.length; i++) {
+        addwishlists[i].addEventListener('click', Addlist);
+    }
 
     function Addclick(event) {
         AddToCart(event.target.value);
+    }
+    function Addlist(event) {
+        AddToWishList(event.target.value);
     }
 
 }
@@ -59,5 +64,34 @@ function AddToCart(id) {
 
     let req = { "Id": id }
 
+    xhr.send(JSON.stringify(req));
+}
+
+function AddToWishList(id) {
+    let xhr = new XMLHttpRequest();
+
+    xhr.open("POST", "/Wishlist/AddToWishList");
+
+    xhr.setRequestHeader("Content-Type", "application/json; charset=utf8");
+
+    xhr.onreadystatechange = function () {
+        if (this.readyState == XMLHttpRequest.DONE) {
+            if (this.status == 200) {
+                let data = JSON.parse(this.responseText);
+                if (data.status == "success") {
+                    alert(data.name + " Added to your wishlist");
+                }
+                else if (data.status == "existed") {
+                    alert(data.name + " Already existed in your wishlist");
+                }
+                else if (data.status == "needlogin") {
+                    alert("PLease Login to add product in the wishlist");
+                    window.location.href = '/Login/Index/';
+                }
+            }
+        }
+    }
+
+    let req = { "Id": id }
     xhr.send(JSON.stringify(req));
 }

@@ -14,7 +14,7 @@
     <h3 class="my-5">Your Wishlist</h3>
     <div class="row">
 
-        @if (wishListItems.Count == 0)
+        @if (wishListItems == null || wishListItems.Count == 0)
         {
             <div class="container">
                 <div class="row justify-content-md-center">

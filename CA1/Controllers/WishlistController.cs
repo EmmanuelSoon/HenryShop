@@ -29,7 +29,8 @@ namespace CA1.Controllers
             }
             else
             {
-                WishList wishList = dbContext.WishLists.FirstOrDefault(x => x.Id == user.Id);
+                WishList wishList = dbContext.WishLists.FirstOrDefault(x => x.UserId == user.Id);
+                if (wishList != null) { 
                 List<WishListItem> wishListItems = dbContext.WishListItems.Where(x => x.WishListId == wishList.Id).ToList();
                 List<int> stockcount = new List<int>();
 
@@ -48,9 +49,66 @@ namespace CA1.Controllers
 
                 ViewBag.WishList = wishListItems;
                 ViewBag.StockCount = stockcount;
+                }
             }
-
             return View();
+        }
+
+        public IActionResult AddToWishList([FromBody] Product req)
+        {
+            User user = dbContext.Users.FirstOrDefault(x => (Request.Cookies["SessionId"] != null) && (x.sessionId == Guid.Parse(Request.Cookies["SessionId"])));
+            if (user == null)
+            {
+                return Json(new
+                {
+                    status = "needlogin"
+                });
+            }
+            Product product = dbContext.Products.FirstOrDefault(x => x.Id == req.Id);
+            if (!IsExistedInWishList(product.Id, user))
+            {
+                WishList wishlist = dbContext.WishLists.FirstOrDefault(x => x.UserId == user.Id);
+                WishListItem item = new WishListItem{
+                    ProductId = product.Id,
+                    WishListId = wishlist.Id,
+                    Product = product
+                };
+                wishlist.WishListItems.Add(item);
+                dbContext.WishListItems.Add(item);
+                dbContext.SaveChanges(); 
+                return Json(new
+                {
+                    status = "success",
+                    name = product.Name,
+                });
+            }
+            else
+            {
+                return Json(new
+                {
+                    status = "existed",
+                    name = product.Name,
+                });
+            }
+           
+        }
+
+        public bool IsExistedInWishList(Guid ProductId, User user)
+        {
+            if(user != null)
+            {
+                WishList wishlist = dbContext.WishLists.FirstOrDefault(x => x.UserId == user.Id);
+                if (wishlist != null)
+                {
+                    WishListItem wishListItem = dbContext.WishListItems.FirstOrDefault(x => x.WishListId == wishlist.Id && x.ProductId == ProductId);
+                    if(wishListItem != null)
+                    {
+                        return true;
+                    }
+                }
+            }
+            return false;
+            
         }
     }
 }
