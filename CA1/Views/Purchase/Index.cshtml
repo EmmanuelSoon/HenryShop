@@ -6,6 +6,10 @@
     @*Index is the uniqueId assigned for html tag for the activation code display*@
     int index = 0;
 }
+
+<head>
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.1/css/all.css" crossorigin="anonymous">
+</head>
 <body>
     @if (Orders.Count == 0)
     {
@@ -13,19 +17,7 @@
     }
     else
     {
-        @*<div class = "container">
-                <div class = "row row-content">
-                    <div class ="col-12 col-sm offset-1 mb-3" align-self-center>
-                        <form>
-                            <div class = "form-row">
-                                <input class= "col-3" name = "searchstr" value = "@searchstr" placeholder= "Search your purchase..."/>
-                                <button type = "submit" class ="btn btn-primary">Search</button>
-                            </div>
-                        </form>
-                    </div>
-                </div>
-            </div>*@
-
+       
         <div class="container-fluid">
             <div class="row">
                 <h1 style="text-align: left">My Purchase</h1>
@@ -33,58 +25,64 @@
             @foreach (Order order in Orders)
             {
                 <div class="row">
-                    <div class="col-md-4">
-                        <div class="card">
-                            <img src="@order.Product.Img" width="300" height="300">
-                        </div>
-                        <div class="card-body">
-                            <h3 style="text-align: center;">@order.Product.Name</h3>
-                            <p class="card-text">@order.Product.Desc</p>
-                            <p style="text-align: center;"><a href="@order.Product.DownLoadLink" class="btn btn-primary">Download</a></p>
-                        </div>
-                    </div>
-                    <div class="col-md-8">
-                        <div class="card">
-                            <div class="card-body">
-                                <p>Purchased On: @order.CreatedDate</p>
-                                <p>Quantity: @order.Quantity</p>
-                                <p>
-                                    <b>Activation Code: </b>
-                                    @if(order.OrderDetails.Count > 1)
-                                    {
-                                        <select id="@index">
-                                            @foreach (OrderDetail detail in order.OrderDetails)
-                                            {
-                                                <option value="@detail.ActivationId">@detail.ActivationId</option>
-                                            }
-                                        </select>
-                                        <button onclick="copy(@index)">Copy Code</button>
-                                    }
-                                    else
-                                    {
-                                        <span id="@index">@order.OrderDetails.First().ActivationId</span>
-                                        <button onclick="copySingle(@index)" class="btn btn-primary">Copy Code</button>
-                                    }
-                                </p>
-                                @if(order.ProductReview != null)
-                                {
-                                    <p id=@order.Id class = "reviewdetail">
-                                        <button id=@order.Id>Click to view your review!</button>
-                                    </p>
-                                }
-                                else
-                                {
-                                    <p>Your have not tell us your review yet!</p>
-                                    <p>
-                                        @Html.ActionLink("Click to add review","AddReview", "Purchase", order, new {@class="btn btn-primary"})
-                                    </p>
-                                }
+                        <div class="col-md-4 d-flex align-items-stretch">
+                            <div class="card">
+                                <img src="@order.Product.Img" width="300" height="300">
+                                
+                                <div class="card-body">
+                                    <h3 style="text-align: center;">@order.Product.Name</h3>
+                                    <p class="card-text">@order.Product.Desc</p>
+                                    <p style="text-align: center;"><a href="@order.Product.DownLoadLink" class="btn btn-primary">Download <i class="fa fa-download"></i></a></p>
+                                </div>
                             </div>
                         </div>
-                    </div>
+                        <div class="col-md-8 d-flex align-items-stretch">
+                            <div class="card border-0">
+                                <div class="card-body">
+                                    <p>Purchased On: @order.CreatedDate</p>
+                                    <p>Quantity: @order.Quantity</p>
+                                    <div>
+                                        <b>Activation Code: </b>
+                                        @if(order.OrderDetails.Count > 1)
+                                        {
+                                            <select id="@index">
+                                                @foreach (OrderDetail detail in order.OrderDetails)
+                                                {
+                                                    <option value="@detail.ActivationId">@detail.ActivationId</option>
+                                                }
+                                            </select>
+                                            <button onclick="copy(@index)" class="btn btn-outline-primary"><i class=" fa fa-clone"></i></button>
+                                        }
+                                        else
+                                        {
+                                            <span id="@index">@order.OrderDetails.First().ActivationId</span>
+                                            <button onclick="copySingle(@index)" class="btn btn-outline-primary"><i class=" fa fa-clone"></i></button>
+                                        }
+                                    </div>
+                                    @if(order.ProductReview != null)
+                                    {
+                                        <div id=@order.Id class = "reviewdetail">
+                                            <button id=@order.Id class="btn btn-outline-primary">View your review <i class=" fa fa-eye"></i></button>
+                                        </div>
+                                    } 
+                                    else
+                                    {
+                                        <div>
+                                            <p>Your have not tell us your review yet!</p>
+                                            <div>
+                                                <a class="btn btn-outline-warning" asp-controller="Purchase" asp-action="AddReview" asp-route-id="@order.Id">Click to add review <i class="fa fa-pencil"></i></a>
+                                            </div>
+                                        </div>
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                    
                 </div>
                 index++;
+                <hr>
             }
+                    
         </div>
     }
 </body>
