@@ -49,13 +49,19 @@ function AddToCart(id) {
                         '</p>' +
                         '      </div>' +
                         '      <div class="modal-footer">' +
-                        '        <button type="button" class="btn btn-default" data-dismiss="modal">Continue Shopping</button>' +
+                        '        <button type="button" class="btn btn-secondary" data-dismiss="modal">Continue Shopping</button>' +
+                        '       <a href="/CheckOut" class="btn btn-primary" role="button">Go To Cart</a>' +
                         '      </div>' +
                         '    </div>' +
                         '  </div>' +
                         '</div>');
                     $('#myModal').modal('show');
-                    
+
+                    setTimeout(function () {
+                        $(myModal).modal('hide');
+                    }, 4000);
+
+
                     //alert(data.name + " Added to cart");
                 }
             }
@@ -95,3 +101,4 @@ function AddToWishList(id) {
     let req = { "Id": id }
     xhr.send(JSON.stringify(req));
 }
+
