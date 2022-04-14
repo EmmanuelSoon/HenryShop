@@ -65,8 +65,11 @@
                                 @*<p class="mb-1"><strong>Review Rating:</strong> @reviews[i].Rating</p>*@
                                 @*<strong>Review Rating:</strong>*@
                                 <p><div class="stars" style="--w: @(reviews[i].Rating*100/5)%;"></div></p>
-                                <p><strong>Content:</strong>
-                                    <br>@reviews[i].Content;</p>
+                                    @if (reviews[i].Content != "" && reviews[i].Content != null)
+                                    {
+                                        <p><strong>Content:</strong>
+                                            <br>@reviews[i].Content;</p>
+                                    }
                             </ul>
                             </div>
                         </div>
