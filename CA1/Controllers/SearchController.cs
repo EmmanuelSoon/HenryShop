@@ -182,7 +182,7 @@ namespace CA1.Controllers
             }
             if(reviews.Count > 0)
             {
-                rating = sum / reviews.Count;
+                rating = Math.Round(sum*1.0 / reviews.Count, 1);
             }
             else
             {
