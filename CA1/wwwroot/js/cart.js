@@ -21,12 +21,13 @@
         RemoveFromCart(event.target.value);
     }
 
-    //function UpdateClick(event) {
+    //function UpdateClick(event) { //can change to when it leaves the table then it rolls or when the user clicks outside the button
     //    var specifiedElement = document.getElementById(event.target.id)
+    //    var specifiedRow = document.getElementById(event.target.getAttribute('data-value')) 
 
-    //    elem.addEventListener('mouseenter', function (event) {
-    //        UpdateCartQty(specifiedElement.getAttribute('data-value'), specifiedElement.value)
-    //    })
+    //    specifiedRow.addEventListener('mouseleave', function (event) {
+    //    UpdateCartQty(specifiedElement.id, specifiedElement.value)
+    //      })
 
     //    document.addEventListener('click', function (event) {
     //        var isClickInside = specifiedElement.contains(event.target);
