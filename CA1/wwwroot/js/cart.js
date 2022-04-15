@@ -61,9 +61,9 @@ function UpdateCartQty(id ,value) {
     var Value = value * 1;
 
     if (Value < 1 || !Number.isInteger(Value)) {
+        document.getElementById(id).value = 1;
+        Value = document.getElementById(id).value * 1;
         alert("Please input a correct quantity. You may remove the item by clicking on the delete icon on the right.");
-        document.getElementById(productId).value = 1;
-        Value = document.getElementById(productId).value * 1;
     }
 
     let xhr = new XMLHttpRequest();
