@@ -209,8 +209,9 @@ function ShowModal(event) {
                         title: "Thank You!",
                         text: "Your purchase was successful.",
                         icon: "success"
+                    }).then(function () {
+                        window.location = '/CheckOut/CheckOutCart/';
                     });
-                    window.location.href = '/CheckOut/CheckOutCart/'
                 }
             }
         }
