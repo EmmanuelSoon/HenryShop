@@ -7,9 +7,12 @@
       "destination": "wwwroot/lib/font-awesome/"
     },
     {
-      "provider": "cdnjs",
       "library": "popper.js@2.11.5",
       "destination": "wwwroot/lib/popper.js/"
+    },
+    {
+      "library": "sweetalert@2.1.2",
+      "destination": "wwwroot/lib/sweetalert/"
     }
   ]
 }

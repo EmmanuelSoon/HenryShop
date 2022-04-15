@@ -18,13 +18,19 @@ $('a[data-slide="next"]').click(function () {
 function copy(index) {
     var copyText = document.getElementById(index);
     navigator.clipboard.writeText(copyText.value);
-    alert("Copied the Code: " + copyText.value);
+    //alert("Copied the Code: " + copyText.value);
+    swal({
+        text: "Activation code copied"
+    });
 }
 
 function copySingle(index) {
     var copyText = document.getElementById(index);
     navigator.clipboard.writeText(copyText.innerText);
-    alert("Copied the Code: " + copyText.innerText);
+    //alert("Copied the Code: " + copyText.innerText);
+    swal({
+        text: "Activation code copied"
+    });
 }
 
 function showreview(orderId) {
@@ -75,10 +81,17 @@ window.onload = function () {
             //}
             if (content.value.length > 250)
             {
-                alert("The Content can not more than 250 characters!");
+                swal({
+                    icon: "warning",
+                    text: "Sorry! Max 250 characters please!"
+                });
                 return false;
             }
-            alert("Your review was sucessfully submitted!");
+            swal({
+                icon: "success",
+                title: "Thank You!",
+                text: "Your review has been submitted."
+            });
     }
     setInterval(reload, 1000);
 }
