@@ -63,7 +63,11 @@ function UpdateCartQty(id ,value) {
     if (Value < 1 || !Number.isInteger(Value)) {
         document.getElementById(id).value = 1;
         Value = document.getElementById(id).value * 1;
-        alert("Please input a correct quantity. You may remove the item by clicking on the delete icon on the right.");
+        swal({
+            icon: "warning",
+            title: "Please input a correct quantity.",
+            text: "You may remove the item by clicking on the delete icon on the right."
+        });
     }
 
     let xhr = new XMLHttpRequest();
@@ -94,34 +98,44 @@ function UpdateCartQty(id ,value) {
 
 
 
-
 function RemoveFromCart(id) {
-    if (confirm("Remove item from Cart?")) {
-        let xhr = new XMLHttpRequest();
+    
+    swal({
+        title: "Remove item from Cart?",
+        text: "The stock might run out!",
+        icon: "warning",
+        buttons: true,
+        dangerMode: true,
+    }).then((willDelete) => {
+        if (willDelete) {
+            let xhr = new XMLHttpRequest();
 
-        xhr.open("POST", "/CheckOut/RemoveFromCart");
+            xhr.open("POST", "/CheckOut/RemoveFromCart");
 
-        xhr.setRequestHeader("Content-Type", "application/json; charset=utf8");
+            xhr.setRequestHeader("Content-Type", "application/json; charset=utf8");
 
-        xhr.onreadystatechange = function () {
-            if (this.readyState == XMLHttpRequest.DONE) {
-                if (this.status == 200) {
-                    let data = JSON.parse(this.responseText);
+            xhr.onreadystatechange = function () {
+                if (this.readyState == XMLHttpRequest.DONE) {
+                    if (this.status == 200) {
+                        let data = JSON.parse(this.responseText);
 
 
-                    if (data.status == "success") {
-                        window.location.reload(true);
+                        if (data.status == "success") {
+                            window.location.reload(true);
+                        }
                     }
-
                 }
             }
+
+            let req = { "Id": id }
+
+            xhr.send(JSON.stringify(req));
         }
-
-        let req = { "Id": id }
-
-        xhr.send(JSON.stringify(req));
-    }
+    });
+    
 }
+
+
 
 
 //function UpdateQuantityCart(event) {
@@ -186,6 +200,11 @@ function ShowModal(event) {
                     $('#modalLoginForm').modal('toggle');
                 }
                 else {
+                    swal({
+                        title: "Thank You!",
+                        text: "Your purchase was successful.",
+                        icon: "success"
+                    });
                     window.location.href = '/CheckOut/CheckOutCart/'
                 }
             }
