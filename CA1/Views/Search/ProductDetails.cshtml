@@ -61,7 +61,7 @@
                                     <div class="col">
                                         <div class="stars" style="--w: @(reviews[i].Rating*100/5)%;"></div>
                                         <p>
-                                            <u>@users[i].Firstname @users[i].Lastname</u>
+                                            <u>@users[i].Firstname @users[i].Lastname</u> | @reviews[i].CreatedDate
                                         </p>
                                         @if (reviews[i].Content != "" && reviews[i].Content != null)
                                         {

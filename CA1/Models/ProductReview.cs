@@ -11,7 +11,8 @@ namespace CA1.Models
         public ProductReview()
         {
             Id = new Guid();
-            CreatedDate = DateTime.Today.ToString("d");
+            CreatedDate = DateTime.Now.ToString("MM-dd-yyyy HH:mm");
+            TimeStamp = DateTimeOffset.Now.ToUnixTimeSeconds();
         }
         public Guid Id { get; set; }
         public virtual Guid OrderId { get; set; }
@@ -20,7 +21,7 @@ namespace CA1.Models
         [Range(0, 5)]
         public int Rating { get; set; }
         public string CreatedDate { get; set; }
-
+        public long TimeStamp { get; set; }
 
     }
 }

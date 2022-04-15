@@ -71,8 +71,9 @@ namespace CA1.Controllers
                     users.Add(user);
                 }
             }
+
             double AvgRating = AverageRating(reviews);
-            ViewBag.Reviews = reviews;
+            ViewBag.Reviews = reviews.OrderByDescending(x => x.TimeStamp).ToList();
             ViewBag.Product = product;
             ViewBag.Rating = AvgRating;
             ViewBag.Users = users;
