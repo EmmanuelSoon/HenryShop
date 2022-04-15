@@ -205,16 +205,40 @@ function ShowModal(event) {
                     $('#modalLoginForm').modal('toggle');
                 }
                 else {
-                    swal({
-                        title: "Thank You!",
-                        text: "Your purchase was successful.",
-                        icon: "success"
-                    }).then(function () {
-                        window.location = '/CheckOut/CheckOutCart/';
-                    });
+                    CheckOutCart();
                 }
             }
         }
     };
     xhr.send()
+}
+
+function CheckOutCart() {
+    let xhr = new XMLHttpRequest();
+    xhr.open("POST", "/Checkout/CheckOutCart");
+    xhr.setRequestHeader("Content-type", "application/json; charset=utf8");
+
+    xhr.onreadystatechange = function () {
+        if (this.readyState == XMLHttpRequest.DONE) {
+            if (this.status == 200) {
+                let data = JSON.parse(this.responseText);
+
+                if (data.status == "success") {
+                    swal({
+                        title: "Thank You!",
+                        text: "Your purchase was successful.",
+                        icon: "success"
+                    }).then(function() {
+                        window.location = '/Purchase/Index/';
+                    });
+                }
+                if (data.status == "fail") {
+                    window.location.reload(true);
+                }
+            }
+        }
+    };
+
+    xhr.send()
+
 }

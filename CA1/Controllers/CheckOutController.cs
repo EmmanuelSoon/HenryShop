@@ -228,7 +228,7 @@ namespace CA1.Controllers
                         ReferenceLoopHandling = ReferenceLoopHandling.Ignore,
                         PreserveReferencesHandling = PreserveReferencesHandling.Objects
                     });
-                    return RedirectToAction("Index");
+                    return Json(new { status = "fail" });
                 }
 
 
@@ -276,7 +276,7 @@ namespace CA1.Controllers
                     ResetCartCount();
                     dbContext.SaveChanges();
 
-                    return RedirectToAction("Index", "Purchase");
+                    return Json(new { status = "success" }); 
                 }
 
             }
