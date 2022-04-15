@@ -56,17 +56,22 @@
 }
 
 
-function UpdateCartQty(id ,value) {
+async function UpdateCartQty(id ,value) {
 
     var Value = value * 1;
 
     if (Value < 1 || !Number.isInteger(Value)) {
+      
         document.getElementById(id).value = 1;
         Value = document.getElementById(id).value * 1;
-        swal({
+        await swal({
             icon: "warning",
             title: "Please input a correct quantity.",
-            text: "You may remove the item by clicking on the delete icon on the right."
+            text: "You may remove the item by clicking on the delete icon on the right.",
+            closeOnConfirm: false,
+            closeOnCancel: false,
+            allowOutsideClick: false,
+
         });
     }
 
