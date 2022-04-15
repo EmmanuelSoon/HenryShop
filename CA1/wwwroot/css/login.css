@@ -1,5 +1,4 @@
-﻿@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@600&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Nunito:ital,wght@1,300&display=swap');
+﻿@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@300&display=swap');
 
 .navbar {
     display: none;
@@ -83,11 +82,11 @@ html {
 
 h4 {
     margin-bottom: 0px;
-    font-family: 'Nunito Sans', sans-serif;
+    font-family: 'Nunito', sans-serif;
 }
 
 p {
     margin-bottom: 10px;
-    font-family: 'Nunito Sans', sans-serif;
+    font-family: 'Nunito', sans-serif;
     font-size: 16px;
 }
