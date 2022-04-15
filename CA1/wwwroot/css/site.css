@@ -31,6 +31,10 @@ a {
 .product-desc, product-price {
     font-size: 20px;
 }
+
+.search-btn:hover {
+    color: #6c757d !important;
+}
 /* Sticky footer styles
 -------------------------------------------------- */
 html {

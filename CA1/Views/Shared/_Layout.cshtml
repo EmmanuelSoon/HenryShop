@@ -30,7 +30,7 @@
                 <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
                     <ul class="navbar-nav flex-grow-1">
                         <li class="navbar-nav flex-grow-1">
-                            <a class="nav-link text-white" asp-controller="Search"><i></i>Products</a>
+                            <a class="nav-link text-white" asp-controller="Search" asp-action="Index"><i></i>Products</a>
                         </li>
                     </ul>
                     @*Product Searchbar*@
@@ -38,7 +38,7 @@
                         <div class="input-group">
                             <input class="form-control border-end-0 rounded border" type="search" value="@searchStr" name="searchstr" id="search-input">
                             <span class="input-group-append">
-                                <button class="btn btn-outline-secondary bg-white border-start-0 border-bottom-0 border ms-n5" type="button">
+                                <button class="btn btn-outline-secondary search-btn bg-white border-start-0 border-bottom-0 border ms-n5" type="submit">
                                     <i class="fa fa-search"></i>
                                 </button>
                             </span>
