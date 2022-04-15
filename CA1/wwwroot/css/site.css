@@ -204,3 +204,6 @@ li {
     text-align: center;
 }
 
+.carousel-control-prev, .carousel-control-next {
+    filter: invert(80%);
+}
