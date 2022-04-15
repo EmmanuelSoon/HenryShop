@@ -90,7 +90,7 @@ namespace CA1.Models
             dbContext.Add(new Product
             {
 
-                Name = ".NET forms",
+                Name = ".NET Forms",
                 Desc = "Create forms in a click, simple and quick",
                 Img = "/img/Forms.jpg",
                 Price = 99,
@@ -100,7 +100,7 @@ namespace CA1.Models
             dbContext.Add(new Product
             {
 
-                Name = ".NET library",
+                Name = ".NET Library",
                 Desc = "Need to know more about .NET? here is your one stop solution",
                 Img = "/img/Library.jpg",
                 Price = 99,
@@ -131,7 +131,7 @@ namespace CA1.Models
             {
 
                 Name = ".NET Image Processing",
-                Desc = "a computer and artificial intelligence library for image processing",
+                Desc = "A computer and artificial intelligence library for image processing",
                 Img = "/img/Images.jpg",
                 Price = 119,
                 DownLoadLink = "56789.com"
@@ -141,7 +141,7 @@ namespace CA1.Models
             {
 
                 Name = ".NET Unity",
-                Desc = "a development tool to create games for consoles and PCs",
+                Desc = "A development tool to create games for consoles and PCs",
                 Img = "/img/unityweb.png",
                 Price = 39,
                 DownLoadLink = "56789.com"
@@ -151,7 +151,7 @@ namespace CA1.Models
             {
 
                 Name = ".NET Blazor",
-                Desc = "a framework to enable developers to create web apps",
+                Desc = "A framework to enable developers to create web apps",
                 Img = "/img/Blazorweb.png",
                 Price = 19,
                 DownLoadLink = "56789.com"
@@ -241,8 +241,8 @@ namespace CA1.Models
             AddInventory(".NET Analytics", 10);
             AddInventory(".NET Logger", 12);
             AddInventory(".NET Numerics", 5);
-            AddInventory(".NET forms", 5);
-            AddInventory(".NET library", 5);
+            AddInventory(".NET Forms", 5);
+            AddInventory(".NET Library", 5);
             AddInventory(".NET UI", 5);
             AddInventory(".NET Runtime", 5);
             AddInventory(".NET Image Processing", 5);
