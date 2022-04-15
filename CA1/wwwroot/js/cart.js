@@ -26,7 +26,7 @@
     //    var specifiedRow = document.getElementById(event.target.getAttribute('data-value')) 
 
     //    specifiedRow.addEventListener('mouseleave', function (event) {
-    //    UpdateCartQty(specifiedElement.id, specifiedElement.value)
+    //      UpdateCartQty(specifiedElement.id, specifiedElement.value)
     //      })
 
     //    document.addEventListener('click', function (event) {
