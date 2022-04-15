@@ -13,72 +13,71 @@
 }
 
 <body>
-
-    <div class="container">
+    <h2 class="p-3 border-bottom">@product.Name</h2>
+    <div class="container mt-5">
         <div class="row">
-            <h1>blank</h1>
-        </div>
-    </div>
-
-    <div class= "container">
-        <div class="row-header">
-            <div class="col-12 col-sm-12 mb-5 mt-5 border-bottom">
-                <h2 class="pt-10">@product.Name</h2>
+            <div class="col-sm-12 col-md-5 col-lg-5 col-xl-5">
+                <img class="img-thumbnail border-0" src="../../@product.Img" height="400" />
             </div>
-        </div>
-        <div class = "row row-content mb-5">
-            <div class="col-12 col-sm-6">
-                <img class="img-thumbnail" src="../../@product.Img" height="400" />
-            </div>
-            <div class="col-12 col-sm">
-                <div class="productdetails">
-                    <p>@product.Desc</p> <br />
-                    <p><strong>$@product.Price</strong></p>
-                    <p></p>
+            <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6">
+                <p class="fs-3 product-desc pb-3">
+                    Description:<br />
+                    @product.Desc
+                </p>
+                <p class="d-flex justify-content-between pb-3">
+                    <strong class="product-price">
+                        Price: <br />
+                        $ @product.Price
+                    </strong>
                     <button type="button" class="btn btn-outline-primary" data-toggle="modal" data-target="@boolean" value="@product.Id"><span class="fa-solid fa-cart-arrow-down"></span> Add to Cart</button>
-                </div>
+                </p>
+
+                @if (reviews.Count <= 0)
+                {
+                    <h5>Product Ratings..</h5>
+                    <div class="p-2 border">
+                        There aren't any reviews for this product yet.
+                    </div>
+                }
+                else
+                {
+                    <h5>Product Ratings..</h5>
+                    <div class="rating d-flex border p-2 pb-3">
+                        <span class="stars mt-2" style="--w: @percent%;"></span>
+                        <span class="ml-5 rating-overview">
+                            AVG Rating: <span class="text-danger">@rating</span> out of 5 <br />
+                            Based On <span class="text-danger">@reviews.Count</span> reviews
+                        </span>
+                    </div>
+                    <h5 class="py-3">Customer Ratings:</h5>
+                    <div class="customer-rating border">
+                        @for (var i = 0; i < reviews.Count; i++)
+                        {
+                            <div class="container">
+                                <div class="row py-2 border-bottom">
+                                    <div class="col-3">
+                                        <img class="img-thumbnail" src="~/img/blank_Profile.png">
+                                    </div>
+                                    <div class="col">
+                                        <div class="stars" style="--w: @(reviews[i].Rating*100/5)%;"></div>
+                                        <p>
+                                            <u>@users[i].Firstname @users[i].Lastname</u>
+                                        </p>
+                                        @if (reviews[i].Content != "" && reviews[i].Content != null)
+                                        {
+                                            <span>
+                                                <strong>Comments:</strong><br>
+                                                @reviews[i].Content;
+                                            </span>
+                                        }
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                    </div>
+                }
             </div>
         </div>
-    </div>
-
-    <div class = "container border p-5">
-        <h2 class="mb-5">Customer Reviews</h2>
-        @if(reviews.Count <= 0)
-        {
-            @: Currently no reviews
-        }
-        else
-        {
-            <ul><li>
-                <div class="stars" style="--w: @percent%;"></div>  
-                <span style= "font-size: 20px">    AVG Rating: <span style="color:red">@rating</span>/5 | <span style="color:red">@reviews.Count</span> reviews</span>
-                </li></ul>
-            @for(var i = 0; i < reviews.Count; i++)
-            {
-                <div class="row row-content align-items-center">
-                    <div class="col-12">
-                        <div class="media">
-                            <img class="d-flex mr-3 img-thumbnail align-self-center" src="~/img/blank_Profile.png">
-                            <div class="media-body">
-                                <ul>
-                                <p> <u>@users[i].Firstname @users[i].Lastname</u></p>
-                                @*<p class="mb-1"><strong>Review Rating:</strong> @reviews[i].Rating</p>*@
-                                @*<strong>Review Rating:</strong>*@
-                                <p><div class="stars" style="--w: @(reviews[i].Rating*100/5)%;"></div></p>
-                                    @if (reviews[i].Content != "" && reviews[i].Content != null)
-                                    {
-                                        <p><strong>Content:</strong>
-                                            <br>@reviews[i].Content;</p>
-                                    }
-                            </ul>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            }
-        }
-
-
     </div>
 </body>
 

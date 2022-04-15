@@ -24,10 +24,17 @@ a {
   border-color: #1861ac;
 }
 
+.rating-overview {
+    font-size:15px;
+}
+
+.product-desc, product-price {
+    font-size: 20px;
+}
 /* Sticky footer styles
 -------------------------------------------------- */
 html {
-  font-size: 14px;
+    font-size: 14px;
 }
 @media (min-width: 768px) {
   html {
@@ -150,7 +157,7 @@ button span {
 .stars{
     position: relative;
     display: inline-block;
-    font-size: 40pt;
+    font-size: 20pt;
     height: 1em;
     line-height: 1em;
 }
