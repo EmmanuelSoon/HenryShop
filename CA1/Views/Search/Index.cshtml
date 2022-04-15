@@ -70,16 +70,20 @@ else
                     {
                         <div class="col-12 col-sm-4 mb-5 d-flex">
                             <div class="card">
-                                <img class="card-img-top" src=@product.Img alt="image not found" height="200">
+                                <a href='@Url.Action("ProductDetails", "Search", product)'>
+                                     <img class="card-img-top" src=@product.Img alt="image not found" height="200" style="object-fit: contain;">
+                                </a>
                                 <h5 class="card-header">@product.Name</h5>
                                 <div class="card-body">
                                     <p class="card-text d-flex justify-content-between">
                                         <span class="font-weight-bold">$ @product.Price</span>
-                                        <button type="button" class="fa-regular fa-heart wishlist-btn" data-toggle="modal" data-target="@boolean" value="@product.Id"></button>
+                                        <button type="button" class="fa-regular fa-heart wishlist-btn" value="@product.Id"></button>
                                     </p>
                                     <p class="card-text font-weight-light">
-                                        @product.Desc.Substring(0, 30)...  @Html.ActionLink("Read More", "ProductDetails", "Search", product, null)
+                                        @product.Desc 
                                     </p>
+
+                                    <p></p>
                                 </div>
                                 <div class="card-footer bg-transparent text-center">
                                     <button type="button" class="btn btn-outline-primary" data-toggle="modal" data-target="@boolean" value="@product.Id">
@@ -101,7 +105,7 @@ else
 <form asp-controller="LogIn" asp-action="login" method="post">
     <div class="modal fade" id="modalLoginForm" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
          aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-dialog modal-dialog-centered" role="document" style="width: 300px;">
             <div class="modal-content modal-sm" style="background-color:#f5f9fa;">
 
                 <div class="modal-header text-center">
