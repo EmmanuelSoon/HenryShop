@@ -225,6 +225,12 @@ namespace CA1.Controllers
 
                 else //if have enough, creates new orders and add it into Db
                 {
+                    if (TempData.Peek("stocklist") != null)
+                        TempData.Remove("stocklist");
+
+                    if (TempData.Peek("stockcount") != null)
+                        TempData.Remove("stockcount");
+
                     for (int i = 0; i < items.Count; i++)
                     {
                         ShopCartItem curr = items[i];
