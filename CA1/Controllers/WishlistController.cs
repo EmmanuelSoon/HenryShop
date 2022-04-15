@@ -32,7 +32,7 @@ namespace CA1.Controllers
                 WishList wishList = dbContext.WishLists.FirstOrDefault(x => x.UserId == user.Id);
                 if (wishList != null)
                 {
-                    List<WishListItem> wishListItems = dbContext.WishListItems.Where(x => x.WishListId == wishList.Id).ToList();
+                    List<WishListItem> wishListItems = dbContext.WishListItems.Where(x => x.WishListId == wishList.Id).OrderByDescending(x => x.TimeStamp).ToList();
                     List<int> stockcount = new List<int>();
 
                     foreach (WishListItem item in wishListItems)
