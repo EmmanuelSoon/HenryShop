@@ -101,7 +101,7 @@ namespace CA1.Controllers
                 // ask browser to save and send back these cookies next time
                 Response.Cookies.Append("SessionId", user.sessionId.ToString());
                 Response.Cookies.Append("Username", user.UserName);
-                Response.Cookies.Append("Name", user.Firstname + user.Lastname);
+                Response.Cookies.Append("Name", user.Firstname +" " + user.Lastname);
 
                 string controllerUrl = form["returnUrl"];
                 return RedirectToAction("Index", controllerUrl);
