@@ -99,8 +99,7 @@ function AddToWishList(id) {
                     alert(data.name + " Already existed in your wishlist");
                 }
                 else if (data.status == "needlogin") {
-                    alert("PLease Login to add product in the wishlist");
-                    window.location.href = '/Login/Index/';
+                    $('#modalLoginForm').modal('toggle');
                 }
             }
         }
