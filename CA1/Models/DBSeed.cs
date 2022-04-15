@@ -202,8 +202,34 @@ namespace CA1.Models
                 wishlist = wishList2
             });
 
+            AddUser("user3", "password3", sha, "John", "Doe");
+            AddUser("user4", "password4", sha, "Alyssa", "Lim");
+            AddUser("user5", "password5", sha, "Gavin", "Gaw");
+            AddUser("user6", "password6", sha, "Youcheng", "Li");
+            AddUser("user7", "password7", sha, "Anandeeswaran", "Venkatachalam");
+            AddUser("user8", "password8", sha, "Hein", "Lin Zaw");
+            AddUser("user9", "password9", sha, "Yoon", "Mie Mie Aung");
+            AddUser("user10", "password10", sha, "Emmanuel", "Soon");
+
             dbContext.SaveChanges();
 
+        }
+
+        public void AddUser(string username, string password, HashAlgorithm sha, string firstname, string lastname)
+        {
+            ShopCart cart = new ShopCart();
+            WishList wishlist = new WishList();
+            string combo = username + password;
+            byte[] hash = sha.ComputeHash(Encoding.UTF8.GetBytes(combo));
+            dbContext.Add(new User
+            {
+                UserName = username,
+                PassHash = hash,
+                Firstname = firstname,
+                Lastname = lastname,
+                shopcart= cart,
+                wishlist = wishlist
+            });
         }
 
         public void SeedInventory()
