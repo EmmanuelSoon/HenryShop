@@ -1,4 +1,7 @@
-﻿.navbar {
+﻿@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Nunito:ital,wght@1,300&display=swap');
+
+.navbar {
     display: none;
     visibility: hidden;
 }
@@ -80,4 +83,11 @@ html {
 
 h4 {
     margin-bottom: 0px;
+    font-family: 'Nunito Sans', sans-serif;
+}
+
+p {
+    margin-bottom: 10px;
+    font-family: 'Nunito Sans', sans-serif;
+    font-size: 16px;
 }
