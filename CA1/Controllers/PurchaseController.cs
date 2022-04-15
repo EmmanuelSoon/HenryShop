@@ -26,7 +26,7 @@ namespace CA1.Controllers
                 return RedirectToAction("Index", "Login");
             }
             List<Order> Orders = dbContext.Orders.Where(x =>
-                x.UserId == usersession.Id).ToList();
+                x.UserId == usersession.Id).OrderByDescending(x => x.TimeStamp).ToList();
             ViewData["Orders"] = Orders;
             return View();
         }
