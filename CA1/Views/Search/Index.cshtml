@@ -94,13 +94,12 @@
 
 
 
-@*
-    modal form for login (to be put in checkout cart index)*@
+@*modal form for login*@
 <form asp-controller="LogIn" asp-action="login" method="post">
     <div class="modal fade" id="modalLoginForm" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
          aria-hidden="true">
         <div class="modal-dialog" role="document">
-            <div class="modal-content">
+            <div class="modal-content modal-sm" style="background-color:#f5f9fa;">
 
                 <div class="modal-header text-center">
                     <h4 class="modal-title w-100 font-weight-bold">Sign in</h4>
@@ -109,21 +108,24 @@
                     </button>
                 </div>
                 <div class="modal-body mx-3">
-                    <div class="md-form mb-5">
-                        <i class="fas fa-envelope prefix grey-text"></i>
-                        <input type="text" name="Username" defaultForm-email" class="form-control validate">
-                        <label data-error="wrong" data-success="right" for="defaultForm-email">Your email</label>
-                    </div>
 
-                    <div class="md-form mb-4">
-                        <i class="fas fa-lock prefix grey-text"></i>
-                        <input type="password" name="Password" id="defaultForm-pass" class="form-control validate">
-                        <label data-error="wrong" data-success="right" for="defaultForm-pass">Your password</label>
+                    <div class="input-group mb-3">
+                        <div class="input-group-append">
+                            <span class="input-group-text"><i class="fas fa-user"></i></span>
+                        </div>
+                        <input type="text" name="Username" class="form-control input_user" value="" placeholder="username">
+                    </div>
+                    <div class="input-group mb-2">
+                        <div class="input-group-append">
+                            <span class="input-group-text"><i class="fas fa-key"></i></span>
+                        </div>
+                        <input type="password" name="Password" class="form-control input_pass" value="" placeholder="password">
+                        <input type="hidden" name="returnUrl" value="Wishlist" />
                     </div>
 
                 </div>
                 <div class="modal-footer d-flex justify-content-center">
-                    <button class="btn btn-default">Login</button>
+                    <button class="btn btn-primary" style="padding: 0.375rem 3.8rem;">Login</button>
                 </div>
             </div>
         </div>
@@ -131,6 +133,5 @@
 
 
 </form>
-
 
 
