@@ -21,23 +21,27 @@
         RemoveFromCart(event.target.value);
     }
 
-    //function UpdateClick(event) { //can change to when it leaves the table then it rolls or when the user clicks outside the button
-    //    var specifiedElement = document.getElementById(event.target.id)
-    //    var specifiedRow = document.getElementById(event.target.getAttribute('data-value')) 
 
-    //    specifiedRow.addEventListener('mouseleave', function (event) {
-    //      UpdateCartQty(specifiedElement.id, specifiedElement.value)
-    //      })
+    ////keeping track using mouse leaving the table or when user clicks outside the button 
+    //function UpdateClick(event) { 
+    //    var specifiedElement = document.getElementById(event.target.id)
+    //    var carttable = document.getElementById('carttable') 
+
+    //    carttable.addEventListener('mouseleave', function (event) {
+    //        UpdateCartQty(specifiedElement.id, specifiedElement.value)
+    //    })
 
     //    document.addEventListener('click', function (event) {
     //        var isClickInside = specifiedElement.contains(event.target);
 
     //        if (!isClickInside) {
-    //            UpdateCartQty(specifiedElement.getAttribute('data-value'),specifiedElement.value)
+    //            UpdateCartQty(specifiedElement.id,specifiedElement.value)
     //        }
     //    });
     //}
 
+
+   //Keeping track using mouse leaving the specified row
     function UpdateClick(event) {
         var specifiedRow = document.getElementById(event.target.getAttribute('data-value'))
         var specifiedElement = document.getElementById(event.target.id)
