@@ -4,6 +4,7 @@
 @using Microsoft.AspNetCore.Mvc;
 @{
     string sessionUserName = (string)Context.Request.Cookies["Username"];
+    string name = (string)Context.Request.Cookies["Name"];
     string searchStr = (string)ViewBag.Searchstr;
     string cartcount = Context.Request.Cookies["cartcount"];
 }
@@ -46,20 +47,15 @@
                             </span>
                         </div>
                     </form>
-                        <a class="fa fa-cart-shopping text-white mr-3" asp-controller="CheckOut" asp-action="Index" style="position:relative">
-                            <div id="here" style="position: absolute;top: -8px;right:-7px;">
-                                @{
-                                    if (string.IsNullOrEmpty(@cartcount))
-                                    {
-                                       <span class="badge badge-warning rounded-circle">0</span> 
-                                    }
-                                    else
-                                    {
-                                        <span class="badge badge-warning rounded-circle">@cartcount</span>
-                                    }
-                                }
-                            </div>
-                        </a>
+                    @{
+                        if (!string.IsNullOrEmpty(name))
+                        {
+                            <span class="text-white">
+                            Hello, @name !
+                            </span>
+                          
+                        }
+                    }
                     @*Account dropdown*@
                     <div class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle text-white" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -81,6 +77,23 @@
                             }
                         </div>
                     </div>
+                    <div>
+                          <a class="fa fa-cart-shopping text-white mr-3" asp-controller="CheckOut" asp-action="Index" style="position:relative">
+                            <div id="here" style="position: absolute;top: -8px;right:-7px;">
+                                @{
+                                    if (string.IsNullOrEmpty(@cartcount))
+                                    {
+                                       <span class="badge badge-warning rounded-circle">0</span> 
+                                    }
+                                    else
+                                    {
+                                        <span class="badge badge-warning rounded-circle">@cartcount</span>
+                                    }
+                                }
+                            </div>
+                        </a>
+                    </div>
+
             </div>
         </div>
         </nav>

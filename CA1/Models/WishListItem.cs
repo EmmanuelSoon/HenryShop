@@ -12,11 +12,13 @@ namespace CA1.Models
         public WishListItem()
         {
             Id = new Guid();
+            TimeStamp = DateTimeOffset.Now.ToUnixTimeSeconds();
         }
         public Guid Id { get; set; }
         public virtual Guid ProductId { get; set; }
         [ForeignKey("ProductId")]
         public virtual Product Product { get; set; }
         public virtual Guid WishListId { get; set; }
+        public long TimeStamp { get; set; }
     }
 }

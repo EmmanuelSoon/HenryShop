@@ -11,14 +11,15 @@ namespace CA1.Models
         public Order()
         {
             Id = new Guid();
-            CreatedDate = DateTime.Today.ToString("d");
+            CreatedDate = DateTime.Now.ToString("MM-dd-yyyy HH:mm");
             OrderDetails = new List<OrderDetail>();
             ProductReview = null;
+            TimeStamp = DateTimeOffset.Now.ToUnixTimeSeconds();
         }
         public Guid Id { get; set; }
         public int Quantity { get; set; }
         public string CreatedDate { get; set; }
-
+        public long TimeStamp { get; set; }
         public Guid ProductId { get; set; }
         [ForeignKey("ProductId")]
         public virtual Product Product { get; set; }
