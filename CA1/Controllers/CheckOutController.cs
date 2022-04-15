@@ -107,7 +107,15 @@ namespace CA1.Controllers
                     updateLists(item);
                     dbContext.ShopCartItems.Remove(item);
                     dbContext.SaveChanges();
-                    return Json(new { status = "success" });
+                    if(req.ProductId == Guid.Empty)
+                    {
+                        return Json(new { status = "success" });
+                    }
+                    else
+                    {
+                        return RedirectToAction("Index");
+                    }
+                   
                 }
             }
             else
@@ -174,6 +182,8 @@ namespace CA1.Controllers
             return Json(new { status = "logged" });
         }
 
+
+        //Checking out from cart function 
         public IActionResult CheckOutCart()
         {
             User user = dbContext.Users.FirstOrDefault(x => (Request.Cookies["SessionId"] != null) && (x.sessionId == Guid.Parse(Request.Cookies["SessionId"])));

@@ -79,11 +79,11 @@
                     {
                         var Productprice = "ProductPrice" + @item.ProductId;
                         var productQuantity = @item.ProductId;
-                        <tr id=@productQuantity>
-                            <td>
-                                <img src=@item.Product.Img style="width:100px;" />
+                        <tr id=@productQuantity class="productrow">
+                            <td class="align-middle">
+                                <img src=@item.Product.Img style="width:150px;" />
                             </td>
-                            <td class="text-break">
+                            <td class="align-middle text-break">
                                 <h5>@item.Product.Name</h5>
                                 <p>@item.Product.Desc</p>
                             </td>

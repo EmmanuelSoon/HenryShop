@@ -192,3 +192,14 @@ button span {
 li {
     display: table;
 }
+
+.productrow {
+    min-height: 400px;
+    height: 300px;   
+
+}
+
+.carttable td {
+    text-align: center;
+}
+

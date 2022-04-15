@@ -133,6 +133,7 @@ namespace CA1.Controllers
             Response.Cookies.Delete("SessionId");
             Response.Cookies.Delete("Username");
             Response.Cookies.Delete("cartcount");
+            Response.Cookies.Delete("Name");
 
             return RedirectToAction("Index", "LogIn");
         }
