@@ -125,7 +125,12 @@ function RemoveFromWishList(id) {
                 let data = JSON.parse(this.responseText);
                 if (data.status == "success") {
 
-                    swal(data.name + " is removed from your wishlist.");
+                    swal({
+                        text: "Item is removed from your wishlist.",
+                        icon: "info"
+                    }).then(function (){
+                        window.location = '/WishList';
+                    });
                    
                 }
                 else if (data.status == "error") {
@@ -133,9 +138,10 @@ function RemoveFromWishList(id) {
                     swal({
                         icon: "error",
                         text: "There was an error removing the item."
+                    }).then(function () {
+                        window.location = '/WishList';
                     });
                 }
-                window.location.href = '/WishList';
             }
         }
     }
