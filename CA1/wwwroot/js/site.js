@@ -19,18 +19,14 @@ function copy(index) {
     var copyText = document.getElementById(index);
     navigator.clipboard.writeText(copyText.value);
     //alert("Copied the Code: " + copyText.value);
-    swal({
-        text: "Activation code copied"
-    });
+    swal(copyText.value + " Activation code copied");
 }
 
 function copySingle(index) {
     var copyText = document.getElementById(index);
     navigator.clipboard.writeText(copyText.innerText);
     //alert("Copied the Code: " + copyText.innerText);
-    swal({
-        text: "Activation code copied"
-    });
+    swal(copyText.innerText + " Activation code copied");
 }
 
 function showreview(orderId) {

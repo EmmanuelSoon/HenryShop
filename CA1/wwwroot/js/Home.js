@@ -93,10 +93,13 @@ function AddToWishList(id) {
             if (this.status == 200) {
                 let data = JSON.parse(this.responseText);
                 if (data.status == "success") {
-                    alert(data.name + " Added to your wishlist");
+                    swal(data.name + " Added to your wishlist.");
                 }
                 else if (data.status == "existed") {
-                    alert(data.name + " Already existed in your wishlist");
+                    swal({
+                        text: data.name + " Already existed in your wishlist.",
+                        icon: "info"
+                    });
                 }
                 else if (data.status == "needlogin") {
                     $('#modalLoginForm').modal('toggle');
@@ -121,10 +124,16 @@ function RemoveFromWishList(id) {
             if (this.status == 200) {
                 let data = JSON.parse(this.responseText);
                 if (data.status == "success") {
-                    alert("Removed from your wishlist");
+
+                    swal(data.name + " is removed from your wishlist.");
+                   
                 }
                 else if (data.status == "error") {
-                    alert("There was an error removing the item.")
+                    
+                    swal({
+                        icon: "error",
+                        text: "There was an error removing the item."
+                    });
                 }
                 window.location.href = '/WishList';
             }

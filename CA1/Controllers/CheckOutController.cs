@@ -98,7 +98,19 @@ namespace CA1.Controllers
             ShopCartItem item = dbContext.ShopCartItems.FirstOrDefault(x => x.Id == req.Id);
             int change = item.Quantity;
 
-            if (req.ProductId == Guid.Empty)
+            if (TempData.Peek("stocklist") != null)
+            {
+                List<ShopCartItem> insuff_stock = JsonConvert.DeserializeObject<List<ShopCartItem>>((string)TempData.Peek("stocklist"));
+                List<int> insuff_stock_qty = JsonConvert.DeserializeObject<List<int>>((string)TempData.Peek("stockcount"));
+                if (item != null)
+                {
+                    updateLists(item);
+                    dbContext.ShopCartItems.Remove(item);
+                    dbContext.SaveChanges();
+                    return Json(new { status = "success" });
+                }
+            }
+            else
             {
                 if (item != null)
                 {
@@ -108,39 +120,23 @@ namespace CA1.Controllers
                     return Json(new { status = "success" });
                 }
             }
-            else
-            {
-                if (TempData.Peek("stocklist") != null)
-                {
-                    List<ShopCartItem> insuff_stock = JsonConvert.DeserializeObject<List<ShopCartItem>>((string)TempData.Peek("stocklist"));
-                    List<int> insuff_stock_qty = JsonConvert.DeserializeObject<List<int>>((string)TempData.Peek("stockcount"));
-                    if (item != null)
-                    {
-                        updateLists(item);
-                        dbContext.ShopCartItems.Remove(item);
-                        dbContext.SaveChanges();
-                        return RedirectToAction("Index");
-                    }
-                }
-
-            }
             return Json(new { status = "fail" });
         }
 
         public IActionResult UpdateQuantity([FromBody] ShopCartItem req)
         {
-            
+
             ShopCartItem item = dbContext.ShopCartItems.FirstOrDefault(x => x.Id.Equals(req.Id));
             if (item != null)
             {
 
-                    item.Quantity = req.Quantity;
-                    dbContext.SaveChanges();
-                    return Json(new { status = "success" });
-                    
+                item.Quantity = req.Quantity;
+                dbContext.SaveChanges();
+                return Json(new { status = "success" });
+
 
             }
-            
+
             return Json(new { status = "fail" });
         }
 
@@ -318,16 +314,27 @@ namespace CA1.Controllers
                 }
             }
 
-            TempData["stocklist"] = JsonConvert.SerializeObject(insuff_stock, new JsonSerializerSettings()
+            if (insuff_stock.Count != 0) //not enough, let user know, get user to change 
             {
-                ReferenceLoopHandling = ReferenceLoopHandling.Ignore,
-                PreserveReferencesHandling = PreserveReferencesHandling.Objects
-            });
-            TempData["stockcount"] = JsonConvert.SerializeObject(insuff_stock_qty, new JsonSerializerSettings()
+                TempData["stocklist"] = JsonConvert.SerializeObject(insuff_stock, new JsonSerializerSettings()
+                {
+                    ReferenceLoopHandling = ReferenceLoopHandling.Ignore,
+                    PreserveReferencesHandling = PreserveReferencesHandling.Objects
+                });
+                TempData["stockcount"] = JsonConvert.SerializeObject(insuff_stock_qty, new JsonSerializerSettings()
+                {
+                    ReferenceLoopHandling = ReferenceLoopHandling.Ignore,
+                    PreserveReferencesHandling = PreserveReferencesHandling.Objects
+                });
+            }
+            else 
             {
-                ReferenceLoopHandling = ReferenceLoopHandling.Ignore,
-                PreserveReferencesHandling = PreserveReferencesHandling.Objects
-            });
+                if(TempData.Peek("stocklist") != null)
+                    TempData.Remove("stocklist");
+
+                if (TempData.Peek("stockcount") != null)
+                    TempData.Remove("stockcount");
+            }
 
         }
 
