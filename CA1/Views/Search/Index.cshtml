@@ -12,7 +12,7 @@
     <script src="~/js/Home.js"></script>
 }
 
-<link rel="stylesheet" href="~/css/search.css"/>
+<link rel="stylesheet" href="~/css/search.css" />
 <div class="container mb-5">
     <div class="row row-content">
         <div class="col">
@@ -51,16 +51,17 @@
     </div>
 </div>
 
-
-<div class="container">
-    <div class="row row-content">
-        <div class="col-10 offset-1">
-            @if (products.Count == 0)
-            {
-                @: there are no matches...
-            }
-            else
-            {
+@if (products.Count == 0)
+{
+    <p class="border p-3">
+         There is no matches.
+    </p>
+}
+else
+    { 
+    <div class="container">
+        <div class="row row-content">
+            <div class="col-10 offset-1">
                 <div class="card-deck">
                     @foreach (Product product in products)
                     {
@@ -77,28 +78,26 @@
                                         @product.Desc.Substring(0, 30)...  @Html.ActionLink("Read More", "ProductDetails", "Search", product, null)
                                     </p>
                                 </div>
-                            <div class="card-footer bg-transparent text-center">
-                                <button type="button" class="btn btn-outline-primary" data-toggle="modal" data-target="@boolean" value="@product.Id">
-                                    <span class="fa-solid fa-cart-arrow-down"></span> Add to Cart
-                                </button>
+                                <div class="card-footer bg-transparent text-center">
+                                    <button type="button" class="btn btn-outline-primary" data-toggle="modal" data-target="@boolean" value="@product.Id">
+                                        <span class="fa-solid fa-cart-arrow-down"></span> Add to Cart
+                                    </button>
+                                </div>
                             </div>
                         </div>
-                    </div>
-
-                }
+                     }
                 </div>
-            }
+            </div>
         </div>
     </div>
-</div>
-
+}
 
 
 
 @*modal form for login*@
 <form asp-controller="LogIn" asp-action="login" method="post">
     <div class="modal fade" id="modalLoginForm" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
-            aria-hidden="true">
+         aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content modal-sm" style="background-color:#f5f9fa;">
 
