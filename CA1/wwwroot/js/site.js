@@ -67,37 +67,56 @@ window.onload = function () {
         elems[i].addEventListener('click', Clickfordetail);
     }
     let form = document.getElementById("reviewform");
-    form.onsubmit = function ()
-    {
+    form.onsubmit = function () {
         let rate = document.getElementById("rate");
         let content = document.getElementById("content");
-            //if (content.value.length == 0) {
-            //alert("The Content can not be empty");
-                //return false;
-            //}
-            if (content.value.length > 250)
-            {
-                swal({
-                    icon: "warning",
-                    text: "Sorry! Max 250 characters please!"
-                });
-                return false;
-            }
+        //if (content.value.length == 0) {
+        //alert("The Content can not be empty");
+        //return false;
+        //}
+
+        event.preventDefault();
+        if (content.value.length > 250) {
+            swal({
+                icon: "warning",
+                text: "Sorry! Max 250 characters please!"
+            });
+            return false;
+        }
+        else {
             swal({
                 icon: "success",
                 title: "Thank You!",
-                text: "Your review has been submitted."
-            });
+                text: "Your review has been submitted.",
+                confirmButtonColor: "#DD6B55",
+                confirmButtonText: "OK",
+                closeOnClickOutside: false,
+                closeOnEsc: false,
+            })
+                .then(
+                    function (isConfirmed) {
+                        {
+                            if (isConfirmed) {
+                                form.submit();
+                            }
+                        }
+                    })
+
+           
+            
+        }
     }
+    
     setInterval(reload, 1000);
 }
+
+
 
 function Clickfordetail(event) {
     showreview(event.target.id);
 }
 
 $(document).ready(function () {
-    setInterval(reload, 100);
 })
 
 function reload() {
