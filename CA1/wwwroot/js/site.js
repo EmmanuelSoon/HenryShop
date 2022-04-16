@@ -51,7 +51,11 @@ function showreview(orderId) {
                 else {
                     content = "There is no content in this review!"
                 }
-                obj.innerHTML = "<h4 class='mb-3'>Your Review...</h4><div class='border p-3'><p>" + date + "</p><p>" + rating + "</p><p>" + content + "</p></div>";
+                obj.innerHTML = "<h4 class='mb-3'>Your Review...</h4>" +
+                                "<div class='border p-3'>" +
+                                "<p>" + date + "</p>" +
+                                "<p>" + rating + "</p>" +
+                                "<p>" + content + "</p></div>";
             }
         }
     }
