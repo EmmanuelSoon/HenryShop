@@ -23,21 +23,35 @@ namespace CA1.Controllers
         public IActionResult Index(string searchstr)
         {
             User user = dbContext.Users.FirstOrDefault(x => (Request.Cookies["SessionId"] != null) && (x.sessionId == Guid.Parse(Request.Cookies["SessionId"])));
+            List<Product> products = new List<Product>();
+            List<Product> oos = new List<Product>();
 
             if (searchstr == null)
             {
-                List<Product> products = dbContext.Products.ToList();
+                products = dbContext.Products.ToList();
                 ViewBag.Products = products;
                 searchstr = "";
+
+
             }
             else
             {
-                List<Product> products = dbContext.Products.Where(x => 
+                products = dbContext.Products.Where(x => 
                     x.Name.Contains(searchstr) ||
                     x.Desc.Contains(searchstr) 
                 ).ToList();
                 ViewBag.Products = products;
             }
+
+            foreach (Product item in products)
+            {
+                List<InventoryRecord> invList = dbContext.InventoryRecords.Where(x => x.ProductId == item.Id).ToList();
+                if (invList.Count <= 0)
+                {
+                    oos.Add(item);
+                }
+            }
+            
 
             CleanUp();
             if(Request.Cookies["cartcount"] == null)
@@ -50,8 +64,8 @@ namespace CA1.Controllers
                 ShopCart Cart = dbContext.ShopCarts.FirstOrDefault(x => x.UserId == user.Id);
                 CheckCartCount(Cart);
             }
-            
 
+            ViewBag.OutOfStockItems = oos;
             ViewBag.Searchstr = searchstr;
             return View();
         }

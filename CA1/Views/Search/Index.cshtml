@@ -3,6 +3,7 @@
     List<Product> products = (List<Product>)ViewBag.Products;
     string searchstr = (string)ViewBag.Searchstr;
     string statement = (string)TempData["statement"];
+    List<Product> oos = (List<Product>)ViewBag.OutOfStockItems;
 
     //for the modal form
     string boolean = (string)ViewBag.LoggedIn;
@@ -86,9 +87,18 @@ else
                                     <p></p>
                                 </div>
                                 <div class="card-footer bg-transparent text-center">
-                                    <button type="button" class="btn btn-outline-primary" data-toggle="modal" data-target="@boolean" value="@product.Id">
-                                        <span class="fa-solid fa-cart-arrow-down"></span> Add to Cart
-                                    </button>
+                                    @if (!oos.Contains(product))
+                                    {
+                                        <button type="button" class="btn btn-outline-primary" data-toggle="modal" data-target="@boolean" value="@product.Id">
+                                            <span class="fa-solid fa-cart-arrow-down"></span> Add to Cart
+                                        </button>
+                                    }
+                                    @if (oos.Contains(product))
+                                    {
+                                        <button type="button" class="btn btn-secondary" disabled>
+                                            <span class="fa-solid fa-square-xmark"></span> Out Of Stock
+                                        </button>
+                                    }
                                 </div>
                             </div>
                         </div>
