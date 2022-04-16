@@ -135,6 +135,13 @@ namespace CA1.Controllers
             Response.Cookies.Delete("cartcount");
             Response.Cookies.Delete("Name");
 
+            if (TempData.Peek("stocklist") != null)
+                TempData.Remove("stocklist");
+
+            if (TempData.Peek("stockcount") != null)
+                TempData.Remove("stockcount");
+
+
             return RedirectToAction("Index", "LogIn");
         }
 

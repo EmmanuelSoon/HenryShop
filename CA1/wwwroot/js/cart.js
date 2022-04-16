@@ -47,10 +47,10 @@
 
    //Keeping track using mouse leaving the specified row
     function UpdateClick(event) {
-        var specifiedRow = document.getElementById(event.target.getAttribute('data-value'))
+        //var specifiedRow = document.getElementById(event.target.getAttribute('data-value'))
         var specifiedElement = document.getElementById(event.target.id)
 
-        specifiedRow.addEventListener('mouseleave', function (event){
+        specifiedElement.addEventListener('mouseleave', function (event){
             UpdateCartQty(specifiedElement.id, specifiedElement.value)
         })
     }
@@ -59,7 +59,7 @@
 
 function ChangeQ(id, qty) {
     let xhr = new XMLHttpRequest();
-    xhr.open("POST", "/Checkout/ChangeQ");
+    xhr.open("POST", "/CheckOut/ChangeQ");
     xhr.setRequestHeader("Content-type", "application/json; charset=utf8");
     xhr.onreadystatechange = function () {
         if (this.readyState == XMLHttpRequest.DONE) {
@@ -69,11 +69,14 @@ function ChangeQ(id, qty) {
                     swal({
                         icon: "info",
                         title: "Item Quantity Changed!",
-                        text: "It has been changed to " + qty
+                        text: "It has been changed to " + qty,
                     }).then(function () {
-                        window.location.reload(true);
-                    });
-                    
+                        window.location.reload(true)
+                    })
+
+
+
+
                 }
                 else {
                     swal({
@@ -82,7 +85,7 @@ function ChangeQ(id, qty) {
                         text: "Sorry we are out of stock..."
                     }).then(function () {
                         window.location.reload(true);
-                    });
+                    })
                 }
             }
         }
