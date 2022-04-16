@@ -107,7 +107,7 @@ function RemoveFromCart(id) {
     
     swal({
         title: "Remove item from Cart?",
-        text: "The stock might run out!",
+        text: "Click OK to confirm...",
         icon: "warning",
         buttons: true,
         dangerMode: true,
