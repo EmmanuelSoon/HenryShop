@@ -37,7 +37,9 @@
                 <div class="row border mb-4">
                     <div class="col-4">
                         <div class="card border-0">
-                            <img src="@order.Product.Img" width="300" height="300">
+                            <div style="width:300px;height:300px;">
+                                <img src="@order.Product.Img" class="img-fluid">
+                            </div>
                             <div class="card-body">
                                 <p class="card-text">@order.Product.Desc</p>
                             </div>
@@ -49,8 +51,8 @@
                             <div class="p-3">
                                 <p>Quantity: @order.Quantity</p>
                                 <p>Purchased On: @order.CreatedDate</p>
-                                <div>
-                                    <p>Activation Code: </p>
+                                <div class="mb-3">
+                                    <span class="pr-3">Activation Code: </span>
                                     @if (order.OrderDetails.Count > 1)
                                     {
                                         <select class="form-select border" id="@index" style="height:40px">
@@ -67,13 +69,12 @@
                                         <button onclick="copySingle(@index)" class="btn btn-outline-primary"><i class="fa-solid fa-copy"></i></button>
                                     }
                                 </div>
-                                <a href="@order.Product.DownLoadLink" class="btn btn-outline-primary my-3 w-50">
+                                <a href="@order.Product.DownLoadLink" class="btn btn-outline-primary my-3">
                                     DOWNLOAD <i class="fa fa-download pl-3"></i>
                                 </a>
                                 @if (order.ProductReview != null)
                                 {
-                                    <h4>Your Review</h4>
-                                    <div id=@order.Id class="reviewdetail border p-3">
+                                    <div id=@order.Id class="reviewdetail">
                                         <button id=@order.Id class="btn btn-outline-primary">
                                             View your review <i class=" fa fa-eye"></i>
                                         </button>
