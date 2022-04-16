@@ -337,11 +337,6 @@ namespace CA1.Controllers
             List<ShopCartItem> insuff_stock = JsonConvert.DeserializeObject<List<ShopCartItem>>((string)TempData["stocklist"]);
             List<int> insuff_stock_qty = JsonConvert.DeserializeObject<List<int>>((string)TempData["stockcount"]);
 
-            if (TempData.Peek("stocklist") != null)
-                TempData.Remove("stocklist");
-
-            if (TempData.Peek("stockcount") != null)
-                TempData.Remove("stockcount");
 
             for (int i = 0; i < insuff_stock.Count; i++)
             {

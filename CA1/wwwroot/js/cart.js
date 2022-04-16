@@ -45,7 +45,7 @@
     //}
 
 
-   //Keeping track using mouse leaving the specified row
+   //Keeping track using mouse leaving the specified row/button
     function UpdateClick(event) {
         //var specifiedRow = document.getElementById(event.target.getAttribute('data-value'))
         var specifiedElement = document.getElementById(event.target.id)
@@ -232,7 +232,5 @@ function CheckOutCart() {
             }
         }
     };
-
     xhr.send()
-
 }

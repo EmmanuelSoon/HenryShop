@@ -101,13 +101,8 @@ window.onload = function () {
                             }
                         }
                     })
-
-           
-            
         }
     }
-    
-    setInterval(reload, 1000);
 }
 
 
@@ -117,6 +112,7 @@ function Clickfordetail(event) {
 }
 
 $(document).ready(function () {
+    setInterval(reload, 1000);
 })
 
 function reload() {
