@@ -2,6 +2,7 @@
     let remove = document.getElementsByClassName("btn-danger");
     let quantity = document.getElementsByClassName("btn-secondary");
     let elem = document.getElementById("checkoutBtn");
+    let change = document.getElementsByClassName("btn-warning");
 
     elem.addEventListener('click', ShowModal);
 
@@ -9,18 +10,21 @@
         remove[i].addEventListener('click', Removeclick);
     }
 
-    //for (let i = 0; i < quantity.length; i++) {
-    //    quantity[i].addEventListener('input', UpdateQuantityCart);
-    //}
-
     for (let i = 0; i < quantity.length; i++) {
         quantity[i].addEventListener('click', UpdateClick);
     }
 
-    function Removeclick(event) {
-        RemoveFromCart(event.target.value);
+    for (let i = 0; i < change.length; i++) {
+        change[i].addEventListener('click', ChangeClick);
     }
 
+    function ChangeClick(event) {
+        ChangeQ(event.target.value, event.target.getAttribute('data-value'));
+    }
+
+    function Removeclick(event) {
+            RemoveFromCart(event.target.value);
+       }
 
     ////keeping track using mouse leaving the table or when user clicks outside the button 
     //function UpdateClick(event) { 
@@ -50,9 +54,46 @@
             UpdateCartQty(specifiedElement.id, specifiedElement.value)
         })
     }
+}
 
 
+function ChangeQ(id, qty) {
+    let xhr = new XMLHttpRequest();
+    xhr.open("POST", "/Checkout/ChangeQ");
+    xhr.setRequestHeader("Content-type", "application/json; charset=utf8");
+    xhr.onreadystatechange = function () {
+        if (this.readyState == XMLHttpRequest.DONE) {
+            if (this.status == 200) {
+                let data = JSON.parse(this.responseText);
+                if (data.status == "success") {
+                    swal({
+                        icon: "info",
+                        title: "Item Quantity Changed!",
+                        text: "It has been changed to " + qty
+                    }).then(function () {
+                        window.location.reload(true);
+                    });
+                    
+                }
+                else {
+                    swal({
+                        icon: "warning",
+                        title: "Item was Removed",
+                        text: "Sorry we are out of stock..."
+                    }).then(function () {
+                        window.location.reload(true);
+                    });
+                }
+            }
+        }
+    };
 
+    let req = {
+        "Id": id,
+        Quantity: parseInt(qty),
+    }
+
+    xhr.send(JSON.stringify(req));
 }
 
 
@@ -141,56 +182,6 @@ function RemoveFromCart(id) {
 }
 
 
-
-
-//function UpdateQuantityCart(event) {
-//    let productId = event.target.id;
-//    let shopcartitemid = event.target.getAttribute('data-value');
-//    let ProductpriceId = "ProductPrice" + productId;
-
-//    let value = document.getElementById(productId).value * 1;
-
-//    let Productprice = parseFloat(document.getElementById(ProductpriceId).innerHTML.substring(1));
-
-//    if (value < 1 || !Number.isInteger(value)) {
-//        alert("Please input a correct quantity. You may remove the item by clicking on the delete icon on the right.");
-//        document.getElementById(productId).value = 1;
-//    }
-
-//    value = document.getElementById(productId).value * 1;
-
-//    UpdateCartItemwithQuantity(productId, value, shopcartitemid);
-//}
-
-//function UpdateCartItemwithQuantity(productId, value, shopcartitemid) {
-//    let xhr = new XMLHttpRequest();
-
-//    xhr.open("POST", "/CheckOut/UpdateQuantity");
-
-//    xhr.setRequestHeader("Content-Type", "application/json; charset=utf8");
-
-//    xhr.onreadystatechange = function () {
-//        if (this.readyState == XMLHttpRequest.DONE) {
-//            if (this.status == 200) {
-//                let data = JSON.parse(this.responseText);
-
-
-//                if (data.status == "success") {
-//                    window.location.reload(true);
-//                }
-//            }
-//        }
-//    }
-
-//    let shopcartitem = {
-//        Id: shopcartitemid,
-//        ProductId: productId,
-//        Quantity: value
-
-//    }
-
-//    xhr.send(JSON.stringify(shopcartitem));
-//}
 
 //show login modal
 function ShowModal(event) {

@@ -113,7 +113,7 @@ namespace CA1.Controllers
                     }
                     else
                     {
-                        return RedirectToAction("Index");
+                        return Json(new { status ="removed" });
                     }
                    
                 }
@@ -149,26 +149,41 @@ namespace CA1.Controllers
         }
 
 
-
-
-        public IActionResult ChangeQ(Guid itemid, int stockqty)
+        public IActionResult ChangeQ([FromBody] ShopCartItem req)
         {
-            ShopCartItem item = dbContext.ShopCartItems.FirstOrDefault(x => x.Id == itemid);
-            int change = item.Quantity - stockqty;
-            if (stockqty == 0)
+            ShopCartItem item = dbContext.ShopCartItems.FirstOrDefault(x => x.Id == req.Id);
+            if (req.Quantity <= 0)
             {
                 return RemoveFromCart(item);
             }
             else
             {
-                item.Quantity = stockqty;
+                item.Quantity = req.Quantity;
                 dbContext.ShopCartItems.Update(item);
                 dbContext.SaveChanges();
                 updateLists(item);
-                return RedirectToAction("Index");
+                return Json(new { status = "success" });
             }
-
         }
+
+        //public IActionResult ChangeQ(Guid itemid, int stockqty)
+        //{
+        //    ShopCartItem item = dbContext.ShopCartItems.FirstOrDefault(x => x.Id == itemid);
+        //    int change = item.Quantity - stockqty;
+        //    if (stockqty == 0)
+        //    {
+        //        return RemoveFromCart(item);
+        //    }
+        //    else
+        //    {
+        //        item.Quantity = stockqty;
+        //        dbContext.ShopCartItems.Update(item);
+        //        dbContext.SaveChanges();
+        //        updateLists(item);
+        //        return RedirectToAction("Index");
+        //    }
+
+        //}
 
 
         //check for user login for the JS

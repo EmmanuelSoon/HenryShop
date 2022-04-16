@@ -59,8 +59,8 @@
                                     <p>Total: $ @sum(@insuff_stock[i].Product.Price, @insuff_stock[i].Quantity)</p>
                                     <p>Current Quantity: @insuff_stock[i].Quantity</p>
                                     <p style:"color:red;">Total stock: @insuff_stock_qty[i]</p>
-                                    @Html.ActionLink("Change Quantity", "ChangeQ", "CheckOut", new { itemid = @insuff_stock[i].Id, stockqty = @insuff_stock_qty[i] }, new { @class = "btn btn-warning mr-2" })
-                                </div>
+                                    <button type="button" class="btn btn-warning mr-2 text-white" value=@insuff_stock[i].Id data-value= "@insuff_stock_qty[i]">Change Quantity <span class="fa-solid fa-screwdriver-wrench"></span></button>
+                               </div>
                             </div>
                         }
                     </div>
