@@ -19,8 +19,5 @@ namespace CA1.Models
 
         public virtual ICollection<ShopCartItem> ShopCartItems { get; set; }
         public virtual Guid? UserId { get; set; }
-
-        
-
     }
 }

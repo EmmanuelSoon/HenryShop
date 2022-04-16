@@ -31,8 +31,6 @@ namespace CA1.Controllers
                 products = dbContext.Products.ToList();
                 ViewBag.Products = products;
                 searchstr = "";
-
-
             }
             else
             {
@@ -103,7 +101,6 @@ namespace CA1.Controllers
             User user = dbContext.Users.FirstOrDefault(x => (Request.Cookies["SessionId"] != null) && (x.sessionId == Guid.Parse(Request.Cookies["SessionId"])));
             Product product = dbContext.Products.FirstOrDefault(x => x.Id == req.Id);
 
-
             CookieOptions opts = new CookieOptions()
             {
                 Expires = DateTime.Now.AddMinutes(360),
@@ -111,10 +108,8 @@ namespace CA1.Controllers
 
             if (user == null) //user has not log in yet
             {
-
                 if (Request.Cookies["CartId"] == null) //user has not gone to the cart page before in the current session
                 {
-
                     if (Request.Cookies["Temp"] == null) //user has not added to cart yet 
                     {
                         string str = product.Id.ToString();
@@ -127,13 +122,11 @@ namespace CA1.Controllers
                         Response.Cookies.Delete("Temp");
                         Response.Cookies.Append("Temp", temp, opts);
                     }
-
                     return Json(new
                     {
                         status = "success",
                         name = product.Name,
                     });
-
                 }
                 else //user gone to cart page before in session 
                 {
@@ -141,19 +134,17 @@ namespace CA1.Controllers
                     ShopCart cart = dbContext.ShopCarts.FirstOrDefault(x => x.Id == CartId);
                     return AddHelper(cart, product);
                 }
-
             }
             else //user log in already 
             {
                 ShopCart cart = dbContext.ShopCarts.FirstOrDefault(x => x.UserId == user.Id);
                 return AddHelper(cart, product);
             }
-
         }
 
 
 
- /*---------------------------HELPER FUNCTIONS HERE-----------------------------------*/
+ /*----------------------------------HELPER FUNCTIONS HERE-----------------------------------*/
         private IActionResult AddHelper(ShopCart cart, Product product)
         {
             ShopCartItem cartitem = dbContext.ShopCartItems.FirstOrDefault(x => x.ShopCartId == cart.Id && x.Product.Id == product.Id);

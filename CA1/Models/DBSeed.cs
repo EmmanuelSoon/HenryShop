@@ -262,9 +262,6 @@ namespace CA1.Models
                     {
                         ActivationId = Guid.NewGuid()
                     };
-
-
-
                     product.InventoryRecords.Add(record);
                 }
                 dbContext.SaveChanges();

@@ -166,24 +166,7 @@ namespace CA1.Controllers
             }
         }
 
-        //public IActionResult ChangeQ(Guid itemid, int stockqty)
-        //{
-        //    ShopCartItem item = dbContext.ShopCartItems.FirstOrDefault(x => x.Id == itemid);
-        //    int change = item.Quantity - stockqty;
-        //    if (stockqty == 0)
-        //    {
-        //        return RemoveFromCart(item);
-        //    }
-        //    else
-        //    {
-        //        item.Quantity = stockqty;
-        //        dbContext.ShopCartItems.Update(item);
-        //        dbContext.SaveChanges();
-        //        updateLists(item);
-        //        return RedirectToAction("Index");
-        //    }
 
-        //}
 
 
         //check for user login for the JS
@@ -298,7 +281,7 @@ namespace CA1.Controllers
         }
 
 
-        /*---------------------------HELPER FUNCTIONS HERE-----------------------------------*/
+/*-----------------------------------HELPER FUNCTIONS HERE-------------------------------------------*/
 
         private void stringtocart(string cartstr, Guid CartId)
         {
@@ -369,12 +352,7 @@ namespace CA1.Controllers
                     TempData.Remove("stockcount");
 
             }
-
-            
-
         }
-
-
 
         private void ResetCartCount()
         {
@@ -427,5 +405,25 @@ namespace CA1.Controllers
 
         //    return RedirectToAction("Index");
         //}
+
+        //public IActionResult ChangeQ(Guid itemid, int stockqty)
+        //{
+        //    ShopCartItem item = dbContext.ShopCartItems.FirstOrDefault(x => x.Id == itemid);
+        //    int change = item.Quantity - stockqty;
+        //    if (stockqty == 0)
+        //    {
+        //        return RemoveFromCart(item);
+        //    }
+        //    else
+        //    {
+        //        item.Quantity = stockqty;
+        //        dbContext.ShopCartItems.Update(item);
+        //        dbContext.SaveChanges();
+        //        updateLists(item);
+        //        return RedirectToAction("Index");
+        //    }
+
+        //}
+
     }
 }

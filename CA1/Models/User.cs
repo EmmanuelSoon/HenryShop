@@ -23,9 +23,7 @@ namespace CA1.Models
 		public string Firstname { get; set; }
 		[MaxLength(100)]
 		public string Lastname { get; set; }
-
 		public Guid? sessionId { get; set; }
-
 		/* navigational property: 1-to-1 relationship to shopcart */
 		public virtual ShopCart shopcart { get; set; }
 		public virtual WishList wishlist { get; set; }
