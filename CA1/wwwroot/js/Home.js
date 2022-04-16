@@ -97,7 +97,7 @@ function AddToWishList(id) {
                 }
                 else if (data.status == "existed") {
                     swal({
-                        text: data.name + " Already existed in your wishlist.",
+                        text: data.name + " Already exists in your wishlist.",
                         icon: "info"
                     });
                 }
