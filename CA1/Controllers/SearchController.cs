@@ -73,7 +73,9 @@ namespace CA1.Controllers
             List<Order> orders = dbContext.Orders.Where(x => x.ProductId == product.Id).ToList();
             List<ProductReview> reviews = new List<ProductReview>();
             List<User> users = new List<User>();
-            foreach(Order order in orders)
+            List<Product> oos = new List<Product>();
+
+            foreach (Order order in orders)
             {
                 ProductReview review = dbContext.ProductReviews.FirstOrDefault(x => x.OrderId == order.Id);
                 User user = dbContext.Users.FirstOrDefault(x => x.Id == order.UserId);
@@ -84,11 +86,19 @@ namespace CA1.Controllers
                 }
             }
 
+            List<InventoryRecord> invList = dbContext.InventoryRecords.Where(x => x.ProductId == product.Id).ToList();
+            if (invList.Count <= 0)
+            {
+                oos.Add(product);
+            }
+
+
             double AvgRating = AverageRating(reviews);
             ViewBag.Reviews = reviews.OrderByDescending(x => x.TimeStamp).ToList();
             ViewBag.Product = product;
             ViewBag.Rating = AvgRating;
             ViewBag.Users = users;
+            ViewBag.OutOfStockItems = oos;
             return View();
         }
 

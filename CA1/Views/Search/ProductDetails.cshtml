@@ -6,6 +6,7 @@
     List<User> users = ViewBag.Users;
     string boolean = (string)ViewBag.LoggedIn;
     int percent = (int) (rating*100/5);
+    List<Product> oos = ViewBag.OutOfStockItems;
 }
 
 @section Scripts {
@@ -29,7 +30,19 @@
                         Price: <br />
                         $ @product.Price
                     </strong>
-                    <button type="button" class="btn btn-outline-primary" data-toggle="modal" data-target="@boolean" value="@product.Id"><span class="fa-solid fa-cart-arrow-down"></span> Add to Cart</button>
+                    @if (!oos.Contains(product))
+                    {
+                        <button type="button" class="btn btn-outline-primary" data-toggle="modal" data-target="@boolean" value="@product.Id">
+                            <span class="fa-solid fa-cart-arrow-down"></span> Add to Cart
+                        </button>
+                    }
+                    else
+                    {
+                        <button type="button" class="btn btn-secondary" disabled>
+                            <span class="fa-solid fa-square-xmark"></span> Out Of Stock
+                        </button>
+                    }
+
                 </p>
 
                 @if (reviews.Count <= 0)

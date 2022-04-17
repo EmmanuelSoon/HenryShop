@@ -185,17 +185,19 @@ namespace CA1.Controllers
         public IActionResult CheckOutCart()
         {
             User user = dbContext.Users.FirstOrDefault(x => (Request.Cookies["SessionId"] != null) && (x.sessionId == Guid.Parse(Request.Cookies["SessionId"])));
-            ShopCart ShopCart = (ShopCart)dbContext.ShopCarts.FirstOrDefault(x => (Request.Cookies["SessionId"] != null) && (x.UserId.Equals(user.Id)));
+            
+            //Can remove this portion since the check is done in CheckUser()
+            //ShopCart ShopCart = (ShopCart)dbContext.ShopCarts.FirstOrDefault(x => (Request.Cookies["SessionId"] != null) && (x.UserId.Equals(user.Id)));
 
 
-            if (user == null)
-            {
-                return RedirectToAction("Index", "LogIn");
-            }
+            //if (user == null)
+            //{
+            //    return RedirectToAction("Index", "LogIn");
+            //}
 
-            else
-            {
-                ShopCart = (ShopCart)dbContext.ShopCarts.FirstOrDefault(x => x.UserId.Equals(user.Id)); //Get updated Cart 
+            //else
+            //{
+                ShopCart ShopCart = (ShopCart)dbContext.ShopCarts.FirstOrDefault(x => x.UserId.Equals(user.Id)); //Get updated Cart 
                 List<ShopCartItem> items = (List<ShopCartItem>)ShopCart.ShopCartItems;
                 List<ShopCartItem> insuff_stock = new List<ShopCartItem>();
                 List<int> insuff_stock_qty = new List<int>();
@@ -277,7 +279,7 @@ namespace CA1.Controllers
                     return Json(new { status = "success" }); 
                 }
 
-            }
+            //}
         }
 
 
