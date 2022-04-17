@@ -70,7 +70,7 @@ namespace CA1.Controllers
 
         public IActionResult ProductDetails(Product product)
         {
-            List<Order> orders = dbContext.Orders.Where(x => x.ProductId == product.Id).ToList();
+            List<Order> orders = dbContext.Orders.Where(x => x.ProductId == product.Id).OrderByDescending(x => x.TimeStamp).ToList();
             List<ProductReview> reviews = new List<ProductReview>();
             List<User> users = new List<User>();
             List<Product> oos = new List<Product>();
@@ -84,17 +84,15 @@ namespace CA1.Controllers
                     reviews.Add(review);
                     users.Add(user);
                 }
-            }
 
+            }
             List<InventoryRecord> invList = dbContext.InventoryRecords.Where(x => x.ProductId == product.Id).ToList();
             if (invList.Count <= 0)
             {
                 oos.Add(product);
             }
-
-
             double AvgRating = AverageRating(reviews);
-            ViewBag.Reviews = reviews.OrderByDescending(x => x.TimeStamp).ToList();
+            ViewBag.Reviews = reviews;
             ViewBag.Product = product;
             ViewBag.Rating = AvgRating;
             ViewBag.Users = users;
