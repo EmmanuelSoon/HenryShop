@@ -12,6 +12,7 @@
 @section Scripts {
     <script src="~/js/Home.js"></script>
 }
+<link rel="stylesheet" href="~/css/details.css" />
 
 <body>
     <h2 class="p-3 border-bottom">@product.Name</h2>
@@ -21,10 +22,13 @@
                 <img class="img-thumbnail border-0" src="../../@product.Img" height="400" />
             </div>
             <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6">
-                <p class="fs-3 product-desc pb-3">
+                 <div class="d-flex justify-content-between">
+                    <p class="fs-3 product-desc pb-3">
                     Description:<br />
                     @product.Desc
-                </p>
+                    </p>
+                    <button type="button" class="fa-regular fa-heart wishlist-btn" value="@product.Id"></button>
+                </div>
                 <p class="d-flex justify-content-between pb-3">
                     <strong class="product-price">
                         Price: <br />
@@ -94,4 +98,40 @@
     </div>
 </body>
 
+@*modal form for login*@
+<form asp-controller="LogIn" asp-action="login" method="post">
+    <div class="modal fade" id="modalLoginForm" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document" style="width: 300px;">
+            <div class="modal-content modal-sm" style="background-color:#f5f9fa;">
 
+                <div class="modal-header text-center">
+                    <h4 class="modal-title w-100 font-weight-bold">Sign in</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body mx-3">
+
+                    <div class="input-group mb-3">
+                        <div class="input-group-append">
+                            <span class="input-group-text"><i class="fas fa-user"></i></span>
+                        </div>
+                        <input type="text" name="Username" class="form-control input_user" value="" placeholder="username">
+                    </div>
+                    <div class="input-group mb-2">
+                        <div class="input-group-append">
+                            <span class="input-group-text"><i class="fas fa-key"></i></span>
+                        </div>
+                        <input type="password" name="Password" class="form-control input_pass" value="" placeholder="password">
+                        <input type="hidden" name="returnUrl" value="Wishlist" />
+                    </div>
+
+                </div>
+                <div class="modal-footer d-flex justify-content-center">
+                    <button class="btn btn-primary" style="padding: 0.375rem 3.8rem;">Login</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
