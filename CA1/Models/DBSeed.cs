@@ -104,7 +104,7 @@ namespace CA1.Models
                 Desc = "Need to know more about .NET? here is your one stop solution",
                 Img = "/img/Library.jpg",
                 Price = 99,
-                DownLoadLink = "56789.com"
+                DownLoadLink = "https://www.nlb.gov.sg/"
             });
 
             dbContext.Add(new Product
@@ -114,7 +114,7 @@ namespace CA1.Models
                 Desc = "Set of controls and features for your platform",
                 Img = "/img/UI.png",
                 Price = 9,
-                DownLoadLink = "56789.com"
+                DownLoadLink = "https://en.wikipedia.org/wiki/User_interface"
             });
 
             dbContext.Add(new Product
@@ -124,7 +124,7 @@ namespace CA1.Models
                 Desc = "Analytical tool to check on your app's performance",
                 Img = "/img/RunTime.jpg",
                 Price = 69,
-                DownLoadLink = "56789.com"
+                DownLoadLink = "https://dotnet.microsoft.com/en-us/download/dotnet-framework"
             });
 
             dbContext.Add(new Product
@@ -134,7 +134,7 @@ namespace CA1.Models
                 Desc = "A computer and artificial intelligence library for image processing",
                 Img = "/img/Images.jpg",
                 Price = 119,
-                DownLoadLink = "56789.com"
+                DownLoadLink = "https://en.wikipedia.org/wiki/Artificial_intelligence"
             });
 
             dbContext.Add(new Product
@@ -144,7 +144,7 @@ namespace CA1.Models
                 Desc = "A development tool to create games for consoles and PCs",
                 Img = "/img/unityweb.png",
                 Price = 39,
-                DownLoadLink = "56789.com"
+                DownLoadLink = "https://docs.unity3d.com/Manual/index.html"
             });
 
             dbContext.Add(new Product
@@ -154,7 +154,7 @@ namespace CA1.Models
                 Desc = "A framework to enable developers to create web apps",
                 Img = "/img/Blazorweb.png",
                 Price = 19,
-                DownLoadLink = "56789.com"
+                DownLoadLink = "https://dotnet.microsoft.com/en-us/apps/aspnet/web-apps/blazor"
             });
 
 
