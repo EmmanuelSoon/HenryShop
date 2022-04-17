@@ -34,7 +34,7 @@ namespace CA1.Models
                 Desc = "Brings powerful charting capabilities to your .NET applications",
                 Img = "/img/Charts.jpg",
                 Price = 99,
-                DownLoadLink = "www.12345.com"
+                DownLoadLink = "https://dotnetcharting.com/"
             });
 
             dbContext.Add(new Product
@@ -44,7 +44,7 @@ namespace CA1.Models
                 Desc = "Integrate your .NET apps with PayPal the easy way!",
                 Img = "/img/Paypal.jpg",
                 Price = 69,
-                DownLoadLink = "www.23456.com"
+                DownLoadLink = "https://paypal.github.io/PayPal-NET-SDK/"
             });
 
             dbContext.Add(new Product
@@ -54,7 +54,7 @@ namespace CA1.Models
                 Desc = "Supercharged .NET machine learning libraries",
                 Img = "/img/Machine.jpg",
                 Price = 299,
-                DownLoadLink = "www.34567.com"
+                DownLoadLink = "https://dotnet.microsoft.com/en-us/learn/ml-dotnet/get-started-tutorial/intro"
             });
 
             dbContext.Add(new Product
@@ -64,7 +64,7 @@ namespace CA1.Models
                 Desc = "Performs data mining and analytics easily in .NET",
                 Img = "/img/Analytics.jpg",
                 Price = 299,
-                DownLoadLink = "45678.com"
+                DownLoadLink = "https://segment.com/docs/connections/sources/catalog/libraries/server/net/"
             });
 
             dbContext.Add(new Product
@@ -74,7 +74,7 @@ namespace CA1.Models
                 Desc = "Logs and aggregates events easily in your .NET apps",
                 Img = "/img/Logger.jpg",
                 Price = 49,
-                DownLoadLink = "56789.com"
+                DownLoadLink = "https://www.nuget.org/packages/Microsoft.Extensions.Logging/"
             });
 
             dbContext.Add(new Product
@@ -84,7 +84,7 @@ namespace CA1.Models
                 Desc = "Powerful numerical methods for your .NET simulations",
                 Img = "/img/Numerics.png",
                 Price = 199,
-                DownLoadLink = "56789.com"
+                DownLoadLink = "https://numerics.mathdotnet.com/Packages.html"
             });
 
             dbContext.Add(new Product
@@ -94,7 +94,7 @@ namespace CA1.Models
                 Desc = "Create forms in a click, simple and quick",
                 Img = "/img/Forms.jpg",
                 Price = 99,
-                DownLoadLink = "56789.com"
+                DownLoadLink = "https://docs.microsoft.com/en-us/dotnet/desktop/winforms/?view=netdesktop-6.0"
             });
 
             dbContext.Add(new Product
@@ -104,7 +104,7 @@ namespace CA1.Models
                 Desc = "Need to know more about .NET? here is your one stop solution",
                 Img = "/img/Library.jpg",
                 Price = 99,
-                DownLoadLink = "56789.com"
+                DownLoadLink = "https://www.nlb.gov.sg/"
             });
 
             dbContext.Add(new Product
@@ -114,7 +114,7 @@ namespace CA1.Models
                 Desc = "Set of controls and features for your platform",
                 Img = "/img/UI.png",
                 Price = 9,
-                DownLoadLink = "56789.com"
+                DownLoadLink = "https://en.wikipedia.org/wiki/User_interface"
             });
 
             dbContext.Add(new Product
@@ -124,7 +124,7 @@ namespace CA1.Models
                 Desc = "Analytical tool to check on your app's performance",
                 Img = "/img/RunTime.jpg",
                 Price = 69,
-                DownLoadLink = "56789.com"
+                DownLoadLink = "https://dotnet.microsoft.com/en-us/download/dotnet-framework"
             });
 
             dbContext.Add(new Product
@@ -134,7 +134,7 @@ namespace CA1.Models
                 Desc = "A computer and artificial intelligence library for image processing",
                 Img = "/img/Images.jpg",
                 Price = 119,
-                DownLoadLink = "56789.com"
+                DownLoadLink = "https://en.wikipedia.org/wiki/Artificial_intelligence"
             });
 
             dbContext.Add(new Product
@@ -144,7 +144,7 @@ namespace CA1.Models
                 Desc = "A development tool to create games for consoles and PCs",
                 Img = "/img/unityweb.png",
                 Price = 39,
-                DownLoadLink = "56789.com"
+                DownLoadLink = "https://docs.unity3d.com/Manual/index.html"
             });
 
             dbContext.Add(new Product
@@ -154,7 +154,7 @@ namespace CA1.Models
                 Desc = "A framework to enable developers to create web apps",
                 Img = "/img/Blazorweb.png",
                 Price = 19,
-                DownLoadLink = "56789.com"
+                DownLoadLink = "https://dotnet.microsoft.com/en-us/apps/aspnet/web-apps/blazor"
             });
 
 

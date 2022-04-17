@@ -4,7 +4,8 @@
     List<ShopCartItem> insuff_stock = (List<ShopCartItem>)ViewData["stocklist"];
     List<int> insuff_stock_qty = (List<int>)ViewData["stockcount"];
 
-    float total = (float)ViewBag.total;
+    float total = (float)(ViewBag.total);
+    string totalstr = total.ToString("0.00");
     float GST = total * (float)0.07;
     float totalGST = total + GST;
     Func<float, int, float> sum = (a, b) => a * b;
@@ -110,11 +111,11 @@
                     <table class="table none order-summary">
                         <tr>
                             <td class="text-left font-weight-bold">Price before GST : </td>
-                            <td class="text-right">$ @total</td>
+                            <td class="text-right">$ @totalstr</td>
                         </tr>
                         <tr>
                             <td class="text-left font-weight-bold">GST(7%) : </td>
-                            <td class="text-right">@GST</td>
+                            <td class="text-right">$ @GST</td>
                         </tr>
                         <tr>
                             <td class="text-left font-weight-bold">Total Price :</td>
