@@ -1,5 +1,5 @@
 ﻿@{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Home Page";
     List<Product> products = (List<Product>)ViewBag.Products;
     string searchstr = (string)ViewBag.Searchstr;
     string statement = (string)TempData["statement"];
@@ -72,13 +72,13 @@ else
                         <div class="col-12 col-sm-4 mb-5 d-flex">
                             <div class="card">
                                 <a href='@Url.Action("ProductDetails", "Search", product)'>
-                                     <img class="card-img-top" src=@product.Img alt="image not found" height="200" style="object-fit: contain;">
+                                     <img class="card-img-top" src=@product.Img alt="image not found" height="200" style="object-fit: contain;" title="View Product Details">
                                 </a>
                                 <h5 class="card-header">@product.Name</h5>
                                 <div class="card-body">
                                     <p class="card-text d-flex justify-content-between">
                                         <span class="font-weight-bold">$ @product.Price</span>
-                                        <button type="button" class="fa-regular fa-heart wishlist-btn" value="@product.Id"></button>
+                                        <button type="button" class="fa-regular fa-heart wishlist-btn" value="@product.Id" title="Add to Wishlist"></button>
                                     </p>
                                     <p class="card-text font-weight-light">
                                         @product.Desc 
