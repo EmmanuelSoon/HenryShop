@@ -69,8 +69,6 @@ function AddToCart(id) {
                         $(myModal).modal('hide');
                     }, 2000);
 
-
-                    //alert(data.name + " Added to cart");
                 }
             }
         }

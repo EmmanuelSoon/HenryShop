@@ -108,6 +108,8 @@ function Clickfordetail(event) {
     showreview(event.target.id);
 }
 
+
+//function to keep track of Cart Counter
 $(document).ready(function () {
     setInterval(reload, 1000);
 })

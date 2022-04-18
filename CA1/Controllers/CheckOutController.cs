@@ -93,6 +93,8 @@ namespace CA1.Controllers
         {
             return RedirectToAction("Index", "Search");
         }
+
+
         public IActionResult RemoveFromCart([FromBody] ShopCartItem req)
         {
             ShopCartItem item = dbContext.ShopCartItems.FirstOrDefault(x => x.Id == req.Id);
@@ -270,7 +272,7 @@ namespace CA1.Controllers
         }
 
 
-        /*-----------------------------------HELPER FUNCTIONS HERE-------------------------------------------*/
+/*-----------------------------------HELPER FUNCTIONS HERE-------------------------------------------*/
 
         private void stringtocart(string cartstr, Guid CartId)
         {

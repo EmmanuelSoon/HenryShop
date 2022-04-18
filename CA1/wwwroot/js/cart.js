@@ -26,7 +26,7 @@
         RemoveFromCart(event.target.value);
     }
 
-    //Keeping track using mouse leaving the specified row/button
+    //Keeping track using mouse leaving the specified button
     function UpdateClick(event) {
         var specifiedElement = document.getElementById(event.target.id)
 

@@ -50,7 +50,7 @@ namespace CA1.Controllers
                 }
             }
             
-
+            //cleans up function to clean database 
             CleanUp();
             if(Request.Cookies["cartcount"] == null)
             {
