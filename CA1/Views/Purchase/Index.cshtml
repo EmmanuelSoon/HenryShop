@@ -34,8 +34,8 @@
                         <div class="row border mb-4">
                             <div class="col-4">
                                 <div class="card border-0">
-                                    <div style="width:300px;height:300px;">
-                                        <img src="@order.Product.Img" class="img-fluid">
+                                    <div >
+                                        <img src="@order.Product.Img" class="img-fluid width: 100%">
                                     </div>
                                     <div class="card-body">
                                         <p class="card-text">@order.Product.Desc</p>
@@ -62,7 +62,7 @@
                                     }
                                     else
                                     {
-                                                    <span id="@index" class="p-2 border">@order.OrderDetails.First().ActivationId</span>
+                                                    <span id="@index" class="d-inline-block align-self-center p-2 border">@order.OrderDetails.First().ActivationId</span>
                                                     <button onclick="copySingle(@index)" class="btn btn-outline-primary"><i class="fa-solid fa-copy"></i></button>
                                     }
                                         </div>
