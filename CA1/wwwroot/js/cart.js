@@ -23,34 +23,14 @@
     }
 
     function Removeclick(event) {
-            RemoveFromCart(event.target.value);
-       }
+        RemoveFromCart(event.target.value);
+    }
 
-    ////keeping track using mouse leaving the table or when user clicks outside the button 
-    //function UpdateClick(event) { 
-    //    var specifiedElement = document.getElementById(event.target.id)
-    //    var carttable = document.getElementById('carttable') 
-
-    //    carttable.addEventListener('mouseleave', function (event) {
-    //        UpdateCartQty(specifiedElement.id, specifiedElement.value)
-    //    })
-
-    //    document.addEventListener('click', function (event) {
-    //        var isClickInside = specifiedElement.contains(event.target);
-
-    //        if (!isClickInside) {
-    //            UpdateCartQty(specifiedElement.id,specifiedElement.value)
-    //        }
-    //    });
-    //}
-
-
-   //Keeping track using mouse leaving the specified row/button
+    //Keeping track using mouse leaving the specified row/button
     function UpdateClick(event) {
-        //var specifiedRow = document.getElementById(event.target.getAttribute('data-value'))
         var specifiedElement = document.getElementById(event.target.id)
 
-        specifiedElement.addEventListener('mouseleave', function (event){
+        specifiedElement.addEventListener('mouseleave', function (event) {
             UpdateCartQty(specifiedElement.id, specifiedElement.value)
         })
     }
@@ -73,10 +53,6 @@ function ChangeQ(id, qty) {
                     }).then(function () {
                         window.location.reload(true)
                     })
-
-
-
-
                 }
                 else {
                     swal({
@@ -100,12 +76,12 @@ function ChangeQ(id, qty) {
 }
 
 
-async function UpdateCartQty(id ,value) {
+async function UpdateCartQty(id, value) {
 
     var Value = value * 1;
 
     if (Value < 1 || !Number.isInteger(Value)) {
-      
+
         document.getElementById(id).value = 1;
         Value = document.getElementById(id).value * 1;
         await swal({
@@ -139,7 +115,6 @@ async function UpdateCartQty(id ,value) {
     let req = {
         "Id": id,
         "Quantity": Value
-
     }
 
     xhr.send(JSON.stringify(req));
@@ -148,7 +123,7 @@ async function UpdateCartQty(id ,value) {
 
 
 function RemoveFromCart(id) {
-    
+
     swal({
         title: "Remove item from Cart?",
         text: "Click OK to confirm...",
@@ -181,7 +156,7 @@ function RemoveFromCart(id) {
             xhr.send(JSON.stringify(req));
         }
     });
-    
+
 }
 
 
@@ -222,7 +197,7 @@ function CheckOutCart() {
                         title: "Thank You!",
                         text: "Your purchase was successful.",
                         icon: "success"
-                    }).then(function() {
+                    }).then(function () {
                         window.location = '/Purchase/Index/';
                     });
                 }

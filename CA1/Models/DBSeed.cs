@@ -227,7 +227,7 @@ namespace CA1.Models
                 PassHash = hash,
                 Firstname = firstname,
                 Lastname = lastname,
-                shopcart= cart,
+                shopcart = cart,
                 wishlist = wishlist
             });
         }

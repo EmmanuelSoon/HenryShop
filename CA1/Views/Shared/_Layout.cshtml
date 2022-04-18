@@ -11,7 +11,7 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="icon" href="~/piggy.ico"/>
+    <link rel="icon" href="~/piggy.ico" />
     <title>@ViewData["Title"] - Henry's E-Shop</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/lib/font-awesome/css/all.css" />
@@ -52,9 +52,9 @@
                         if (!string.IsNullOrEmpty(name))
                         {
                             <span class="text-white">
-                            Hello, @name !
+                                Hello, @name !
                             </span>
-                          
+
                         }
                     }
                     @*Account dropdown*@
@@ -79,12 +79,12 @@
                         </div>
                     </div>
                     <div>
-                          <a class="fa fa-cart-shopping text-white mr-3" asp-controller="CheckOut" asp-action="Index" style="position:relative">
+                        <a class="fa fa-cart-shopping text-white mr-3" asp-controller="CheckOut" asp-action="Index" style="position:relative">
                             <div id="here" style="position: absolute;top: -8px;right:-7px;">
                                 @{
                                     if (string.IsNullOrEmpty(@cartcount))
                                     {
-                                       <span class="badge badge-warning rounded-circle">0</span> 
+                                        <span class="badge badge-warning rounded-circle">0</span>
                                     }
                                     else
                                     {
@@ -95,8 +95,8 @@
                         </a>
                     </div>
 
+                </div>
             </div>
-        </div>
         </nav>
     </header>
     <div class="container">

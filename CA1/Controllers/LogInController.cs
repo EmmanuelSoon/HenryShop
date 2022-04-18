@@ -8,7 +8,6 @@ using CA1.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
-// For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace CA1.Controllers
 {
@@ -101,7 +100,7 @@ namespace CA1.Controllers
                 // ask browser to save and send back these cookies next time
                 Response.Cookies.Append("SessionId", user.sessionId.ToString());
                 Response.Cookies.Append("Username", user.UserName);
-                Response.Cookies.Append("Name", user.Firstname +" " + user.Lastname);
+                Response.Cookies.Append("Name", user.Firstname + " " + user.Lastname);
 
                 string controllerUrl = form["returnUrl"];
                 return RedirectToAction("Index", controllerUrl);
@@ -123,13 +122,10 @@ namespace CA1.Controllers
                 if (usersession != null)
                 {
                     usersession.sessionId = null;
-                    // commit to save changes
                     dbContext.SaveChanges();
                 }
             }
 
-            // ask client to remove these cookies so that
-            // they won't be sent over next time
             Response.Cookies.Delete("SessionId");
             Response.Cookies.Delete("Username");
             Response.Cookies.Delete("cartcount");
@@ -188,7 +184,7 @@ namespace CA1.Controllers
             foreach (ShopCartItem item in items)
             {
                 ShopCartItem cartitem = dbContext.ShopCartItems.FirstOrDefault(x => x.ShopCartId == Cart.Id && x.ProductId == item.ProductId);
-                if(cartitem == null)
+                if (cartitem == null)
                 {
                     item.ShopCartId = Cart.Id;
                     dbContext.ShopCartItems.Update(item);

@@ -10,7 +10,7 @@
 }
 
 @section Scripts {
-    <script src="~/js/Home.js"></script>
+<script src="~/js/Home.js"></script>
 }
 
 <link rel="stylesheet" href="~/css/search.css" />
@@ -23,7 +23,7 @@
             <div id="mycarousel" class="carousel slide" data-ride="carousel" data-interval="4000">
                 <div class="carousel-inner" role="listbox">
                     <div class="carousel-item active">
-                        <img class="d-block w-100" src="~/img/HenryshopBanner1.svg" height="300"/>
+                        <img class="d-block w-100" src="~/img/HenryshopBanner1.svg" height="300" />
                     </div>
                     <div class="carousel-item">
                         <img class="d-block w-100" src="~/img/HenryshopBanner2.svg" height="300" />
@@ -72,7 +72,7 @@ else
                         <div class="col-12 col-sm-4 mb-5 d-flex">
                             <div class="card">
                                 <a href='@Url.Action("ProductDetails", "Search", product)'>
-                                     <img class="card-img-top" src=@product.Img alt="image not found" height="200" style="object-fit: contain;" title="View Product Details">
+                                    <img class="card-img-top" src=@product.Img alt="image not found" height="200" style="object-fit: contain;" title="View Product Details">
                                 </a>
                                 <h5 class="card-header">@product.Name</h5>
                                 <div class="card-body">
@@ -81,7 +81,7 @@ else
                                         <button type="button" class="fa-regular fa-heart wishlist-btn" value="@product.Id" title="Add to Wishlist"></button>
                                     </p>
                                     <p class="card-text font-weight-light">
-                                        @product.Desc 
+                                        @product.Desc
                                     </p>
 
                                     <p></p>

@@ -1,17 +1,16 @@
-﻿
-@{
+﻿@{
     ViewData["Title"] = "Product Details";
     Product product = ViewBag.Product;
     double rating = ViewBag.Rating;
     List<ProductReview> reviews = ViewBag.Reviews;
     List<User> users = ViewBag.Users;
     string boolean = (string)ViewBag.LoggedIn;
-    int percent = (int) (rating*100/5);
+    int percent = (int)(rating * 100 / 5);
     List<Product> oos = ViewBag.OutOfStockItems;
 }
 
 @section Scripts {
-    <script src="~/js/Home.js"></script>
+<script src="~/js/Home.js"></script>
 }
 <link rel="stylesheet" href="~/css/details.css" />
 
@@ -23,10 +22,10 @@
                 <img class="img-thumbnail border-0" src="../../@product.Img" height="400" />
             </div>
             <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6">
-                 <div class="d-flex justify-content-between">
+                <div class="d-flex justify-content-between">
                     <p class="fs-3 product-desc pb-3">
-                    Description:<br />
-                    @product.Desc
+                        Description:<br />
+                        @product.Desc
                     </p>
                     <button type="button" class="fa-regular fa-heart wishlist-btn" value="@product.Id"></button>
                 </div>

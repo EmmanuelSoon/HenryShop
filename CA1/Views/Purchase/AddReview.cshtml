@@ -20,33 +20,33 @@
                 <h3>@currOrder.Product.Name</h3>
                 <p class="card-text">@currOrder.Product.Desc</p>
             </div>
-             <div class="col mt-5">
-                    <h4>Please rate the product (1 - 5)</h4>
-                    <div class="justify-content-center">
-                        <form action="/Purchase/SaveReview/" method="post" id="reviewform">
-                            <div class="rate text-center" style="margin:0; padding:0" id="rate">
-                                <input type="radio" id="star5" name="rate" value="5" />
-                                <label for="star5" title="text">5 stars</label>
-                                <input type="radio" id="star4" name="rate" value="4" />
-                                <label for="star4" title="text">4 stars</label>
-                                <input type="radio" id="star3" name="rate" value="3" checked />
-                                <label for="star3" title="text">3 stars</label>
-                                <input type="radio" id="star2" name="rate" value="2" />
-                                <label for="star2" title="text">2 stars</label>
-                                <input type="radio" id="star1" name="rate" value="1" />
-                                <label for="star1" title="text">1 star</label>
-                            </div>
-                            <br>
-                            <br>
-                            <div>
-                        <h4>Tell people what you think!</h4>
-                        <textarea id="content" name="content" rows="4" cols="50" placeholder="Enter your review here! (Max 250 characters)"></textarea><br>
-                        <input type="hidden" name="orderId" value="@OrderId" /><br>
-                        <input class="btn btn-outline-success" type="submit" value="Submit">
-                    </div>
-                </form>
+            <div class="col mt-5">
+                <h4>Please rate the product (1 - 5)</h4>
+                <div class="justify-content-center">
+                    <form action="/Purchase/SaveReview/" method="post" id="reviewform">
+                        <div class="rate text-center" style="margin:0; padding:0" id="rate">
+                            <input type="radio" id="star5" name="rate" value="5" />
+                            <label for="star5" title="text">5 stars</label>
+                            <input type="radio" id="star4" name="rate" value="4" />
+                            <label for="star4" title="text">4 stars</label>
+                            <input type="radio" id="star3" name="rate" value="3" checked />
+                            <label for="star3" title="text">3 stars</label>
+                            <input type="radio" id="star2" name="rate" value="2" />
+                            <label for="star2" title="text">2 stars</label>
+                            <input type="radio" id="star1" name="rate" value="1" />
+                            <label for="star1" title="text">1 star</label>
+                        </div>
+                        <br>
+                        <br>
+                        <div>
+                            <h4>Tell people what you think!</h4>
+                            <textarea id="content" name="content" rows="4" cols="50" placeholder="Enter your review here! (Max 250 characters)"></textarea><br>
+                            <input type="hidden" name="orderId" value="@OrderId" /><br>
+                            <input class="btn btn-outline-success" type="submit" value="Submit">
+                        </div>
+                    </form>
+                </div>
             </div>
-        </div>
         </div>
     </div>
 </body>

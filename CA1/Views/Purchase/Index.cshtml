@@ -1,9 +1,6 @@
 ﻿@{
     ViewData["Title"] = "My Purchase";
     List<Order> Orders = (List<Order>)ViewData["Orders"];
-    @*string searchstr = (string)ViewBag.Searchstr;
-        string statement = (string)TempData["statement"];*@
-    @*Index is the uniqueId assigned for html tag for the activation code display*@
     int index = 0;
 }
 
@@ -15,91 +12,91 @@
 <body>
     @if (Orders.Count == 0)
     {
-        <div class="container">
-            <div class="row justify-content-md-center">
-                <div class="col-4 text-center">
-                    <img class="text-center" src="/img/cart.svg" />
-                    <p class="my-3">You don't have any purchase yet! Let's make a purchase today!</p>
-                    <a href="/">Go to HOME Page</a>
+            <div class="container">
+                <div class="row justify-content-md-center">
+                    <div class="col-4 text-center">
+                        <img class="text-center" src="/img/cart.svg" />
+                        <p class="my-3">You don't have any purchase yet! Let's make a purchase today!</p>
+                        <a href="/">Go to HOME Page</a>
+                    </div>
                 </div>
             </div>
-        </div>
     }
     else
     {
 
-        <div class="container-fluid">
-            <div class="row">
-                <h1 class="text-left m-3">My Purchase</h1>
-            </div>
+            <div class="container-fluid">
+                <div class="row">
+                    <h1 class="text-left m-3">My Purchase</h1>
+                </div>
             @foreach (Order order in Orders)
             {
-                <div class="row border mb-4">
-                    <div class="col-4">
-                        <div class="card border-0">
-                            <div style="width:300px;height:300px;">
-                                <img src="@order.Product.Img" class="img-fluid">
+                        <div class="row border mb-4">
+                            <div class="col-4">
+                                <div class="card border-0">
+                                    <div style="width:300px;height:300px;">
+                                        <img src="@order.Product.Img" class="img-fluid">
+                                    </div>
+                                    <div class="card-body">
+                                        <p class="card-text">@order.Product.Desc</p>
+                                    </div>
+                                </div>
                             </div>
-                            <div class="card-body">
-                                <p class="card-text">@order.Product.Desc</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-8">
-                        <div class="container border-0">
-                            <h3 class="border border-top-0 border-right-0 border-left-0 border-secondary p-3">@order.Product.Name</h3>
-                            <div class="p-3">
-                                <p>Quantity: @order.Quantity</p>
-                                <p>Purchased On: @order.CreatedDate</p>
-                                <div class="mb-3">
-                                    <span class="pr-3">Activation Code: </span>
+                            <div class="col-8">
+                                <div class="container border-0">
+                                    <h3 class="border border-top-0 border-right-0 border-left-0 border-secondary p-3">@order.Product.Name</h3>
+                                    <div class="p-3">
+                                        <p>Quantity: @order.Quantity</p>
+                                        <p>Purchased On: @order.CreatedDate</p>
+                                        <div class="mb-3">
+                                            <span class="pr-3">Activation Code: </span>
                                     @if (order.OrderDetails.Count > 1)
                                     {
-                                        <select class="form-select border" id="@index" style="height:40px">
+                                                    <select class="form-select border" id="@index" style="height:40px">
                                             @foreach (OrderDetail detail in order.OrderDetails)
                                             {
-                                                <option value="@detail.ActivationId">@detail.ActivationId</option>
+                                                                <option value="@detail.ActivationId">@detail.ActivationId</option>
                                             }
-                                        </select>
-                                        <button onclick="copy(@index)" class="btn btn-outline-primary"><i class="fa-solid fa-copy"></i></button>
+                                                    </select>
+                                                    <button onclick="copy(@index)" class="btn btn-outline-primary"><i class="fa-solid fa-copy"></i></button>
                                     }
                                     else
                                     {
-                                        <span id="@index" class="p-2 border">@order.OrderDetails.First().ActivationId</span>
-                                        <button onclick="copySingle(@index)" class="btn btn-outline-primary"><i class="fa-solid fa-copy"></i></button>
+                                                    <span id="@index" class="p-2 border">@order.OrderDetails.First().ActivationId</span>
+                                                    <button onclick="copySingle(@index)" class="btn btn-outline-primary"><i class="fa-solid fa-copy"></i></button>
                                     }
-                                </div>
-                                <a href="@order.Product.DownLoadLink" class="btn btn-outline-primary my-3">
-                                    DOWNLOAD <i class="fa fa-download pl-3"></i>
-                                </a>
+                                        </div>
+                                        <a href="@order.Product.DownLoadLink" class="btn btn-outline-primary my-3">
+                                            DOWNLOAD <i class="fa fa-download pl-3"></i>
+                                        </a>
                                 @if (order.ProductReview != null)
                                 {
-                                    <div id=@order.Id class="reviewdetail">
-                                        <button id=@order.Id class="btn btn-outline-primary">
-                                            View your review <i class=" fa fa-eye"></i>
-                                        </button>
-                                    </div>
+                                                <div id=@order.Id class="reviewdetail">
+                                                    <button id=@order.Id class="btn btn-outline-primary">
+                                                        View your review <i class=" fa fa-eye"></i>
+                                                    </button>
+                                                </div>
                                 }
                                 else
                                 {
-                                    <div class="review">
-                                        <a class="btn btn-outline-warning mb-3" asp-controller="Purchase" asp-action="AddReview" asp-route-id="@order.Id">
-                                            Click to add review <i class="fa fa-pencil"></i>
-                                        </a>
-                                        <p>
-                                            Press the above button to let us know your review!
-                                        </p>
-                                    </div>
+                                                <div class="review">
+                                                    <a class="btn btn-outline-warning mb-3" asp-controller="Purchase" asp-action="AddReview" asp-route-id="@order.Id">
+                                                        Click to add review <i class="fa fa-pencil"></i>
+                                                    </a>
+                                                    <p>
+                                                        Press the above button to let us know your review!
+                                                    </p>
+                                                </div>
                                 }
+                                    </div>
+                                </div>
                             </div>
-                        </div>
-                    </div>
 
-                </div>
+                        </div>
                 index++;
-                <hr class="border-0">
+                        <hr class="border-0">
             }
 
-        </div>
+            </div>
     }
 </body>

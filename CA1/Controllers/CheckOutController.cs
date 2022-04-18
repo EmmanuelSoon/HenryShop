@@ -107,15 +107,15 @@ namespace CA1.Controllers
                     updateLists(item);
                     dbContext.ShopCartItems.Remove(item);
                     dbContext.SaveChanges();
-                    if(req.ProductId == Guid.Empty)
+                    if (req.ProductId == Guid.Empty)
                     {
                         return Json(new { status = "success" });
                     }
                     else
                     {
-                        return Json(new { status ="removed" });
+                        return Json(new { status = "removed" });
                     }
-                   
+
                 }
             }
             else
@@ -185,105 +185,92 @@ namespace CA1.Controllers
         public IActionResult CheckOutCart()
         {
             User user = dbContext.Users.FirstOrDefault(x => (Request.Cookies["SessionId"] != null) && (x.sessionId == Guid.Parse(Request.Cookies["SessionId"])));
-            
-            //Can remove this portion since the check is done in CheckUser()
-            //ShopCart ShopCart = (ShopCart)dbContext.ShopCarts.FirstOrDefault(x => (Request.Cookies["SessionId"] != null) && (x.UserId.Equals(user.Id)));
+
+            ShopCart ShopCart = (ShopCart)dbContext.ShopCarts.FirstOrDefault(x => x.UserId.Equals(user.Id)); //Get updated Cart 
+            List<ShopCartItem> items = (List<ShopCartItem>)ShopCart.ShopCartItems;
+            List<ShopCartItem> insuff_stock = new List<ShopCartItem>();
+            List<int> insuff_stock_qty = new List<int>();
+
+            for (int i = 0; i < items.Count; i++) //Checking if our inventory has enough for the order 
+            {
+                ShopCartItem curr = items[i];
+                List<InventoryRecord> invlist = dbContext.InventoryRecords.Where(x => x.ProductId == curr.ProductId).ToList();
 
 
-            //if (user == null)
-            //{
-            //    return RedirectToAction("Index", "LogIn");
-            //}
+                if (invlist.Count < curr.Quantity)
+                {
+                    insuff_stock.Add(curr);
+                    insuff_stock_qty.Add(invlist.Count);
 
-            //else
-            //{
-                ShopCart ShopCart = (ShopCart)dbContext.ShopCarts.FirstOrDefault(x => x.UserId.Equals(user.Id)); //Get updated Cart 
-                List<ShopCartItem> items = (List<ShopCartItem>)ShopCart.ShopCartItems;
-                List<ShopCartItem> insuff_stock = new List<ShopCartItem>();
-                List<int> insuff_stock_qty = new List<int>();
+                }
+            }
 
-                for (int i = 0; i < items.Count; i++) //Checking if our inventory has enough for the order 
+            if (insuff_stock.Count != 0) //not enough, let user know, get user to change 
+            {
+                TempData["stocklist"] = JsonConvert.SerializeObject(insuff_stock, new JsonSerializerSettings()
+                {
+                    ReferenceLoopHandling = ReferenceLoopHandling.Ignore,
+                    PreserveReferencesHandling = PreserveReferencesHandling.Objects
+                });
+                TempData["stockcount"] = JsonConvert.SerializeObject(insuff_stock_qty, new JsonSerializerSettings()
+                {
+                    ReferenceLoopHandling = ReferenceLoopHandling.Ignore,
+                    PreserveReferencesHandling = PreserveReferencesHandling.Objects
+                });
+                return Json(new { status = "fail" });
+            }
+
+
+
+            else //if have enough, creates new orders and add it into Db
+            {
+                if (TempData.Peek("stocklist") != null)
+                    TempData.Remove("stocklist");
+
+                if (TempData.Peek("stockcount") != null)
+                    TempData.Remove("stockcount");
+
+                for (int i = 0; i < items.Count; i++)
                 {
                     ShopCartItem curr = items[i];
+                    List<OrderDetail> orderlist = new List<OrderDetail>();
                     List<InventoryRecord> invlist = dbContext.InventoryRecords.Where(x => x.ProductId == curr.ProductId).ToList();
 
-
-                    if (invlist.Count < curr.Quantity)
+                    Order order = new Order
                     {
-                        insuff_stock.Add(curr);
-                        insuff_stock_qty.Add(invlist.Count);
 
-                    }
-                }
+                        ProductId = curr.ProductId,
+                        Quantity = curr.Quantity,
+                        UserId = user.Id,
 
-                if (insuff_stock.Count != 0) //not enough, let user know, get user to change 
-                {
-                    TempData["stocklist"] = JsonConvert.SerializeObject(insuff_stock, new JsonSerializerSettings()
+                    };
+
+
+                    for (int j = 0; j < curr.Quantity; j++)
                     {
-                        ReferenceLoopHandling = ReferenceLoopHandling.Ignore,
-                        PreserveReferencesHandling = PreserveReferencesHandling.Objects
-                    });
-                    TempData["stockcount"] = JsonConvert.SerializeObject(insuff_stock_qty, new JsonSerializerSettings()
-                    {
-                        ReferenceLoopHandling = ReferenceLoopHandling.Ignore,
-                        PreserveReferencesHandling = PreserveReferencesHandling.Objects
-                    });
-                    return Json(new { status = "fail" });
-                }
-
-
-
-                else //if have enough, creates new orders and add it into Db
-                {
-                    if (TempData.Peek("stocklist") != null)
-                        TempData.Remove("stocklist");
-
-                    if (TempData.Peek("stockcount") != null)
-                        TempData.Remove("stockcount");
-
-                    for (int i = 0; i < items.Count; i++)
-                    {
-                        ShopCartItem curr = items[i];
-                        List<OrderDetail> orderlist = new List<OrderDetail>();
-                        List<InventoryRecord> invlist = dbContext.InventoryRecords.Where(x => x.ProductId == curr.ProductId).ToList();
-
-                        Order order = new Order
+                        InventoryRecord inv = invlist[j];
+                        OrderDetail orderDetails = new OrderDetail
                         {
-
-                            ProductId = curr.ProductId,
-                            Quantity = curr.Quantity,
-                            UserId = user.Id,
-
+                            OrderId = order.Id,
+                            ActivationId = inv.ActivationId,
                         };
+                        orderlist.Add(orderDetails);
+                        dbContext.InventoryRecords.Remove(inv);
 
-
-                        for (int j = 0; j < curr.Quantity; j++)
-                        {
-                            InventoryRecord inv = invlist[j];
-                            OrderDetail orderDetails = new OrderDetail
-                            {
-                                OrderId = order.Id,
-                                ActivationId = inv.ActivationId,
-                            };
-                            orderlist.Add(orderDetails);
-                            dbContext.InventoryRecords.Remove(inv);
-
-                        }
-                        order.OrderDetails = orderlist;
-                        dbContext.Orders.Add(order);
-                        dbContext.ShopCartItems.Remove(curr);
                     }
-                    ResetCartCount();
-                    dbContext.SaveChanges();
-
-                    return Json(new { status = "success" }); 
+                    order.OrderDetails = orderlist;
+                    dbContext.Orders.Add(order);
+                    dbContext.ShopCartItems.Remove(curr);
                 }
+                ResetCartCount();
+                dbContext.SaveChanges();
 
-            //}
+                return Json(new { status = "success" });
+            }
         }
 
 
-/*-----------------------------------HELPER FUNCTIONS HERE-------------------------------------------*/
+        /*-----------------------------------HELPER FUNCTIONS HERE-------------------------------------------*/
 
         private void stringtocart(string cartstr, Guid CartId)
         {
@@ -371,61 +358,5 @@ namespace CA1.Controllers
             }
             Response.Cookies.Append("cartcount", cartcount.ToString());
         }
-
-        //public IActionResult PlusToCart(ShopCartItem item)
-        //{
-        //    item.Quantity++;
-
-        //    dbContext.ShopCartItems.Update(item);
-        //    dbContext.SaveChanges();
-
-        //    return RedirectToAction("Index");
-
-        //}
-
-        //public IActionResult MinusFromCart(ShopCartItem item)
-        //{
-        //    item.Quantity--;
-        //    if (item.Quantity == 0)
-        //    {
-        //        return RemoveFromCart1(item);
-        //    }        
-
-        //    dbContext.ShopCartItems.Update(item);
-        //    dbContext.SaveChanges();
-
-        //    return RedirectToAction("Index");
-
-
-        //}
-
-        //public IActionResult RemoveFromCart1(ShopCartItem item)
-        //{
-        //    dbContext.ShopCartItems.Remove(item);
-
-        //    dbContext.SaveChanges();
-
-        //    return RedirectToAction("Index");
-        //}
-
-        //public IActionResult ChangeQ(Guid itemid, int stockqty)
-        //{
-        //    ShopCartItem item = dbContext.ShopCartItems.FirstOrDefault(x => x.Id == itemid);
-        //    int change = item.Quantity - stockqty;
-        //    if (stockqty == 0)
-        //    {
-        //        return RemoveFromCart(item);
-        //    }
-        //    else
-        //    {
-        //        item.Quantity = stockqty;
-        //        dbContext.ShopCartItems.Update(item);
-        //        dbContext.SaveChanges();
-        //        updateLists(item);
-        //        return RedirectToAction("Index");
-        //    }
-
-        //}
-
     }
 }

@@ -18,14 +18,12 @@ $('a[data-slide="next"]').click(function () {
 function copy(index) {
     var copyText = document.getElementById(index);
     navigator.clipboard.writeText(copyText.value);
-    //alert("Copied the Code: " + copyText.value);
     swal(copyText.value + " Activation code copied");
 }
 
 function copySingle(index) {
     var copyText = document.getElementById(index);
     navigator.clipboard.writeText(copyText.innerText);
-    //alert("Copied the Code: " + copyText.innerText);
     swal(copyText.innerText + " Activation code copied");
 }
 
@@ -52,10 +50,10 @@ function showreview(orderId) {
                     content = "There is no content in this review!"
                 }
                 obj.innerHTML = "<h4 class='mb-3'>Your Review...</h4>" +
-                                "<div class='border p-3'>" +
-                                "<p>" + date + "</p>" +
-                                "<p>" + rating + "</p>" +
-                                "<p>" + content + "</p></div>";
+                    "<div class='border p-3'>" +
+                    "<p>" + date + "</p>" +
+                    "<p>" + rating + "</p>" +
+                    "<p>" + content + "</p></div>";
             }
         }
     }
@@ -74,10 +72,6 @@ window.onload = function () {
     form.onsubmit = function () {
         let rate = document.getElementById("rate");
         let content = document.getElementById("content");
-        //if (content.value.length == 0) {
-        //alert("The Content can not be empty");
-        //return false;
-        //}
 
         event.preventDefault();
         if (content.value.length > 250) {
@@ -96,15 +90,14 @@ window.onload = function () {
                 confirmButtonText: "OK",
                 closeOnClickOutside: false,
                 closeOnEsc: false,
-            })
-                .then(
-                    function (isConfirmed) {
-                        {
-                            if (isConfirmed) {
-                                form.submit();
-                            }
+            }).then(
+                function (isConfirmed) {
+                    {
+                        if (isConfirmed) {
+                            form.submit();
                         }
-                    })
+                    }
+                })
         }
     }
 }

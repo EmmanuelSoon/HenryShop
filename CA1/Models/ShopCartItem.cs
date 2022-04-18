@@ -28,6 +28,5 @@ namespace CA1.Models
         public virtual Product Product { get; set; }
 
         public virtual Guid ShopCartId { get; set; }
-        //public bool IsFinished { get; set; }
     }
 }
